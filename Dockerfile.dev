@@ -1,0 +1,19 @@
+FROM python:3.9
+
+ENV PYTHONUNBUFFERED 1
+
+RUN mkdir /tmp/requirements
+COPY requirements/* /tmp/requirements/
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  make python3-dev docker docker-compose build-essential apt-utils \
+  curl python-openssl && apt-get -y autoremove
+RUN pip install --upgrade pip && pip install -r /tmp/requirements/dev.txt
+
+RUN groupadd -r appuser; useradd -l -m -g appuser appuser
+
+WORKDIR /home/appuser
+COPY . /home/appuser
+RUN /bin/bash -l -c 'chown -R appuser:appuser /home/appuser'
+
+USER appuser
