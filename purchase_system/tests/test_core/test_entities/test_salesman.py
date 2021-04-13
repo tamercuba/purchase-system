@@ -1,5 +1,5 @@
 import pytest
-from core.entities.salesman import Salesman, SaleDTO
+from core.entities.salesman import SaleDTO, Salesman
 
 
 @pytest.fixture
@@ -8,12 +8,14 @@ def salesman_data():
         'cpf': '123',
         'name': 'Adriano Imperador',
         'email': 'didico@flamengo.com',
-        'senha': 'a'
+        'senha': 'a',
     }
+
 
 @pytest.fixture
 def salesman(salesman_data):
     return Salesman(**salesman_data)
+
 
 class TestSalesmanEntity:
     def test_create_new_sale(self, salesman):
