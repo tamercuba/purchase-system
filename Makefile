@@ -21,10 +21,10 @@ test: clean  ## Run the test suite without integration tests
 	py.test $(PROJECT_NAME) -s -vvv
 
 test-ci: clean	## Run the test suite in CI
-	py.test $(PROJECT_NAME) --ds=$(SETTINGS) -s -vvv -m "not not_run_ci"
+	py.test $(PROJECT_NAME) -s -vvv -m "not not_run_ci"
 
 test-matching: clean  ## Run only tests matching pattern. E.g.: make test-matching test=TestClassName
-	py.test $(PROJECT_NAME)/ -k $(test) --ds=$(SETTINGS) -s -vvv
+	py.test $(PROJECT_NAME)/ -k $(test) -s -vvv
 
 coverage: clean  ## Run the test coverage report
 	@mkdir -p logs

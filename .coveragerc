@@ -1,0 +1,4 @@
+[run]
+omit =
+    purchase_system/app.py
+    */__init__.py
