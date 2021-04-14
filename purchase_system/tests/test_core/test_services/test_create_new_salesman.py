@@ -4,7 +4,6 @@ from core.entities import Salesman
 from core.services import (
     CreateNewSalesman,
     NewSalesmanRequest,
-    NewSalesmanResponse,
 )
 from shared.exceptions import RepeatedEntry
 

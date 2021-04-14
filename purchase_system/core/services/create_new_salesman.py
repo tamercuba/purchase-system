@@ -29,10 +29,10 @@ class CreateNewSalesman(IService[NewSalesmanRequest, NewSalesmanResponse]):
             raise RepeatedEntry(
                 'This salesman already exists', _id=existing_salesman.id
             )
-        else:
-            new_salesman = Salesman(**request)
-            await self._repo.new(new_salesman)
-            response: NewSalesmanResponse = self.get_response(new_salesman)
+
+        new_salesman = Salesman(**request)
+        await self._repo.new(new_salesman)
+        response: NewSalesmanResponse = self.get_response(new_salesman)
 
         return response
 
