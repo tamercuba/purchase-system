@@ -1,0 +1,15 @@
+[run]
+omit =
+    purchase_system/app.py
+    */__init__.py
+    */conftest.py
+    */ports/*
+
+[report]
+exclude_lines =
+    # Have to re-enable the standard pragma
+    pragma: no cover
+
+    # Don't complain if tests don't hit defensive assertion code:
+    ABC
+    TypeVar
