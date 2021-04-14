@@ -38,7 +38,7 @@ class TestSaleEntity:
         data = {**sale_data, 'status': wrong_status}
         with pytest.raises(ValidationError) as e:
             Sale(**data)
-            assert error in e.__str__()
+            assert error in e
 
     @pytest.mark.parametrize(
         'pre_status,method_name,post_status',

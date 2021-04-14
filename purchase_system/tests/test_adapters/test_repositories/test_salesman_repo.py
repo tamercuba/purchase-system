@@ -26,9 +26,7 @@ class TestSalesmanRepo:
         assert result
         assert result == self.new_salesman
 
-    @pytest.mark.parametrize('cpf', [
-        ('111'), (1), (False)
-    ])
+    @pytest.mark.parametrize('cpf', [('111'), (1), (False)])
     async def test_get_by_wrong_cpf(self, cpf):
         result = await self.repo.get_by_cpf(cpf)
 
