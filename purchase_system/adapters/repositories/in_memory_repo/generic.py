@@ -2,7 +2,7 @@ from abc import ABC
 from typing import Any, Generic, List, Optional, TypeVar, get_args
 
 from shared.entity import Entity
-from shared.exceptions import InvalidEntityType
+from shared.exceptions import EntityNotFound, InvalidEntityType
 
 IEntity = TypeVar('IEntity', bound=Entity)
 
@@ -19,11 +19,24 @@ class GenericInMemoryRepository(ABC, Generic[IEntity]):
         self._storage[entity.id] = entity
 
     async def get_by_id(self, _id: str) -> Optional[IEntity]:
-        result = self._storage.get(_id, None)
-        return result
+        try:
+            result = self._storage[_id]
+            return result
+        except KeyError:
+            raise EntityNotFound(
+                f'Cant found {self._entity_type} with id: {_id}', _id=_id
+            )
 
     async def count(self) -> int:
         return len(self._storage)
+
+    async def delete(self, _id: str) -> None:
+        try:
+            pass
+        except KeyError:
+            raise EntityNotFound(
+                f'Cant found {self._entity_type} with id: {_id}', _id=_id
+            )
 
     def check_entity_type(self, entity: Any) -> None:
         if not isinstance(entity, self._entity_type):

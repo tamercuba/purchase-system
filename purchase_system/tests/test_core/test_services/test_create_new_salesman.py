@@ -1,10 +1,7 @@
 import pytest
 from adapters.repositories.in_memory_repo import SalesmanRepository
 from core.entities import Salesman
-from core.services import (
-    CreateNewSalesman,
-    NewSalesmanRequest,
-)
+from core.services import CreateNewSalesman, NewSalesmanRequest
 from shared.exceptions import RepeatedEntry
 
 
