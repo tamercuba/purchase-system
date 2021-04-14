@@ -2,6 +2,7 @@ from typing import TypedDict
 
 from core.entities import Salesman
 from core.ports.repositories import ISalesmanRepository
+from shared.exceptions import RepeatedEntry
 from shared.service import IService
 
 
@@ -25,11 +26,11 @@ class CreateNewSalesman(IService[NewSalesmanRequest, NewSalesmanResponse]):
     ) -> NewSalesmanResponse:
         existing_salesman = await self._repo.get_by_cpf(request['cpf'])
         if existing_salesman:
-            response: NewSalesmanResponse = self.get_response(
-                existing_salesman
+            raise RepeatedEntry(
+                'This salesman already exists', _id=existing_salesman.id
             )
         else:
-            new_salesman = Salesman(**{request})
+            new_salesman = Salesman(**request)
             await self._repo.new(new_salesman)
             response: NewSalesmanResponse = self.get_response(new_salesman)
 
