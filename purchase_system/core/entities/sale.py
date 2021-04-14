@@ -1,7 +1,7 @@
 from datetime import date
-from typing import Any, List, Optional, TypedDict
+from typing import Optional, TypedDict
 
-from pydantic import Field, root_validator
+from pydantic import Field
 from shared.entity import Entity
 
 
@@ -31,13 +31,6 @@ class SaleStatus(str):
 
         return v
 
-    @classmethod
-    def get_status(cls, cpf: str) -> str:
-        if cpf in ['15350946056']:
-            return 'approved'
-
-        return 'validating'
-
 
 class Sale(Entity):
     code: str
@@ -46,32 +39,11 @@ class Sale(Entity):
     status: SaleStatus = Field(default='validating')
     salesman_cpf: str
 
-    # pylint: disable=no-self-argument
-    @root_validator
-    def check_status(cls, values: List[Any]) -> List[Any]:
-        cpf = values.get('salesman_cpf')
-        values['status'] = SaleStatus.get_status(cpf)
-        return values
-
     def approve(self):
         self._update_status('approved')
 
     def repprove(self):
         self._update_status('repproved')
-
-    @property
-    def cashback(self) -> float:
-        if self.value <= 1000:
-            return 0.1
-
-        if self.value <= 1500:
-            return 0.15
-
-        return 0.2
-
-    @property
-    def cashback_result(self) -> float:
-        return self.cashback * self.value
 
     def _update_status(self, value: str):
         self.status = value

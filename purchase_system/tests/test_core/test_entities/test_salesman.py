@@ -1,20 +1,4 @@
-import pytest
-from core.entities.salesman import SaleDTO, Salesman
-
-
-@pytest.fixture
-def salesman_data():
-    return {
-        'cpf': '123',
-        'name': 'Adriano Imperador',
-        'email': 'didico@flamengo.com',
-        'senha': 'a',
-    }
-
-
-@pytest.fixture
-def salesman(salesman_data):
-    return Salesman(**salesman_data)
+from core.entities import SaleDTO
 
 
 class TestSalesmanEntity:

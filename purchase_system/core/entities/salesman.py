@@ -6,7 +6,7 @@ class Salesman(Entity):
     cpf: str
     name: str
     email: str
-    senha: str
+    password: str
 
     def new_sale(self, **kwargs) -> Sale:
         saleDto: SaleDTO = {**kwargs, 'salesman_cpf': self.cpf}
