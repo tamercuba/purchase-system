@@ -25,7 +25,7 @@ class UpdateSale(IService[UpdateSaleRequest, Sale]):
         sale = self._sale_repo.get_by_id(request['sale_id'])
         salesman = self._salesman_repo.get_by_id(request['salesman_id'])
 
-        if sale.salesman_cpf != salesman.cpf and not salesman.is_stuff:
+        if sale.salesman_cpf != salesman.cpf and not salesman.is_staff:
             raise CantBeUpdated(entity=Sale, reason='Wrong permission')
 
         if not sale.can_be_deleted:

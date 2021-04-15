@@ -14,9 +14,11 @@ class GenericInMemoryRepository(ABC, Generic[IEntity]):
         )
         self._storage = initial_storage
 
-    def new(self, entity: IEntity) -> None:
+    def new(self, entity: IEntity) -> IEntity:
         self.check_entity_type(entity)
         self._storage[entity.id] = entity
+
+        return entity
 
     def get_by_id(self, _id: str) -> Optional[IEntity]:
         try:

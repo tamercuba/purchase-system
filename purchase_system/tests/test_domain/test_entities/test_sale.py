@@ -1,5 +1,5 @@
 import pytest
-from domain.entities import Sale
+from domain.entities import Sale, SaleStatus
 from pydantic import ValidationError
 
 # pylint: disable=redefined-outer-name, too-many-arguments
@@ -22,7 +22,7 @@ def sale(sale_data) -> Sale:
 
 class TestSaleEntity:
     def test_create_complete_sale(self, sale_data):
-        data = {**sale_data, 'status': 'approved'}
+        data = {**sale_data, 'status': SaleStatus.APPROVED}
         sale = Sale(**data)
 
         assert sale
@@ -43,8 +43,8 @@ class TestSaleEntity:
     @pytest.mark.parametrize(
         'pre_status,method_name,post_status',
         [
-            ('validating', 'approve', 'approved'),
-            ('validating', 'repprove', 'repproved'),
+            (SaleStatus.VALIDATING, 'approve', SaleStatus.APPROVED),
+            (SaleStatus.VALIDATING, 'repprove', SaleStatus.REPPROVED),
         ],
     )
     def test_update_status(

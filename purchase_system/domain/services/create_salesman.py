@@ -6,24 +6,24 @@ from shared.exceptions import RepeatedEntry
 from shared.service import IService
 
 
-class NewSalesmanRequest(TypedDict):
+class CreateSalesmanRequest(TypedDict):
     cpf: str
     name: str
     email: str
     password: str
 
 
-class NewSalesmanResponse(NewSalesmanRequest):
+class CreateSalesmanResponse(CreateSalesmanRequest):
     id: str
 
 
-class CreateNewSalesman(IService[NewSalesmanRequest, NewSalesmanResponse]):
+class CreateSalesman(IService[CreateSalesmanRequest, CreateSalesmanResponse]):
     def __init__(self, salesman_repository: ISalesmanRepository):
         self._repo = salesman_repository
 
     def handle(
-        self, request: NewSalesmanRequest, **kwargs
-    ) -> NewSalesmanResponse:
+        self, request: CreateSalesmanRequest, **kwargs
+    ) -> CreateSalesmanResponse:
         existing_salesman = self._repo.get_by_cpf(request['cpf'])
         if existing_salesman:
             raise RepeatedEntry(
@@ -32,11 +32,11 @@ class CreateNewSalesman(IService[NewSalesmanRequest, NewSalesmanResponse]):
 
         new_salesman = Salesman(**request)
         self._repo.new(new_salesman)
-        response: NewSalesmanResponse = self.get_response(new_salesman)
+        response: CreateSalesmanResponse = self.get_response(new_salesman)
 
         return response
 
-    def get_response(self, salesman: Salesman) -> NewSalesmanResponse:
+    def get_response(self, salesman: Salesman) -> CreateSalesmanResponse:
         return {
             'id': salesman.id,
             'cpf': salesman.cpf,

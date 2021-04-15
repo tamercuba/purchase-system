@@ -15,3 +15,7 @@ class ISaleRepository:
     @abstractmethod
     def update(self, entity: Sale) -> Sale:
         pass
+
+    @abstractmethod
+    def new(self, entity: Sale) -> Sale:
+        pass
