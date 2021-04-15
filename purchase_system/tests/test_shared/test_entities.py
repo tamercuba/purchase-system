@@ -1,7 +1,6 @@
 import pytest
 from pydantic import ValidationError
-from shared.entity import Entity
-from shared.entity_id import get_new_id
+from shared.entities import Entity, get_new_id
 
 
 def test_create_entity_id_auto_assign(mocked_entity_class):

@@ -2,7 +2,7 @@ import asyncio
 
 import pytest
 from adapters.repositories.in_memory_repo import SalesmanRepository
-from core.entities import Salesman
+from domain.entities import Salesman
 
 
 @pytest.mark.asyncio

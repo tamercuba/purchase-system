@@ -1,6 +1,6 @@
 import pytest
 from adapters.repositories.in_memory_repo import SaleRepository
-from core.entities import Sale
+from domain.entities import Sale
 
 
 @pytest.mark.asyncio

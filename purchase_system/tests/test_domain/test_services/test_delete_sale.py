@@ -3,9 +3,9 @@ from adapters.repositories.in_memory_repo import (
     SaleRepository,
     SalesmanRepository,
 )
-from core.entities import Sale, Salesman
-from core.services import DeleteSaleService
-from core.services.exceptions import CantBeDeleted
+from domain.entities import Sale, Salesman
+from domain.services import DeleteSaleService
+from domain.services.exceptions import CantBeDeleted
 
 
 @pytest.mark.asyncio
@@ -41,7 +41,7 @@ class TestDeleteSale:
             'value': 10,
             'date': '1997-09-01',
             'salesman_cpf': '123',
-            'status': 'repproved'
+            'status': 'repproved',
         }
         new_sale = Sale(**new_sale_data)
 
@@ -88,11 +88,10 @@ class TestDeleteSale:
     async def test_delete_right_cpf(self):
         total_before = await self.sale_repo.count()
 
-        await self.service.handle({
-            'sale_id': self.sale.id, 'salesman_id': self.salesman.id
-        })
+        await self.service.handle(
+            {'sale_id': self.sale.id, 'salesman_id': self.salesman.id}
+        )
 
         total_after = await self.sale_repo.count()
-
 
         assert total_after == total_before - 1

@@ -1,8 +1,8 @@
 from typing import Optional
 
 from adapters.repositories.in_memory_repo import GenericInMemoryRepository
-from core.entities import Salesman
-from core.ports.repositories import ISalesmanRepository
+from domain.entities import Salesman
+from domain.ports.repositories import ISalesmanRepository
 
 
 class SalesmanRepository(

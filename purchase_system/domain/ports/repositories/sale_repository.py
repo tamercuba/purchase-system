@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from core.entities import Sale
+from domain.entities import Sale
 
 
 class ISaleRepository:
