@@ -1,8 +1,9 @@
 from datetime import date
 from typing import Optional, TypedDict
 
+from domain.entities.value_objects import Cashback
 from pydantic import Field
-from shared.entity import Entity
+from shared.entities import Entity
 
 
 class SaleDTO(TypedDict):
@@ -39,13 +40,17 @@ class Sale(Entity):
     status: SaleStatus = Field(default='validating')
     salesman_cpf: str
 
-    def approve(self):
+    @property
+    def cashback(self) -> Cashback:
+        return Cashback(sale_value=self.value)
+
+    def approve(self) -> None:
         self._update_status('approved')
 
-    def repprove(self):
+    def repprove(self) -> None:
         self._update_status('repproved')
 
-    def _update_status(self, value: str):
+    def _update_status(self, value: str) -> None:
         self.status = value
 
     @property

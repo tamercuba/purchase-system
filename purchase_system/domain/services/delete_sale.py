@@ -1,8 +1,8 @@
 from typing import TypedDict
 
-from core.entities import Sale
-from core.ports.repositories import ISaleRepository, ISalesmanRepository
-from core.services.exceptions import CantBeDeleted
+from domain.entities import Sale
+from domain.ports.repositories import ISaleRepository, ISalesmanRepository
+from domain.services.exceptions import CantBeDeleted
 from shared.service import IService
 
 

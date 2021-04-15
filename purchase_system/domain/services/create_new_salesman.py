@@ -1,7 +1,7 @@
 from typing import TypedDict
 
-from core.entities import Salesman
-from core.ports.repositories import ISalesmanRepository
+from domain.entities import Salesman
+from domain.ports.repositories import ISalesmanRepository
 from shared.exceptions import RepeatedEntry
 from shared.service import IService
 

@@ -1,5 +1,5 @@
 import pytest
-from shared.entity import Entity
+from shared.entities import Entity
 from shared.exceptions import InvalidEntityType
 
 

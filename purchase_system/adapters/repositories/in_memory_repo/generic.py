@@ -1,7 +1,7 @@
 from abc import ABC
 from typing import Any, Generic, List, Optional, TypeVar, get_args
 
-from shared.entity import Entity
+from shared.entities import Entity
 from shared.exceptions import EntityNotFound, InvalidEntityType
 
 IEntity = TypeVar('IEntity', bound=Entity)

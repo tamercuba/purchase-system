@@ -1,6 +1,6 @@
-from core.entities.sale import Sale, SaleDTO
+from domain.entities.sale import Sale, SaleDTO
 from pydantic import Field
-from shared.entity import Entity
+from shared.entities import Entity
 
 
 class Salesman(Entity):

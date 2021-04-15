@@ -1,7 +1,7 @@
 import pytest
 from adapters.repositories.in_memory_repo import GenericInMemoryRepository
-from core.entities import Sale, Salesman
-from shared.entity import Entity
+from domain.entities import Sale, Salesman
+from shared.entities import Entity, ValueObject
 
 # pylint: disable=redefined-outer-name
 
@@ -55,3 +55,11 @@ def sale_data():
 @pytest.fixture
 def sale(sale_data):
     return Sale(**sale_data)
+
+
+@pytest.fixture
+def mocked_value_object_class():
+    class A(ValueObject):
+        name: str
+
+    return A

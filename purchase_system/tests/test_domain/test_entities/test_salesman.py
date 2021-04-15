@@ -1,5 +1,5 @@
 import pytest
-from core.entities import SaleDTO
+from domain.entities import SaleDTO
 from pydantic import ValidationError
 
 
