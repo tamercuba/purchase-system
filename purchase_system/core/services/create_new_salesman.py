@@ -18,8 +18,8 @@ class NewSalesmanResponse(NewSalesmanRequest):
 
 
 class CreateNewSalesman(IService[NewSalesmanRequest, NewSalesmanResponse]):
-    def __init__(self, salesmanRepository: ISalesmanRepository):
-        self._repo = salesmanRepository
+    def __init__(self, salesman_repository: ISalesmanRepository):
+        self._repo = salesman_repository
 
     async def handle(
         self, request: NewSalesmanRequest, **kwargs

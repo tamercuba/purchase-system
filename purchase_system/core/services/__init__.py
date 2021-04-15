@@ -4,3 +4,4 @@ from core.services.create_new_salesman import (
     NewSalesmanRequest,
     NewSalesmanResponse,
 )
+from core.services.delete_sale import DeleteSaleRequest, DeleteSaleService

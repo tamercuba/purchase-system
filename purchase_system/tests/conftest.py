@@ -1,6 +1,6 @@
 import pytest
 from adapters.repositories.in_memory_repo import GenericInMemoryRepository
-from core.entities import Salesman
+from core.entities import Sale, Salesman
 from shared.entity import Entity
 
 # pylint: disable=redefined-outer-name
@@ -40,3 +40,18 @@ def salesman_data():
 @pytest.fixture
 def salesman(salesman_data):
     return Salesman(**salesman_data)
+
+
+@pytest.fixture
+def sale_data():
+    return {
+        'code': 'a',
+        'value': 10,
+        'date': '1997-09-01',
+        'salesman_cpf': '123',
+    }
+
+
+@pytest.fixture
+def sale(sale_data):
+    return Sale(**sale_data)

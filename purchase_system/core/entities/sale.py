@@ -47,3 +47,11 @@ class Sale(Entity):
 
     def _update_status(self, value: str):
         self.status = value
+
+    @property
+    def can_be_updated(self) -> bool:
+        return self.status == 'validating'
+
+    @property
+    def can_be_deleted(self) -> bool:
+        return self.can_be_updated

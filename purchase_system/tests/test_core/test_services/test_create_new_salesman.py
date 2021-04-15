@@ -16,7 +16,7 @@ class TestCreateNewSalesmanService:
         }
         self.salesman = Salesman(**self.salesman_data)
         repo = SalesmanRepository(initial_values=[self.salesman])
-        self.service = CreateNewSalesman(salesmanRepository=repo)
+        self.service = CreateNewSalesman(salesman_repository=repo)
 
     async def test_create_new_salesman(self):
         new_salesman = NewSalesmanRequest(
