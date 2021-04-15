@@ -1,1 +1,2 @@
+from core.ports.repositories.sale_repository import ISaleRepository
 from core.ports.repositories.salesman_repository import ISalesmanRepository

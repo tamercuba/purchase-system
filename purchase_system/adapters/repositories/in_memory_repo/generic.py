@@ -32,7 +32,7 @@ class GenericInMemoryRepository(ABC, Generic[IEntity]):
 
     async def delete(self, _id: str) -> None:
         try:
-            pass
+            del self._storage[_id]
         except KeyError:
             raise EntityNotFound(
                 f'Cant found {self._entity_type} with id: {_id}', _id=_id
