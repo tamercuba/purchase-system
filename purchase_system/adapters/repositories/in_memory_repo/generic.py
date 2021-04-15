@@ -14,11 +14,11 @@ class GenericInMemoryRepository(ABC, Generic[IEntity]):
         )
         self._storage = initial_storage
 
-    async def new(self, entity: IEntity) -> None:
+    def new(self, entity: IEntity) -> None:
         self.check_entity_type(entity)
         self._storage[entity.id] = entity
 
-    async def get_by_id(self, _id: str) -> Optional[IEntity]:
+    def get_by_id(self, _id: str) -> Optional[IEntity]:
         try:
             result = self._storage[_id]
             return result
@@ -27,16 +27,32 @@ class GenericInMemoryRepository(ABC, Generic[IEntity]):
                 f'Cant found {self._entity_type} with id: {_id}', _id=_id
             )
 
-    async def count(self) -> int:
+    def count(self) -> int:
         return len(self._storage)
 
-    async def delete(self, _id: str) -> None:
+    def delete(self, _id: str) -> None:
         try:
+            if _id not in self._storage:
+                raise KeyError
             del self._storage[_id]
         except KeyError:
+            print('aaaaaaaaaaa')
             raise EntityNotFound(
                 f'Cant found {self._entity_type} with id: {_id}', _id=_id
             )
+
+    def update(self, entity: IEntity) -> IEntity:
+        try:
+            if entity.id not in self._storage:
+                raise KeyError
+            self._storage[entity.id] = entity
+        except KeyError:
+            raise EntityNotFound(
+                f'Cant found {self._entity_type} with id: {entity.id}',
+                _id=entity.id,
+            )
+
+        return entity
 
     def check_entity_type(self, entity: Any) -> None:
         if not isinstance(entity, self._entity_type):

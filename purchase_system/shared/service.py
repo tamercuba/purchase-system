@@ -6,5 +6,5 @@ IResponse = TypeVar('IResponse', bound=TypedDict)
 
 
 class IService(ABC, Generic[IRequest, IResponse]):
-    async def handle(self, request: IRequest, **kwargs) -> IResponse:
+    def handle(self, request: IRequest, **kwargs) -> IResponse:
         pass

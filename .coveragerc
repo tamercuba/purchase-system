@@ -4,6 +4,7 @@ omit =
     */__init__.py
     */conftest.py
     */ports/*
+    */tests/*
 
 [report]
 exclude_lines =

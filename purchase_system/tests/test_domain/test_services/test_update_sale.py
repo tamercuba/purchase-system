@@ -4,12 +4,12 @@ from adapters.repositories.in_memory_repo import (
     SalesmanRepository,
 )
 from domain.entities import Sale, Salesman
-from domain.services import DeleteSaleService
-from domain.services.exceptions import CantBeDeleted
+from domain.services import UpdateSale
+from domain.services.exceptions import CantBeUpdated
 from shared.exceptions import EntityNotFound
 
 
-class TestDeleteSale:
+class TestUpdateSale:
     def setup(self):
         self.sale_data = {
             'code': 'a',
@@ -30,12 +30,12 @@ class TestDeleteSale:
         self.sale_repo = SaleRepository(initial_values=[self.sale])
         self.salesman_repo = SalesmanRepository(initial_values=[self.salesman])
 
-        self.service = DeleteSaleService(
+        self.service = UpdateSale(
             sale_repository=self.sale_repo,
             salesman_repository=self.salesman_repo,
         )
 
-    def test_delete_wrong_status(self):
+    def test_update_wrong_status(self):
         new_sale_data = {
             'code': 'a',
             'value': 10,
@@ -47,27 +47,35 @@ class TestDeleteSale:
 
         self.sale_repo.new(new_sale)
 
-        with pytest.raises(CantBeDeleted) as e:
+        with pytest.raises(CantBeUpdated) as e:
             self.service.handle(
-                {'sale_id': new_sale.id, 'salesman_id': self.salesman.id}
+                {
+                    'sale_id': new_sale.id,
+                    'salesman_id': self.salesman.id,
+                    'sale': new_sale_data,
+                }
             )
 
             assert 'status' in e
 
-    def test_delete_wrong_cpf(self):
+    def test_update_wrong_cpf(self):
         new_salesman_data = {**self.salesman_data, 'cpf': '456'}
         new_salesman = Salesman(**new_salesman_data)
 
         self.salesman_repo.new(new_salesman)
 
-        with pytest.raises(CantBeDeleted) as e:
+        with pytest.raises(CantBeUpdated) as e:
             self.service.handle(
-                {'sale_id': self.sale.id, 'salesman_id': new_salesman.id}
+                {
+                    'sale_id': self.sale.id,
+                    'salesman_id': new_salesman.id,
+                    'sale': self.sale_data,
+                }
             )
 
             assert 'permission' in e
 
-    def test_delete_wrong_is_stuff_with_wrong_cpf(self):
+    def test_update_wrong_is_stuff_with_wrong_cpf(self):
         new_salesman_data = {
             **self.salesman_data,
             'cpf': '789',
@@ -75,32 +83,43 @@ class TestDeleteSale:
         }
         new_salesman = Salesman(**new_salesman_data)
 
+        updated_sale_data = {**self.sale_data, 'code': 'B'}
+
         self.salesman_repo.new(new_salesman)
 
-        self.service.handle(
-            {'sale_id': self.sale.id, 'salesman_id': new_salesman.id}
+        result = self.service.handle(
+            {
+                'sale_id': self.sale.id,
+                'salesman_id': new_salesman.id,
+                'sale': updated_sale_data,
+            }
         )
 
-        total = self.sale_repo.count()
+        assert result == self.sale
+        assert result.dict() != self.sale.dict()
 
-        assert not total
+    def test_update_right_cpf(self):
+        updated_sale_data = {**self.sale_data, 'code': 'B'}
 
-    def test_delete_right_cpf(self):
-        total_before = self.sale_repo.count()
-
-        self.service.handle(
-            {'sale_id': self.sale.id, 'salesman_id': self.salesman.id}
+        result = self.service.handle(
+            {
+                'sale_id': self.sale.id,
+                'salesman_id': self.salesman.id,
+                'sale': updated_sale_data,
+            }
         )
 
-        total_after = self.sale_repo.count()
+        assert result == self.sale
+        assert result.dict() != self.sale.dict()
 
-        assert total_after == total_before - 1
+    def test_update_nonexistent_sale(self):
+        updated_sale_data = {**self.sale_data, 'code': 'B'}
 
-    def test_delete_nonexistent_sale(self):
         with pytest.raises(EntityNotFound):
             self.service.handle(
                 {
                     'sale_id': '93939393939393',
                     'salesman_id': self.salesman.id,
+                    'sale': updated_sale_data,
                 }
             )

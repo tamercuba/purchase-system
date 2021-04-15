@@ -4,3 +4,4 @@ from domain.services.create_new_salesman import (
     NewSalesmanResponse,
 )
 from domain.services.delete_sale import DeleteSaleRequest, DeleteSaleService
+from domain.services.update_sale import UpdateSale, UpdateSaleRequest
