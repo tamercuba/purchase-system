@@ -3,7 +3,7 @@ from adapters.repositories.in_memory_repo import (
     SaleRepository,
     SalesmanRepository,
 )
-from domain.entities import Sale, Salesman
+from domain.entities import Sale, Salesman, SaleStatus
 from domain.services import DeleteSaleService
 from domain.services.exceptions import CantBeDeleted
 from shared.exceptions import EntityNotFound
@@ -41,7 +41,7 @@ class TestDeleteSale:
             'value': 10,
             'date': '1997-09-01',
             'salesman_cpf': '123',
-            'status': 'repproved',
+            'status': SaleStatus.REPPROVED,
         }
         new_sale = Sale(**new_sale_data)
 
@@ -67,11 +67,11 @@ class TestDeleteSale:
 
             assert 'permission' in e
 
-    def test_delete_wrong_is_stuff_with_wrong_cpf(self):
+    def test_delete_wrong_is_staff_with_wrong_cpf(self):
         new_salesman_data = {
             **self.salesman_data,
             'cpf': '789',
-            'is_stuff': True,
+            'is_staff': True,
         }
         new_salesman = Salesman(**new_salesman_data)
 

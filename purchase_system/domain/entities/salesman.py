@@ -1,4 +1,4 @@
-from domain.entities.sale import Sale, SaleDTO
+from domain.entities.sale import Sale, SaleStatus
 from pydantic import Field
 from shared.entities import Entity
 
@@ -8,8 +8,14 @@ class Salesman(Entity):
     name: str
     email: str
     password: str
-    is_stuff: bool = Field(default=False)
+    is_staff: bool = Field(default=False)
 
     def new_sale(self, **kwargs) -> Sale:
-        saleDto: SaleDTO = {**kwargs, 'salesman_cpf': self.cpf}
-        return Sale(**saleDto)
+        data = {**kwargs}
+
+        if self.is_staff and 'status' not in data:
+            data['status'] = SaleStatus.APPROVED
+
+        result = Sale(**{**data, 'salesman_cpf': self.cpf})
+
+        return result

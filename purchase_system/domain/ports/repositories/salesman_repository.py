@@ -6,7 +6,7 @@ from domain.entities import Salesman
 
 class ISalesmanRepository:
     @abstractmethod
-    def new(self, salesman: Salesman) -> None:
+    def new(self, salesman: Salesman) -> Salesman:
         pass
 
     @abstractmethod
