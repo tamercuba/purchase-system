@@ -21,17 +21,17 @@ class CreateNewSalesman(IService[NewSalesmanRequest, NewSalesmanResponse]):
     def __init__(self, salesman_repository: ISalesmanRepository):
         self._repo = salesman_repository
 
-    async def handle(
+    def handle(
         self, request: NewSalesmanRequest, **kwargs
     ) -> NewSalesmanResponse:
-        existing_salesman = await self._repo.get_by_cpf(request['cpf'])
+        existing_salesman = self._repo.get_by_cpf(request['cpf'])
         if existing_salesman:
             raise RepeatedEntry(
                 'This salesman already exists', _id=existing_salesman.id
             )
 
         new_salesman = Salesman(**request)
-        await self._repo.new(new_salesman)
+        self._repo.new(new_salesman)
         response: NewSalesmanResponse = self.get_response(new_salesman)
 
         return response
