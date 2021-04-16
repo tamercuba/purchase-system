@@ -19,7 +19,7 @@ class TestCreateSalesmanService:
 
     def test_create_salesman(self):
         new_salesman = CreateSalesmanRequest(
-            cpf='456', name='a', email='a', password='a'
+            cpf='456', name='a', email='aa@gmail.com', password='a'
         )
 
         result = self.service.handle(new_salesman)

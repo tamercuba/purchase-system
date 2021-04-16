@@ -16,7 +16,7 @@ class DummyAuthenticationHandler(IAuthenticationHandler[bool]):
             salesman = salesman_repository.get_by_email(request['email'])
             return (
                 request['email'] == salesman.email
-                and request['password'] == salesman.password
+                and request['password'] == salesman.password.get_secret_value()
             )
         except (EntityNotFound, KeyError):
             return False

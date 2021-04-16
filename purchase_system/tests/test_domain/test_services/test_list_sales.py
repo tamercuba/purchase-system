@@ -42,7 +42,7 @@ class TestListSales:
             {
                 'cpf': '456',
                 'name': 'Tamer',
-                'email': 'b',
+                'email': 'bbb@aa.com',
                 'password': 'ac',
             },
         ]

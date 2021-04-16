@@ -32,7 +32,7 @@ class TestAuthenticate:
         assert self.service.handle(
             {
                 'email': self.salesmans[0].email,
-                'password': self.salesmans[0].password,
+                'password': self.salesmans[0].password.get_secret_value(),
             }
         )
 
