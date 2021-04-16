@@ -9,7 +9,7 @@ class ListSalesRequest(TypedDict):
     salesman_id: str
 
 
-class SaleResponse(ListSalesRequest):
+class SaleResponse(TypedDict):
     id: str
     code: str
     value: float
