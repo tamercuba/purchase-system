@@ -1,13 +1,13 @@
 from domain.entities.sale import Sale, SaleStatus
-from pydantic import Field
+from pydantic import Field, SecretStr, EmailStr
 from shared.entities import Entity
 
 
 class Salesman(Entity):
     cpf: str
     name: str
-    email: str
-    password: str
+    email: EmailStr
+    password: SecretStr
     is_staff: bool = Field(default=False)
 
     def new_sale(self, **kwargs) -> Sale:

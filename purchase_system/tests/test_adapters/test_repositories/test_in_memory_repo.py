@@ -1,6 +1,6 @@
 import pytest
 from shared.entities import Entity
-from shared.exceptions import InvalidEntityType
+from shared.exceptions import EntityAttributeDoesntExist, InvalidEntityType
 
 
 class TestInMemoryRepo:
@@ -39,3 +39,7 @@ class TestInMemoryRepo:
         )
 
         assert new_entity == new_searched_entity
+
+    def test_get_attr_wrong_implementation(self, mocked_in_memory_repo):
+        with pytest.raises(EntityAttributeDoesntExist):
+            mocked_in_memory_repo.get_nonexistent_attribute()

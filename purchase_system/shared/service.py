@@ -1,8 +1,7 @@
 from abc import ABC
-from typing import Generic, TypedDict, TypeVar
+from typing import Generic
 
-IRequest = TypeVar('IRequest', bound=TypedDict)
-IResponse = TypeVar('IResponse', bound=TypedDict)
+from shared.ports import IRequest, IResponse
 
 
 class IService(ABC, Generic[IRequest, IResponse]):

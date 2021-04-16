@@ -20,7 +20,7 @@ class TestCreateSale:
         self.staff_data = {
             'cpf': '456',
             'name': 'Ronaldinho Bruxo',
-            'email': 'aaaa',
+            'email': 'aaaa@aa.com',
             'password': 'ab',
             'is_staff': True,
         }

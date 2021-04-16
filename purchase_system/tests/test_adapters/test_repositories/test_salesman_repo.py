@@ -1,6 +1,7 @@
 import pytest
 from adapters.repositories.in_memory_repo import SalesmanRepository
 from domain.entities import Salesman
+from shared.exceptions import EntityNotFound
 
 
 class TestSalesmanRepo:
@@ -25,6 +26,5 @@ class TestSalesmanRepo:
 
     @pytest.mark.parametrize('cpf', [('111'), (1), (False)])
     def test_get_by_wrong_cpf(self, cpf):
-        result = self.repo.get_by_cpf(cpf)
-
-        assert result is None
+        with pytest.raises(EntityNotFound):
+            self.repo.get_by_cpf(cpf)
