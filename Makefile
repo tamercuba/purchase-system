@@ -9,7 +9,7 @@ help:  ## This help
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST) | sort
 
 clean: ## Clean temporary files
-	@docker-compose run --rm app \
+	@docker-compose run --rm app /bin/bash -c "\
 	find . -name "*.pyc" | xargs rm -rf \
 	&& find . -name "*.pyo" | xargs rm -rf \
 	&& find . -name "__pycache__" -type d | xargs rm -rf \
@@ -19,7 +19,7 @@ clean: ## Clean temporary files
 	&& rm -rf htmlcov/ \
 	&& rm -f coverage.xml \
 	&& rm -f *.log \
-	&& echo 'Temporary files deleted' 
+	&& echo 'Temporary files deleted'"
 
 test:  ## Run the test suite without integration tests
 	@docker-compose run --rm app py.test purchase_system/ -s -vvv -p no:cacheprovider
@@ -39,8 +39,7 @@ bash: ## Run bash inside container
 	@docker-compose run --rm app /bin/bash 
 
 format:  ## Run isort and black auto formatting code style in the project
-	@docker-compose run --rm app isort -m 3 --tc . 
-	@docker-compose run --rm app black -S -t py37 -l 79 $(PROJECT_NAME)/. --exclude '/(\.git|\.venv|env|venv|build|dist|\.pyenv)/' 
+	@docker-compose run --rm app /bin/bash -c "isort -m 3 --tc . && black -S -t py37 -l 79 $(PROJECT_NAME)/. --exclude '/(\.git|\.venv|env|venv|build|dist|\.pyenv)/'  "
 
 format-check:  ## Check isort and black code style
 	@docker-compose run --rm app black -S -t py37 -l 79 --check $(PROJECT_NAME)/. --exclude '/(\.git|\.venv|env|venv|build|dist|\.pyenv)/' 
@@ -58,5 +57,4 @@ stop: clean # Stop app
 	@docker-compose stop
 
 requirements-pip: clean ## Install the app requirements
-	@docker-compose run --rm app pip install --upgrade pip 
-	@docker-compose run --rm app pip install -r requirements/dev.txt 
+	@docker-compose run --rm app /bin/bash -c "pip install --upgrade pip && pip install -r requirements/dev.txt"
