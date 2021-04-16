@@ -1,3 +1,8 @@
+from domain.services.authenticate import (
+    Authenticate,
+    AuthenticateResponse,
+    AuthenticationRequest,
+)
 from domain.services.create_sale import CreateSaleRequest, CreateSaleService
 from domain.services.create_salesman import (
     CreateSalesman,

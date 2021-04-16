@@ -2,7 +2,7 @@ from typing import TypedDict
 
 from domain.entities import Salesman
 from domain.ports.repositories import ISalesmanRepository
-from shared.exceptions import RepeatedEntry
+from shared.exceptions import EntityNotFound, RepeatedEntry
 from shared.service import IService
 
 
@@ -24,17 +24,16 @@ class CreateSalesman(IService[CreateSalesmanRequest, CreateSalesmanResponse]):
     def handle(
         self, request: CreateSalesmanRequest, **kwargs
     ) -> CreateSalesmanResponse:
-        existing_salesman = self._repo.get_by_cpf(request['cpf'])
-        if existing_salesman:
-            raise RepeatedEntry(
-                'This salesman already exists', _id=existing_salesman.id
-            )
+        try:
+            self._repo.get_by_cpf(request['cpf'])
+        except EntityNotFound:
+            new_salesman = Salesman(**request)
+            self._repo.new(new_salesman)
+            response: CreateSalesmanResponse = self.get_response(new_salesman)
 
-        new_salesman = Salesman(**request)
-        self._repo.new(new_salesman)
-        response: CreateSalesmanResponse = self.get_response(new_salesman)
+            return response
 
-        return response
+        raise RepeatedEntry('This salesman already exists')
 
     def get_response(self, salesman: Salesman) -> CreateSalesmanResponse:
         return {

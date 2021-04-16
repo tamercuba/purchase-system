@@ -9,7 +9,8 @@ from shared.entities import Entity, ValueObject
 @pytest.fixture
 def mocked_in_memory_repo(mocked_entity_class):
     class MockedRepo(GenericInMemoryRepository[mocked_entity_class]):
-        pass
+        def get_nonexistent_attribute(self):
+            return self._get_by_attribute('bla', 1)
 
     initial_values = [
         mocked_entity_class(**{'name': 'Oi'}),
