@@ -24,3 +24,7 @@ class ISaleRepository:
     @abstractmethod
     def list_by_cpf(self, cpf: str) -> List[Sale]:
         pass
+
+    @abstractmethod
+    def total_salesman_cashback(self, cpf: str) -> float:
+        pass
