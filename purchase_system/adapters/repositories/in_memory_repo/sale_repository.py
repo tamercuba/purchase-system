@@ -12,3 +12,15 @@ class SaleRepository(GenericInMemoryRepository[Sale], ISaleRepository):
                 lambda sale: sale.salesman_cpf == cpf, self._storage.values()
             )
         )
+
+    def total_salesman_cashback(self, cpf: str) -> float:
+        salesman_sales = filter(
+            lambda sale: sale.salesman_cpf == cpf, self._storage.values()
+        )
+
+        total = 0
+
+        for sale in salesman_sales:
+            total += sale.cashback.total
+
+        return total
