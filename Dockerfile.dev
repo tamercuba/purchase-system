@@ -1,5 +1,8 @@
 FROM python:3.9
 
+ARG UID
+ARG GID
+
 ENV PYTHONUNBUFFERED 1
 
 RUN mkdir /tmp/requirements
@@ -10,10 +13,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   curl python-openssl && apt-get -y autoremove
 RUN pip install --upgrade pip && pip install -r /tmp/requirements/dev.txt
 
-RUN groupadd -r appuser; useradd -l -m -g appuser appuser
-
+RUN groupadd -r -g "$GID" appuser; useradd -l --create-home -u "$UID" -g "$GID" appuser
 WORKDIR /home/appuser
 COPY . /home/appuser
-RUN /bin/bash -l -c 'chown -R appuser:appuser /home/appuser'
 
 USER appuser

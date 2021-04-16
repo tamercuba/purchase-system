@@ -1,9 +1,9 @@
 version: '3'
 services:
   app:
-    build:
-      context: .
-      dockerfile: ./Dockerfile.dev
+    build: .
+    image: purchasesystem_app:latest
+    user: appuser
     command: python ./purchase_system/app.py
     volumes:
       - .:/home/appuser
