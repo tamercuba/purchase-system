@@ -16,3 +16,7 @@ class ISalesmanRepository:
     @abstractmethod
     def get_by_id(self, _id: str) -> Optional[Salesman]:
         pass
+
+    @abstractmethod
+    def get_by_email(self, email: str) -> Optional[Salesman]:
+        pass

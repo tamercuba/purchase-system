@@ -2,7 +2,11 @@ from abc import ABC
 from typing import Any, Generic, List, Optional, TypeVar, get_args
 
 from shared.entities import Entity
-from shared.exceptions import EntityNotFound, InvalidEntityType
+from shared.exceptions import (
+    EntityAttributeDoesntExist,
+    EntityNotFound,
+    InvalidEntityType,
+)
 
 IEntity = TypeVar('IEntity', bound=Entity)
 
@@ -62,6 +66,20 @@ class GenericInMemoryRepository(ABC, Generic[IEntity]):
                 f'{entity.__class__.__name__} must '
                 f'be {self._entity_type.__name__} type'
             )
+
+    def _get_by_attribute(self, attr_name: str, attr_value: Any) -> IEntity:
+        if not self._entity_type.hasattr(attr_name):
+            raise EntityAttributeDoesntExist(
+                entity=self._entity_type, attr=attr_name
+            )
+
+        for entity in self._storage.values():
+            if getattr(entity, attr_name) == attr_value:
+                return entity
+
+        raise EntityNotFound(
+            f'Cant found {self._entity_type} with {attr_name}: {attr_value}'
+        )
 
     @property
     def _entity_type(self):
