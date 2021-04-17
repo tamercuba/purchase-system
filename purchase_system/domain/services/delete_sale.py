@@ -20,7 +20,7 @@ class DeleteSaleService(IService[DeleteSaleRequest, None]):
         self._sale_repo = sale_repository
         self._salesman_repo = salesman_repository
 
-    def handle(self, request: DeleteSaleRequest, **kwargs) -> None:
+    def handle(self, request: DeleteSaleRequest) -> None:
         sale = self._sale_repo.get_by_id(request['sale_id'])
         salesman = self._salesman_repo.get_by_id(request['salesman_id'])
 

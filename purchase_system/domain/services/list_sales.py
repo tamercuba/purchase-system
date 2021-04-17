@@ -31,7 +31,7 @@ class ListSales(IService[ListSalesRequest, ListSalesResponse]):
         self._sale_repo = sale_repository
         self._salesman_repo = salesman_repository
 
-    def handle(self, request: ListSalesRequest, **kwargs) -> ListSalesResponse:
+    def handle(self, request: ListSalesRequest) -> ListSalesResponse:
         salesman = self._salesman_repo.get_by_id(request['salesman_id'])
         result = self._sale_repo.list_by_cpf(salesman.cpf)
         return self.get_response(result)

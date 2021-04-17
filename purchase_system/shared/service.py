@@ -5,5 +5,5 @@ from shared.ports import IRequest, IResponse
 
 
 class IService(ABC, Generic[IRequest, IResponse]):
-    def handle(self, request: IRequest, **kwargs) -> IResponse:
+    def handle(self, request: IRequest) -> IResponse:
         pass

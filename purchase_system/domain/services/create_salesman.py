@@ -21,9 +21,7 @@ class CreateSalesman(IService[CreateSalesmanRequest, CreateSalesmanResponse]):
     def __init__(self, salesman_repository: ISalesmanRepository):
         self._repo = salesman_repository
 
-    def handle(
-        self, request: CreateSalesmanRequest, **kwargs
-    ) -> CreateSalesmanResponse:
+    def handle(self, request: CreateSalesmanRequest) -> CreateSalesmanResponse:
         try:
             self._repo.get_by_cpf(request['cpf'])
         except EntityNotFound:

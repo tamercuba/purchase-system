@@ -19,7 +19,7 @@ class CreateSaleService(IService[CreateSaleRequest, Sale]):
         self._sale_repo = sale_repository
         self._salesman_repo = salesman_repository
 
-    def handle(self, request: CreateSaleRequest, **kwargs) -> Sale:
+    def handle(self, request: CreateSaleRequest) -> Sale:
         salesman = self._salesman_repo.get_by_id(request['salesman_id'])
         new_sale = salesman.new_sale(**request['sale'])
 

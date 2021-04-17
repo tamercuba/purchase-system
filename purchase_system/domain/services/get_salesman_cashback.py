@@ -24,7 +24,7 @@ class GetSalesmanCashback(
         self._salesman_repo = salesman_repository
 
     def handle(
-        self, request: GetSalesmanCashbackRequest, **kwargs
+        self, request: GetSalesmanCashbackRequest
     ) -> GetSalesmanCashbackResponse:
         salesman = self._salesman_repo.get_by_id(request['salesman_id'])
         return self._sale_repo.total_salesman_cashback(salesman.cpf)

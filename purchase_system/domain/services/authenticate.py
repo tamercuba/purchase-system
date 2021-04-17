@@ -21,9 +21,7 @@ class Authenticate(IService[AuthenticationRequest, AuthenticateResponse]):
         self._repo = salesman_repository
         self._authentication_handler = authentication_handler
 
-    def handle(
-        self, request: AuthenticationRequest, **kwargs
-    ) -> AuthenticateResponse:
+    def handle(self, request: AuthenticationRequest) -> AuthenticateResponse:
         return self._authentication_handler.authenticate(
             request=request, salesman_repository=self._repo
         )
