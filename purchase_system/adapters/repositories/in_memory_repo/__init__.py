@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long
 from purchase_system.adapters.repositories.in_memory_repo.generic import (
     GenericInMemoryRepository,
 )

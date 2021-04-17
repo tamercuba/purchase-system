@@ -12,10 +12,10 @@ class Salesman(Entity):
     is_staff: bool = Field(default=False)
 
     def new_sale(self, **kwargs) -> Sale:
-        data = {**kwargs}
+        data = {**kwargs, 'status': SaleStatus.APPROVED}
 
-        if self.is_staff and 'status' not in data:
-            data['status'] = SaleStatus.APPROVED
+        if not self.is_staff:
+            del data['status']
 
         result = Sale(**{**data, 'salesman_cpf': self.cpf})
 
