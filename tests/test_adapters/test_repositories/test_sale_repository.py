@@ -1,5 +1,5 @@
-from adapters.repositories.in_memory_repo import SaleRepository
-from domain.entities import Sale
+from purchase_system.adapters.repositories.in_memory_repo import SaleRepository
+from purchase_system.domain.entities import Sale
 
 
 def test_get_sale(sale: Sale):

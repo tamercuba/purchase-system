@@ -1,6 +1,7 @@
 import pytest
-from domain.entities import Sale, SaleStatus
 from pydantic import ValidationError
+
+from purchase_system.domain.entities import Sale, SaleStatus
 
 # pylint: disable=redefined-outer-name, too-many-arguments
 

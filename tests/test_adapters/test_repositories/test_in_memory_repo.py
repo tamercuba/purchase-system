@@ -1,6 +1,10 @@
 import pytest
-from shared.entities import Entity
-from shared.exceptions import EntityAttributeDoesntExist, InvalidEntityType
+
+from purchase_system.shared.entities import Entity
+from purchase_system.shared.exceptions import (
+    EntityAttributeDoesntExist,
+    InvalidEntityType,
+)
 
 
 class TestInMemoryRepo:

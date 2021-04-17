@@ -1,7 +1,10 @@
 from typing import TypedDict
 
-from domain.ports.repositories import ISaleRepository, ISalesmanRepository
-from shared.service import IService
+from purchase_system.domain.ports.repositories import (
+    ISaleRepository,
+    ISalesmanRepository,
+)
+from purchase_system.shared.service import IService
 
 
 class GetSalesmanCashbackRequest(TypedDict):

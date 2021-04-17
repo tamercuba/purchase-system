@@ -1,11 +1,15 @@
 import pytest
-from adapters.repositories.in_memory_repo import (
+from pydantic import ValidationError
+
+from purchase_system.adapters.repositories.in_memory_repo import (
     SaleRepository,
     SalesmanRepository,
 )
-from domain.entities import SaleDTO, Salesman, SaleStatus
-from domain.services import CreateSaleRequest, CreateSaleService
-from pydantic import ValidationError
+from purchase_system.domain.entities import SaleDTO, Salesman, SaleStatus
+from purchase_system.domain.services import (
+    CreateSaleRequest,
+    CreateSaleService,
+)
 
 
 class TestCreateSale:

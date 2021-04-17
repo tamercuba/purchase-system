@@ -1,12 +1,13 @@
 import pytest
-from adapters.repositories.in_memory_repo import (
+
+from purchase_system.adapters.repositories.in_memory_repo import (
     SaleRepository,
     SalesmanRepository,
 )
-from domain.entities import Sale, Salesman, SaleStatus
-from domain.services import DeleteSaleService
-from domain.services.exceptions import CantBeDeleted
-from shared.exceptions import EntityNotFound
+from purchase_system.domain.entities import Sale, Salesman, SaleStatus
+from purchase_system.domain.services import DeleteSaleService
+from purchase_system.domain.services.exceptions import CantBeDeleted
+from purchase_system.shared.exceptions import EntityNotFound
 
 
 class TestDeleteSale:

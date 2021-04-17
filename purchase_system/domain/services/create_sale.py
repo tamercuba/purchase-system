@@ -1,8 +1,11 @@
 from typing import TypedDict
 
-from domain.entities import Sale, SaleDTO
-from domain.ports.repositories import ISaleRepository, ISalesmanRepository
-from shared.service import IService
+from purchase_system.domain.entities import Sale, SaleDTO
+from purchase_system.domain.ports.repositories import (
+    ISaleRepository,
+    ISalesmanRepository,
+)
+from purchase_system.shared.service import IService
 
 
 class CreateSaleRequest(TypedDict):

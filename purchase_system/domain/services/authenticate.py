@@ -1,11 +1,11 @@
 from typing import Any, Dict, TypedDict
 
-from domain.ports.authentication_handler import (
+from purchase_system.domain.ports.authentication_handler import (
     AuthenticationRequest,
     IAuthenticationHandler,
 )
-from domain.ports.repositories import ISalesmanRepository
-from shared.service import IService
+from purchase_system.domain.ports.repositories import ISalesmanRepository
+from purchase_system.shared.service import IService
 
 
 class AuthenticateResponse(TypedDict):

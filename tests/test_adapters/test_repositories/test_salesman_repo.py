@@ -1,7 +1,10 @@
 import pytest
-from adapters.repositories.in_memory_repo import SalesmanRepository
-from domain.entities import Salesman
-from shared.exceptions import EntityNotFound
+
+from purchase_system.adapters.repositories.in_memory_repo import (
+    SalesmanRepository,
+)
+from purchase_system.domain.entities import Salesman
+from purchase_system.shared.exceptions import EntityNotFound
 
 
 class TestSalesmanRepo:

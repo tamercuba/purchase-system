@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from typing import List
 
-from domain.entities import Sale
+from purchase_system.domain.entities import Sale
 
 
 class ISaleRepository:

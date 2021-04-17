@@ -1,7 +1,9 @@
-from adapters.authentication import DummyAuthenticationHandler
-from adapters.repositories.in_memory_repo import SalesmanRepository
-from domain.entities import Salesman
-from domain.services import Authenticate
+from purchase_system.adapters.authentication import DummyAuthenticationHandler
+from purchase_system.adapters.repositories.in_memory_repo import (
+    SalesmanRepository,
+)
+from purchase_system.domain.entities import Salesman
+from purchase_system.domain.services import Authenticate
 
 
 class TestAuthenticate:

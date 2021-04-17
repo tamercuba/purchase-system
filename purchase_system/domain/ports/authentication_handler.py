@@ -1,7 +1,7 @@
 from abc import ABC
 from typing import Generic, TypedDict, TypeVar
 
-from domain.ports.repositories import ISalesmanRepository
+from purchase_system.domain.ports.repositories import ISalesmanRepository
 
 IResponse = TypeVar('IResponse')
 

@@ -1,9 +1,9 @@
 from typing import TypedDict
 
-from domain.entities import Salesman
-from domain.ports.repositories import ISalesmanRepository
-from shared.exceptions import EntityNotFound, RepeatedEntry
-from shared.service import IService
+from purchase_system.domain.entities import Salesman
+from purchase_system.domain.ports.repositories import ISalesmanRepository
+from purchase_system.shared.exceptions import EntityNotFound, RepeatedEntry
+from purchase_system.shared.service import IService
 
 
 class CreateSalesmanRequest(TypedDict):

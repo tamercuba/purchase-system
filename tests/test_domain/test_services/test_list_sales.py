@@ -1,11 +1,12 @@
 import pytest
-from adapters.repositories.in_memory_repo import (
+
+from purchase_system.adapters.repositories.in_memory_repo import (
     SaleRepository,
     SalesmanRepository,
 )
-from domain.entities import Sale, Salesman
-from domain.services import ListSales
-from shared.exceptions import EntityNotFound
+from purchase_system.domain.entities import Sale, Salesman
+from purchase_system.domain.services import ListSales
+from purchase_system.shared.exceptions import EntityNotFound
 
 
 class TestListSales:

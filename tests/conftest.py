@@ -1,7 +1,10 @@
 import pytest
-from adapters.repositories.in_memory_repo import GenericInMemoryRepository
-from domain.entities import Sale, Salesman
-from shared.entities import Entity, ValueObject
+
+from purchase_system.adapters.repositories.in_memory_repo import (
+    GenericInMemoryRepository,
+)
+from purchase_system.domain.entities import Sale, Salesman
+from purchase_system.shared.entities import Entity, ValueObject
 
 # pylint: disable=redefined-outer-name
 

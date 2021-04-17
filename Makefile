@@ -22,13 +22,13 @@ clean: ## Clean temporary files
 	&& echo 'Temporary files deleted'"
 
 test:  ## Run the test suite without integration tests
-	@docker-compose run --rm app py.test purchase_system/ -s -vvv -p no:cacheprovider
+	@docker-compose run --rm app py.test tests/ -s -vvv -p no:cacheprovider
 
 test-matching: clean  ## Run only tests matching pattern. E.g.: make test-matching test=TestClassName
-	@docker-compose run --rm app py.test purchase_system/ -k $(test) -s -vvv -p no:cacheprovider 
+	@docker-compose run --rm app py.test tests/ -k $(test) -s -vvv -p no:cacheprovider 
 
 coverage: clean  ## Run the test coverage report
-	@docker-compose run --rm app py.test --cov-config .coveragerc --cov $(PROJECT_NAME) $(PROJECT_NAME) 
+	@docker-compose run --rm app py.test --cov-config .coveragerc --cov $(PROJECT_NAME) tests
 
 lint: clean  ## Run pylint linter
 	@printf '\n --- \n >>> Running linter...<<<\n'

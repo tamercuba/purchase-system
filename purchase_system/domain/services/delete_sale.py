@@ -1,9 +1,12 @@
 from typing import TypedDict
 
-from domain.entities import Sale
-from domain.ports.repositories import ISaleRepository, ISalesmanRepository
-from domain.services.exceptions import CantBeDeleted
-from shared.service import IService
+from purchase_system.domain.entities import Sale
+from purchase_system.domain.ports.repositories import (
+    ISaleRepository,
+    ISalesmanRepository,
+)
+from purchase_system.domain.services.exceptions import CantBeDeleted
+from purchase_system.shared.service import IService
 
 
 class DeleteSaleRequest(TypedDict):

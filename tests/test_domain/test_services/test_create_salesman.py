@@ -1,8 +1,14 @@
 import pytest
-from adapters.repositories.in_memory_repo import SalesmanRepository
-from domain.entities import Salesman
-from domain.services import CreateSalesman, CreateSalesmanRequest
-from shared.exceptions import RepeatedEntry
+
+from purchase_system.adapters.repositories.in_memory_repo import (
+    SalesmanRepository,
+)
+from purchase_system.domain.entities import Salesman
+from purchase_system.domain.services import (
+    CreateSalesman,
+    CreateSalesmanRequest,
+)
+from purchase_system.shared.exceptions import RepeatedEntry
 
 
 class TestCreateSalesmanService:

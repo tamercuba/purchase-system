@@ -1,6 +1,7 @@
 import pytest
 from pydantic import ValidationError
-from shared.entities import ValueObject
+
+from purchase_system.shared.entities import ValueObject
 
 
 class TestValueObject:

@@ -1,9 +1,9 @@
-from domain.ports.authentication_handler import (
+from purchase_system.domain.ports.authentication_handler import (
     AuthenticationRequest,
     IAuthenticationHandler,
 )
-from domain.ports.repositories import ISalesmanRepository
-from shared.exceptions import EntityNotFound
+from purchase_system.domain.ports.repositories import ISalesmanRepository
+from purchase_system.shared.exceptions import EntityNotFound
 
 
 class DummyAuthenticationHandler(IAuthenticationHandler[bool]):

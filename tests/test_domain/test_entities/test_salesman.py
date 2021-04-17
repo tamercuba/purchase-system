@@ -1,6 +1,7 @@
 import pytest
-from domain.entities import SaleDTO
 from pydantic import ValidationError
+
+from purchase_system.domain.entities import SaleDTO
 
 
 class TestSalesmanEntity:

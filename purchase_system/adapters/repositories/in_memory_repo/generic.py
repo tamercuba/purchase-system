@@ -1,8 +1,8 @@
 from abc import ABC
 from typing import Any, Generic, List, Optional, TypeVar, get_args
 
-from shared.entities import Entity
-from shared.exceptions import (
+from purchase_system.shared.entities import Entity
+from purchase_system.shared.exceptions import (
     EntityAttributeDoesntExist,
     EntityNotFound,
     InvalidEntityType,
