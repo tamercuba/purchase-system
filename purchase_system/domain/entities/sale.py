@@ -1,10 +1,9 @@
 from datetime import date
 from typing import List, Optional, TypedDict
 
+from domain.entities.value_objects import Cashback
 from pydantic import Field
-
-from purchase_system.domain.entities.value_objects import Cashback
-from purchase_system.shared.entities import Entity
+from shared.entities import Entity
 
 
 class SaleDTO(TypedDict):

@@ -1,7 +1,6 @@
+from domain.entities.sale import Sale, SaleStatus
 from pydantic import EmailStr, Field, SecretStr
-
-from purchase_system.domain.entities.sale import Sale, SaleStatus
-from purchase_system.shared.entities import Entity
+from shared.entities import Entity
 
 
 class Salesman(Entity):

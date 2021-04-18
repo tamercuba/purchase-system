@@ -1,9 +1,9 @@
 from typing import TypedDict
 
-from purchase_system.domain.entities import Sale, SaleDTO, Salesman
-from purchase_system.domain.ports.repositories import ISaleRepository
-from purchase_system.domain.services.exceptions import CantBeUpdated
-from purchase_system.shared.service import IService
+from domain.entities import Sale, SaleDTO, Salesman
+from domain.ports.repositories import ISaleRepository
+from domain.services.exceptions import CantBeUpdated
+from shared.service import IService
 
 
 class UpdateSaleRequest(TypedDict):

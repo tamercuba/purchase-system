@@ -1,9 +1,9 @@
 from typing import TypedDict
 
-from purchase_system.domain.entities import Salesman
-from purchase_system.domain.ports.repositories import ISaleRepository
-from purchase_system.shared.exceptions import InvalidOperation
-from purchase_system.shared.service import IService
+from domain.entities import Salesman
+from domain.ports.repositories import ISaleRepository
+from shared.exceptions import InvalidOperation
+from shared.service import IService
 
 
 class GetSalesmanCashbackRequest(TypedDict):

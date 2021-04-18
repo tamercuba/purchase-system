@@ -1,4 +1,4 @@
-from purchase_system.shared.entities import ValueObject
+from shared.entities import ValueObject
 
 
 class Cashback(ValueObject):

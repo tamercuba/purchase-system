@@ -1,8 +1,8 @@
 from typing import List, NewType, TypedDict
 
-from purchase_system.domain.entities import Sale, Salesman
-from purchase_system.domain.ports.repositories import ISaleRepository
-from purchase_system.shared.service import IService
+from domain.entities import Sale, Salesman
+from domain.ports.repositories import ISaleRepository
+from shared.service import IService
 
 
 class SaleResponse(TypedDict):
