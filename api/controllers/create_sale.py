@@ -16,11 +16,11 @@ class Request(BaseModel):
     date: str
     status: Optional[str] = None
 
+
 @router.post('/sale')
 def create_sale(request: Request, auth: AuthJWT = Depends()):
     user = authenticate_service(auth)
-    result = create_sale_service.handle({
-        "salesman_id": user.id,
-        "sale": request.dict()
-    })
+    result = create_sale_service.handle(
+        {"salesman": user, "sale": request.dict()}
+    )
     return result.dict()

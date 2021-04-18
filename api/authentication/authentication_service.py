@@ -1,4 +1,4 @@
-from fastapi import Depends, HTTPException, status
+from fastapi import HTTPException, status
 from fastapi_jwt_auth import AuthJWT
 from fastapi_jwt_auth.exceptions import JWTDecodeError
 
@@ -28,5 +28,6 @@ class AuthenticateService:
             return user
         except EntityNotFound:
             raise credentials_exception
+
 
 authenticate_service = AuthenticateService(salesman_repository)

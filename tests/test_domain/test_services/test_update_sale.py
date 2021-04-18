@@ -1,9 +1,6 @@
 import pytest
 
-from purchase_system.adapters.repositories.in_memory_repo import (
-    SaleRepository,
-    SalesmanRepository,
-)
+from purchase_system.adapters.repositories.in_memory_repo import SaleRepository
 from purchase_system.domain.entities import Sale, Salesman, SaleStatus
 from purchase_system.domain.services import UpdateSale
 from purchase_system.domain.services.exceptions import CantBeUpdated
@@ -29,12 +26,8 @@ class TestUpdateSale:
         self.salesman = Salesman(**self.salesman_data)
 
         self.sale_repo = SaleRepository(initial_values=[self.sale])
-        self.salesman_repo = SalesmanRepository(initial_values=[self.salesman])
 
-        self.service = UpdateSale(
-            sale_repository=self.sale_repo,
-            salesman_repository=self.salesman_repo,
-        )
+        self.service = UpdateSale(sale_repository=self.sale_repo)
 
     def test_update_wrong_status(self):
         new_sale_data = {
@@ -48,33 +41,27 @@ class TestUpdateSale:
 
         self.sale_repo.new(new_sale)
 
-        with pytest.raises(CantBeUpdated) as e:
+        with pytest.raises(CantBeUpdated):
             self.service.handle(
                 {
                     'sale_id': new_sale.id,
-                    'salesman_id': self.salesman.id,
+                    'salesman': self.salesman,
                     'sale': new_sale_data,
                 }
             )
-
-            assert 'status' in e
 
     def test_update_wrong_cpf(self):
         new_salesman_data = {**self.salesman_data, 'cpf': '456'}
         new_salesman = Salesman(**new_salesman_data)
 
-        self.salesman_repo.new(new_salesman)
-
-        with pytest.raises(CantBeUpdated) as e:
+        with pytest.raises(CantBeUpdated):
             self.service.handle(
                 {
                     'sale_id': self.sale.id,
-                    'salesman_id': new_salesman.id,
+                    'salesman': new_salesman,
                     'sale': self.sale_data,
                 }
             )
-
-            assert 'permission' in e
 
     def test_update_wrong_is_staff_with_wrong_cpf(self):
         new_salesman_data = {
@@ -86,12 +73,10 @@ class TestUpdateSale:
 
         updated_sale_data = {**self.sale_data, 'code': 'B'}
 
-        self.salesman_repo.new(new_salesman)
-
         result = self.service.handle(
             {
                 'sale_id': self.sale.id,
-                'salesman_id': new_salesman.id,
+                'salesman': new_salesman,
                 'sale': updated_sale_data,
             }
         )
@@ -105,7 +90,7 @@ class TestUpdateSale:
         result = self.service.handle(
             {
                 'sale_id': self.sale.id,
-                'salesman_id': self.salesman.id,
+                'salesman': self.salesman,
                 'sale': updated_sale_data,
             }
         )
@@ -120,7 +105,7 @@ class TestUpdateSale:
             self.service.handle(
                 {
                     'sale_id': '93939393939393',
-                    'salesman_id': self.salesman.id,
+                    'salesman': self.salesman,
                     'sale': updated_sale_data,
                 }
             )

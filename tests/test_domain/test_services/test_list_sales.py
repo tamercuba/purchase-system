@@ -50,23 +50,15 @@ class TestListSales:
         self.salesmans = [Salesman(**data) for data in self.salesmans_data]
 
         self.sale_repo = SaleRepository(initial_values=self.sales)
-        self.salesman_repo = SalesmanRepository(initial_values=self.salesmans)
 
-        self.service = ListSales(
-            sale_repository=self.sale_repo,
-            salesman_repository=self.salesman_repo,
-        )
+        self.service = ListSales(sale_repository=self.sale_repo)
 
     def test_empty_sales(self):
-        result = self.service.handle({'salesman_id': self.salesmans[0].id})
+        result = self.service.handle(self.salesmans[0])
 
         assert not result
 
     def test_list_valid_salesman(self):
-        result = self.service.handle({'salesman_id': self.salesmans[1].id})
+        result = self.service.handle(self.salesmans[1])
 
         assert len(result) == 2
-
-    def test_invalid_user(self):
-        with pytest.raises(EntityNotFound):
-            self.service.handle({'salesman_id': 'aaa'})

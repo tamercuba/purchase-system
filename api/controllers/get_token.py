@@ -11,6 +11,7 @@ class Request(BaseModel):
     email: str
     password: str
 
+
 @router.post('/token')
 def get_token(request: Request, Auth: AuthJWT = Depends()):
     user = login_service(request.email, request.password)

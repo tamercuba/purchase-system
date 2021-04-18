@@ -8,11 +8,13 @@ from purchase_system.shared.exceptions import RepeatedEntry
 
 router = APIRouter()
 
+
 class Request(BaseModel):
     cpf: str
     name: str
     email: str
     password: str
+
 
 class Response(BaseModel):
     access_token: str

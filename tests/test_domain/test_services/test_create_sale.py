@@ -1,10 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from purchase_system.adapters.repositories.in_memory_repo import (
-    SaleRepository,
-    SalesmanRepository,
-)
+from purchase_system.adapters.repositories.in_memory_repo import SaleRepository
 from purchase_system.domain.entities import SaleDTO, Salesman, SaleStatus
 from purchase_system.domain.services import (
     CreateSaleRequest,
@@ -31,19 +28,15 @@ class TestCreateSale:
         self.staff = Salesman(**self.staff_data)
 
         self.sale_repo = SaleRepository()
-        self.salesman_repo = SalesmanRepository(
-            initial_values=[self.salesman, self.staff]
-        )
 
         self.service = CreateSaleService(
             sale_repository=self.sale_repo,
-            salesman_repository=self.salesman_repo,
         )
 
     def test_create_new_sale(self):
         sale_data: SaleDTO = {'code': 'ABC', 'value': 30, 'date': '2020-02-02'}
         request: CreateSaleRequest = {
-            'salesman_id': self.salesman.id,
+            'salesman': self.salesman,
             'sale': sale_data,
         }
 
@@ -55,7 +48,7 @@ class TestCreateSale:
     def test_staff_create_new_sale(self):
         sale_data: SaleDTO = {'code': 'ABC', 'value': 30, 'date': '2020-02-02'}
         request: CreateSaleRequest = {
-            'salesman_id': self.staff.id,
+            'salesman': self.staff,
             'sale': sale_data,
         }
 
@@ -72,10 +65,9 @@ class TestCreateSale:
             'date': '2020-02-02',
         }
         request: CreateSaleRequest = {
-            'salesman_id': self.salesman.id,
+            'salesman': self.salesman,
             'sale': sale_data,
         }
 
-        with pytest.raises(ValidationError) as e:
+        with pytest.raises(ValidationError):
             self.service.handle(request)
-            assert 'value' in e

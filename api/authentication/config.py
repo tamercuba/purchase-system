@@ -14,6 +14,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 User = Salesman
 
+
 class Settings(BaseModel):
     authjwt_secret_key: str = Field(default=settings.SECRET_KEY)
 
@@ -22,12 +23,14 @@ class Settings(BaseModel):
 def get_config():
     return Settings()
 
+
 def requires_authorization(route):
     @wraps(route)
     def wrapper(Authorize: AuthJWT = Depends()):
         return route(authenticate_service(Authorize))
 
     return wrapper
+
 
 def requires_authorization_2(params: Optional[Dict[str, BaseModel]]):
     def decorate(route):
@@ -37,4 +40,5 @@ def requires_authorization_2(params: Optional[Dict[str, BaseModel]]):
             return route(user=user, **params)
 
         return wrapper
+
     return decorate
