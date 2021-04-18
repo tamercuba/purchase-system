@@ -8,7 +8,9 @@ salesmans = [
     Salesman(
         **{
             'email': 'tamercuba@gmail.com',
-            'password': '$2b$12$OKFQ1uVGPOAOc2mYn/SoSO87PHA2qVYEjUGrwC5KYK9rOoHrHeKge',
+            'password': (
+                '$2b$12$OKFQ1uVGPOAOc2mYn/SoSO87PHA2qVYEjUGrwC5KYK9rOoHrHeKge'
+            ),
             'cpf': '123',
             'name': 'tamer',
         }

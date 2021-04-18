@@ -32,7 +32,7 @@ coverage: clean  ## Run the test coverage report
 
 lint: clean  ## Run pylint linter
 	@printf '\n --- \n >>> Running linter...<<<\n'
-	@pylint --rcfile=.pylintrc $(PROJECT_NAME)/* 
+	@pylint --rcfile=.pylintrc $(API_NAME)/. $(PROJECT_NAME)/.
 	@printf '\n FINISHED! \n --- \n'
 
 bash: ## Run bash inside container

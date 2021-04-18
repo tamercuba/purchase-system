@@ -1,6 +1,5 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends
 from fastapi_jwt_auth import AuthJWT
-from pydantic import BaseModel
 
 from api.adapters.services import list_sales_service
 from api.authentication import authenticate_service
