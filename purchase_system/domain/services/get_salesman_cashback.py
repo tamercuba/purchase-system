@@ -1,7 +1,10 @@
 from typing import TypedDict
 
-from domain.ports.repositories import ISaleRepository, ISalesmanRepository
-from shared.service import IService
+from purchase_system.domain.ports.repositories import (
+    ISaleRepository,
+    ISalesmanRepository,
+)
+from purchase_system.shared.service import IService
 
 
 class GetSalesmanCashbackRequest(TypedDict):
@@ -24,7 +27,7 @@ class GetSalesmanCashback(
         self._salesman_repo = salesman_repository
 
     def handle(
-        self, request: GetSalesmanCashbackRequest, **kwargs
+        self, request: GetSalesmanCashbackRequest
     ) -> GetSalesmanCashbackResponse:
         salesman = self._salesman_repo.get_by_id(request['salesman_id'])
         return self._sale_repo.total_salesman_cashback(salesman.cpf)

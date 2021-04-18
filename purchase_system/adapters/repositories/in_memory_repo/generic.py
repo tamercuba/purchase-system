@@ -1,8 +1,8 @@
 from abc import ABC
 from typing import Any, Generic, List, Optional, TypeVar, get_args
 
-from shared.entities import Entity
-from shared.exceptions import (
+from purchase_system.shared.entities import Entity
+from purchase_system.shared.exceptions import (
     EntityAttributeDoesntExist,
     EntityNotFound,
     InvalidEntityType,
@@ -30,7 +30,8 @@ class GenericInMemoryRepository(ABC, Generic[IEntity]):
             return result
         except KeyError:
             raise EntityNotFound(
-                f'Cant found {self._entity_type} with id: {_id}', _id=_id
+                f'Cant found {self._entity_type} with id: {_id}',
+                info={'id': _id},
             )
 
     def count(self) -> int:
@@ -44,7 +45,8 @@ class GenericInMemoryRepository(ABC, Generic[IEntity]):
         except KeyError:
             print('aaaaaaaaaaa')
             raise EntityNotFound(
-                f'Cant found {self._entity_type} with id: {_id}', _id=_id
+                f'Cant found {self._entity_type} with id: {_id}',
+                info={'id': _id},
             )
 
     def update(self, entity: IEntity) -> IEntity:
@@ -55,7 +57,7 @@ class GenericInMemoryRepository(ABC, Generic[IEntity]):
         except KeyError:
             raise EntityNotFound(
                 f'Cant found {self._entity_type} with id: {entity.id}',
-                _id=entity.id,
+                info={'id': entity.id},
             )
 
         return entity

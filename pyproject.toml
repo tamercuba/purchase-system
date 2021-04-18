@@ -1,0 +1,18 @@
+[tool.black]
+skip-string-normalization=true
+target-version = ['py38']
+line-length=79
+exclude='''
+(
+  /(
+      \.eggs
+    | \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | \.local
+    | \.pyenv
+  )/
+)
+'''

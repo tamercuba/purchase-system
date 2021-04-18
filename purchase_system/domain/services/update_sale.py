@@ -1,9 +1,12 @@
 from typing import TypedDict
 
-from domain.entities import Sale, SaleDTO
-from domain.ports.repositories import ISaleRepository, ISalesmanRepository
-from domain.services.exceptions import CantBeUpdated
-from shared.service import IService
+from purchase_system.domain.entities import Sale, SaleDTO
+from purchase_system.domain.ports.repositories import (
+    ISaleRepository,
+    ISalesmanRepository,
+)
+from purchase_system.domain.services.exceptions import CantBeUpdated
+from purchase_system.shared.service import IService
 
 
 class UpdateSaleRequest(TypedDict):
@@ -21,7 +24,7 @@ class UpdateSale(IService[UpdateSaleRequest, Sale]):
         self._sale_repo = sale_repository
         self._salesman_repo = salesman_repository
 
-    def handle(self, request: UpdateSaleRequest, **kwargs) -> Sale:
+    def handle(self, request: UpdateSaleRequest) -> Sale:
         sale = self._sale_repo.get_by_id(request['sale_id'])
         salesman = self._salesman_repo.get_by_id(request['salesman_id'])
 

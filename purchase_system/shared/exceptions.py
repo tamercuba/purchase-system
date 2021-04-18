@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Any, Dict, Optional
 
 
 class InvalidEntityType(Exception):
@@ -13,8 +13,8 @@ class EntityAttributeDoesntExist(Exception):
 
 
 class _EntityException(Exception):
-    def __init__(self, message: str, _id: Optional[str] = None):
-        self.id = _id
+    def __init__(self, message: str, info: Optional[Dict[str, Any]] = None):
+        self.info = info
         super().__init__(message)
 
 

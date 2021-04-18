@@ -1,7 +1,8 @@
 from typing import Any, List
 
 from pydantic import BaseModel, Field
-from shared.entities.id import EntityID, get_new_id
+
+from purchase_system.shared.entities.id import EntityID, get_new_id
 
 
 class Entity(BaseModel):

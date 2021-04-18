@@ -22,13 +22,13 @@ clean: ## Clean temporary files
 	&& echo 'Temporary files deleted'"
 
 test:  ## Run the test suite without integration tests
-	@docker-compose run --rm app py.test purchase_system/ -s -vvv -p no:cacheprovider
+	@docker-compose run --rm app py.test tests/ -s -vvv -p no:cacheprovider
 
 test-matching: clean  ## Run only tests matching pattern. E.g.: make test-matching test=TestClassName
-	@docker-compose run --rm app py.test purchase_system/ -k $(test) -s -vvv -p no:cacheprovider 
+	@docker-compose run --rm app py.test tests/ -k $(test) -s -vvv -p no:cacheprovider 
 
 coverage: clean  ## Run the test coverage report
-	@docker-compose run --rm app py.test --cov-config .coveragerc --cov $(PROJECT_NAME) $(PROJECT_NAME) 
+	@docker-compose run --rm app py.test --cov-config .coveragerc --cov $(PROJECT_NAME) tests
 
 lint: clean  ## Run pylint linter
 	@printf '\n --- \n >>> Running linter...<<<\n'
@@ -39,10 +39,10 @@ bash: ## Run bash inside container
 	@docker-compose run --rm app /bin/bash 
 
 format:  ## Run isort and black auto formatting code style in the project
-	@docker-compose run --rm app /bin/bash -c "isort -m 3 --tc . && black -S -t py37 -l 79 $(PROJECT_NAME)/. --exclude '/(\.git|\.venv|env|venv|build|dist|\.pyenv)/'  "
+	@docker-compose run --rm app /bin/bash -c "isort -m 3 --tc . && black --config ./pyproject.toml $(PROJECT_NAME)/."
 
 format-check:  ## Check isort and black code style
-	@docker-compose run --rm app black -S -t py37 -l 79 --check $(PROJECT_NAME)/. --exclude '/(\.git|\.venv|env|venv|build|dist|\.pyenv)/' 
+	@docker-compose run --rm app black --check --config ./pyproject.toml $(PROJECT_NAME)/.
 
 build: ## Build container image
 	@docker build -t purchasesystem_app:latest -f Dockerfile.dev . --build-arg UID=$(UID) --build-arg GID=$(GID)
@@ -58,3 +58,6 @@ stop: clean # Stop app
 
 requirements-pip: clean ## Install the app requirements
 	@docker-compose run --rm app /bin/bash -c "pip install --upgrade pip && pip install -r requirements/dev.txt"
+
+generate-secret: ## Generate password secret
+	openssl rand -hex 32
