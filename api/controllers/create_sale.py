@@ -5,7 +5,7 @@ from fastapi_jwt_auth import AuthJWT
 from pydantic import BaseModel
 
 from api.adapters.services import create_sale_service
-from api.authentication import User, authenticate_service
+from api.authentication import authenticate_service
 
 router = APIRouter()
 

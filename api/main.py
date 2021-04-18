@@ -1,4 +1,4 @@
-from fastapi import APIRouter, FastAPI
+from fastapi import FastAPI
 
 import api.settings as settings
 from api.router import router
