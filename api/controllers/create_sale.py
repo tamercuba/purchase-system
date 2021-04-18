@@ -21,6 +21,6 @@ class Request(BaseModel):
 def create_sale(request: Request, auth: AuthJWT = Depends()):
     user = authenticate_service(auth)
     result = create_sale_service.handle(
-        {"salesman_id": user.id, "sale": request.dict()}
+        {"salesman": user, "sale": request.dict()}
     )
     return result.dict()
