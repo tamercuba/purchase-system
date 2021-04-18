@@ -1,7 +1,7 @@
-from fastapi import FastAPI
+from fastapi import APIRouter, FastAPI
 
 import api.settings as settings
-from api.routes.router import router
+from api.router import router
 
 
 def get_app() -> FastAPI:

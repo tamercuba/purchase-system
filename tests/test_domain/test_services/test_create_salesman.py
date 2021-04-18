@@ -33,10 +33,22 @@ class TestCreateSalesmanService:
         assert result['cpf'] == new_salesman['cpf']
         assert result['id']
 
-    def test_create_repeated_salesman(self):
-        with pytest.raises(RepeatedEntry) as e:
-            self.service.handle(self.salesman_data)
-            assert e.id == self.salesman.id
+    @pytest.mark.parametrize('salesman', [
+        ({
+            'cpf': '123',
+            'name': 'a',
+            'email': 'a@a.com',
+            'password': 'a',
+        }), ({
+            'cpf': '000',
+            'name': 'b',
+            'email': 'didico@flamengo.com',
+            'password': 'a',
+            })
+    ])
+    def test_create_repeated_salesman(self, salesman):
+        with pytest.raises(RepeatedEntry):
+            self.service.handle(salesman)
 
     def test_create_wrong_request(self):
         with pytest.raises(KeyError):

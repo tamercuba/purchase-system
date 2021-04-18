@@ -30,6 +30,6 @@ class LoginService:
         return pwd_context.verify(plain_password, hashed_password)
 
     def create_access_token(self, user_id: str, auth: AuthJWT) -> str:
-        return auth.create_access_token(subject=user_id)
+        return  f'Bearer {auth.create_access_token(subject=user_id)}'
 
 login_service = LoginService(salesman_repository)

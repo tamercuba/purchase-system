@@ -2,15 +2,10 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi_jwt_auth import AuthJWT
 from pydantic import BaseModel
 
-from api.authentication import (
-    User,
-    authenticate_service,
-    login_service,
-    requires_authorization,
-    requires_authorization_2,
-)
+from api.authentication import authenticate_service, login_service
 
 router = APIRouter()
+
 
 class Request(BaseModel):
     email: str
@@ -27,7 +22,7 @@ def get_token(request: Request, Auth: AuthJWT = Depends()):
         )
     token = login_service.create_access_token(user.id, Auth)
 
-    return {"token": f'Bearer {token}'}
+    return {"token": token}
 
 
 @router.get('/teste2')
