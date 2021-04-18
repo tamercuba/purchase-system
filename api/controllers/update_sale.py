@@ -33,7 +33,7 @@ def update_sale(
     result = update_sale_service.handle(
         {
             'sale_id': sale_id,
-            'salesman_id': user.id,
+            'salesman': user,
             'sale': {
                 'code': request.code,
                 'value': request.value,
