@@ -1,14 +1,14 @@
 from typing import TypedDict
 
-from purchase_system.domain.ports.repositories import (
-    ISaleRepository,
-    ISalesmanRepository,
-)
+from purchase_system.domain.entities import Salesman
+from purchase_system.domain.ports.repositories import ISaleRepository
+from purchase_system.shared.exceptions import InvalidOperation
 from purchase_system.shared.service import IService
 
 
 class GetSalesmanCashbackRequest(TypedDict):
-    salesman_id: str
+    salesman: Salesman
+    salesman_cpf: str
 
 
 class GetSalesmanCashbackResponse(TypedDict):
@@ -21,13 +21,16 @@ class GetSalesmanCashback(
     def __init__(
         self,
         sale_repository: ISaleRepository,
-        salesman_repository: ISalesmanRepository,
     ):
         self._sale_repo = sale_repository
-        self._salesman_repo = salesman_repository
 
     def handle(
         self, request: GetSalesmanCashbackRequest
     ) -> GetSalesmanCashbackResponse:
-        salesman = self._salesman_repo.get_by_id(request['salesman_id'])
-        return self._sale_repo.total_salesman_cashback(salesman.cpf)
+        requisitor = request['salesman']
+        requisited_cpf = request['salesman_cpf']
+
+        if requisitor.is_staff or requisited_cpf == requisitor.cpf:
+            return self._sale_repo.total_salesman_cashback(requisited_cpf)
+
+        raise InvalidOperation()

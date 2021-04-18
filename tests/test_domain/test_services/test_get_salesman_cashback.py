@@ -1,12 +1,9 @@
 import pytest
 
-from purchase_system.adapters.repositories.in_memory_repo import (
-    SaleRepository,
-    SalesmanRepository,
-)
+from purchase_system.adapters.repositories.in_memory_repo import SaleRepository
 from purchase_system.domain.entities import Sale, Salesman
 from purchase_system.domain.services import GetSalesmanCashback
-from purchase_system.shared.exceptions import EntityNotFound
+from purchase_system.shared.exceptions import InvalidOperation
 
 
 class TestGetSalesmanCashback:
@@ -39,6 +36,7 @@ class TestGetSalesmanCashback:
                 'name': 'Adriano Imperador',
                 'email': 'didico@flamengo.com',
                 'password': 'a',
+                'is_staff': True,
             },
             {
                 'cpf': '456',
@@ -50,21 +48,43 @@ class TestGetSalesmanCashback:
         self.salesmans = [Salesman(**data) for data in self.salesmans_data]
 
         self.sale_repo = SaleRepository(initial_values=self.sales)
-        self.salesman_repo = SalesmanRepository(initial_values=self.salesmans)
 
         self.service = GetSalesmanCashback(
             sale_repository=self.sale_repo,
-            salesman_repository=self.salesman_repo,
         )
 
     def test_get_right_cashback(self):
-        total = self.service.handle({'salesman_id': self.salesmans[-1].id})
+        total = self.service.handle(
+            {
+                'salesman': self.salesmans[-1],
+                'salesman_cpf': self.salesmans[-1].cpf,
+            }
+        )
         assert total == 500
 
     def test_get_cashback_salesman_with_no_sale(self):
-        total = self.service.handle({'salesman_id': self.salesmans[0].id})
+        total = self.service.handle(
+            {
+                'salesman': self.salesmans[0],
+                'salesman_cpf': self.salesmans[0].cpf,
+            }
+        )
         assert total == 0
 
-    def test_get_cashback_wrong_salesman_id(self):
-        with pytest.raises(EntityNotFound):
-            self.service.handle({'salesman_id': 'aaa'})
+    def test_staff_getting_other_cpf_cashback(self):
+        total = self.service.handle(
+            {
+                'salesman': self.salesmans[0],
+                'salesman_cpf': self.salesmans[-1].cpf,
+            }
+        )
+        assert total == 500
+
+    def test_non_staff_getting_other_cpf_cashback(self):
+        with pytest.raises(InvalidOperation):
+            self.service.handle(
+                {
+                    'salesman': self.salesmans[-1],
+                    'salesman_cpf': self.salesmans[0].cpf,
+                }
+            )

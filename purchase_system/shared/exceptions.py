@@ -24,3 +24,7 @@ class RepeatedEntry(_EntityException):
 
 class EntityNotFound(_EntityException):
     pass
+
+
+class InvalidOperation(Exception):
+    pass
