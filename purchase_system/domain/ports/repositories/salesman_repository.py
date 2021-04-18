@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from typing import Optional
 
-from purchase_system.domain.entities import Salesman
+from domain.entities import Salesman
 
 
 class ISalesmanRepository:

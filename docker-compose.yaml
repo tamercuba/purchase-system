@@ -4,7 +4,7 @@ services:
     build: .
     image: purchasesystem_app:latest
     user: appuser
-    command: python -m uvicorn api.main:app --reload --host ${APP_HOST} --port ${APP_PORT}
+    command: /bin/bash -c "cd purchase_system && python -m uvicorn adapters.api.main:app --reload --host ${APP_HOST} --port ${APP_PORT}"
     volumes:
       - .:/home/appuser
     env_file: .env

@@ -1,8 +1,6 @@
-from purchase_system.adapters.repositories.in_memory_repo import (
-    GenericInMemoryRepository,
-)
-from purchase_system.domain.entities import Salesman
-from purchase_system.domain.ports.repositories import ISalesmanRepository
+from adapters.repositories.in_memory_repo import GenericInMemoryRepository
+from domain.entities import Salesman
+from domain.ports.repositories import ISalesmanRepository
 
 
 class SalesmanRepository(

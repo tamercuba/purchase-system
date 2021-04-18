@@ -2,7 +2,6 @@
 SHELL := /bin/bash
 
 PROJECT_NAME = purchase_system
-API_NAME = api
 UID=$(shell id -u)
 GID=$(shell id -g)
 
@@ -22,34 +21,33 @@ clean: ## Clean temporary files
 	@echo 'Temporary files deleted'
 
 test: clean ## Run the tests
-	@py.test tests/ -s -vvv -p no:cacheprovider
+	@py.test $(PROJECT_NAME)/ -s -vvv -p no:cacheprovider
 
 test-matching: clean  ## Run only tests matching pattern. E.g.: make test-matching test=TestClassName
-	@py.test tests/ -k $(test) -s -vvv -p no:cacheprovider 
+	@py.test $(PROJECT_NAME)/ -k $(test) -s -vvv -p no:cacheprovider 
 
 coverage: clean  ## Run the test coverage report
-	@py.test --cov-config .coveragerc --cov $(PROJECT_NAME) tests
+	@py.test --cov-config .coveragerc --cov $(PROJECT_NAME) $(PROJECT_NAME)
 
 lint: clean  ## Run pylint linter
 	@printf '\n --- \n >>> Running linter...<<<\n'
-	@pylint --rcfile=.pylintrc $(API_NAME)/. $(PROJECT_NAME)/. tests/.
+	@pylint --rcfile=.pylintrc $(PROJECT_NAME)/.
 	@printf '\n FINISHED! \n --- \n'
 
 bash: ## Run bash inside container
-	@docker-compose run --rm app /bin/bash 
+	@docker-compose run --rm app /bin/bash
 
 format:  ## Run isort and black auto formatting code style in the project
 	@isort -m 3 --tc . && black --config ./pyproject.toml .
 
 format-check:  ## Check isort and black code style
 	@black --check --config ./pyproject.toml $(PROJECT_NAME)/.
-	@black --check --config ./pyproject.toml $(API_NAME)/.
 
 build: ## Build container image
 	@docker build -t purchasesystem_app:latest -f Dockerfile.dev . --build-arg UID=$(UID) --build-arg GID=$(GID)
 
 run-dev-without-docker: clean ## Run app outside a container
-	python -m uvicorn api.main:app --reload --port ${APP_PORT}
+	cd purchase_system && python -m uvicorn adapters.api.main:app --reload --port ${APP_PORT}
 
 run-dev: clean # Run app
 	@docker-compose up --remove-orphans

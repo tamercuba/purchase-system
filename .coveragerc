@@ -5,6 +5,8 @@ omit =
     */conftest.py
     */ports/*
     */tests/*
+    */api/*
+    */main.py
 
 [report]
 exclude_lines =
