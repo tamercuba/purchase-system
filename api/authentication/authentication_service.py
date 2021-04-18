@@ -29,4 +29,5 @@ class AuthenticateService:
         except EntityNotFound:
             raise credentials_exception
 
+
 authenticate_service = AuthenticateService(salesman_repository)
