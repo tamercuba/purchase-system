@@ -29,12 +29,8 @@ class TestDeleteSale:
         self.salesman = Salesman(**self.salesman_data)
 
         self.sale_repo = SaleRepository(initial_values=[self.sale])
-        self.salesman_repo = SalesmanRepository(initial_values=[self.salesman])
 
-        self.service = DeleteSaleService(
-            sale_repository=self.sale_repo,
-            salesman_repository=self.salesman_repo,
-        )
+        self.service = DeleteSaleService(sale_repository=self.sale_repo)
 
     def test_delete_wrong_status(self):
         new_sale_data = {
@@ -50,7 +46,7 @@ class TestDeleteSale:
 
         with pytest.raises(CantBeDeleted) as e:
             self.service.handle(
-                {'sale_id': new_sale.id, 'salesman_id': self.salesman.id}
+                {'sale_id': new_sale.id, 'salesman': self.salesman}
             )
 
             assert 'status' in e
@@ -59,11 +55,9 @@ class TestDeleteSale:
         new_salesman_data = {**self.salesman_data, 'cpf': '456'}
         new_salesman = Salesman(**new_salesman_data)
 
-        self.salesman_repo.new(new_salesman)
-
         with pytest.raises(CantBeDeleted) as e:
             self.service.handle(
-                {'sale_id': self.sale.id, 'salesman_id': new_salesman.id}
+                {'sale_id': self.sale.id, 'salesman': new_salesman}
             )
 
             assert 'permission' in e
@@ -76,10 +70,8 @@ class TestDeleteSale:
         }
         new_salesman = Salesman(**new_salesman_data)
 
-        self.salesman_repo.new(new_salesman)
-
         self.service.handle(
-            {'sale_id': self.sale.id, 'salesman_id': new_salesman.id}
+            {'sale_id': self.sale.id, 'salesman': new_salesman}
         )
 
         total = self.sale_repo.count()
@@ -90,7 +82,7 @@ class TestDeleteSale:
         total_before = self.sale_repo.count()
 
         self.service.handle(
-            {'sale_id': self.sale.id, 'salesman_id': self.salesman.id}
+            {'sale_id': self.sale.id, 'salesman': self.salesman}
         )
 
         total_after = self.sale_repo.count()
@@ -102,6 +94,6 @@ class TestDeleteSale:
             self.service.handle(
                 {
                     'sale_id': '93939393939393',
-                    'salesman_id': self.salesman.id,
+                    'salesman': self.salesman,
                 }
             )
