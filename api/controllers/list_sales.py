@@ -10,4 +10,4 @@ router = APIRouter()
 @router.get('/sale')
 def list_sales(auth: AuthJWT = Depends()) -> None:
     user = authenticate_service(auth)
-    return list_sales_service.handle({'salesman_id': user.id})
+    return list_sales_service.handle(user)
