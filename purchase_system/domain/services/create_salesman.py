@@ -1,4 +1,5 @@
-from typing import Callable, TypedDict, Optional, Any, Dict
+from typing import Any, Callable, Dict, Optional, TypedDict
+
 from domain.entities import Salesman
 from domain.ports.repositories import ISalesmanRepository
 from shared.exceptions import EntityNotFound, RepeatedEntry
@@ -67,13 +68,15 @@ class CreateSalesman(IService[CreateSalesmanRequest, CreateSalesmanResponse]):
 
         return password
 
-    def get_input_parsed(self, request: CreateSalesmanRequest) -> Dict[str, Any]:
+    def get_input_parsed(
+        self, request: CreateSalesmanRequest
+    ) -> Dict[str, Any]:
         result = {
             **request,
-            'password': self._hash_password(request['password'])
+            'password': self._hash_password(request['password']),
         }
 
-        if result.get('is_staff') is None:
+        if 'is_staff' in result and result.get('is_staff') is None:
             del result['is_staff']
 
         return result

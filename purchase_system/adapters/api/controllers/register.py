@@ -1,9 +1,10 @@
+from typing import Optional
+
 from adapters.api.services import create_salesman_service, login_service
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi_jwt_auth import AuthJWT
 from pydantic import BaseModel
 from shared.exceptions import RepeatedEntry
-from typing import Optional
 
 router = APIRouter()
 

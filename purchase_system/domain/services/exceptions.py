@@ -7,4 +7,5 @@ class CantBeDeleted(Exception):
 class CantBeUpdated(Exception):
     def __init__(self, entity: type, reason: str):
         self.entity = entity
-        super().__init__(reason)
+        self.reason = reason
+        super().__init__()

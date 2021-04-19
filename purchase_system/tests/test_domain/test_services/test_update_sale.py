@@ -15,6 +15,7 @@ class TestUpdateSale:
             'salesman_cpf': '123',
         }
         self.sale = Sale(**self.sale_data)
+        del self.sale_data['salesman_cpf']
 
         self.salesman_data = {
             'cpf': '123',

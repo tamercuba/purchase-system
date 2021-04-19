@@ -7,6 +7,10 @@ omit =
     */tests/*
     */api/*
     */main.py
+    */api/*
+    */postgres/*
+    */web/*
+    */db.py
 
 [report]
 exclude_lines =

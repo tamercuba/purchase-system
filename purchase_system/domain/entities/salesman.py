@@ -21,6 +21,6 @@ class Salesman(Entity):
         return result
 
     @validator('is_staff')
-    #pylint: disable=no-self-argument
+    # pylint: disable=no-self-argument
     def set_is_staff(cls, value) -> bool:
         return bool(value)
