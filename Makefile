@@ -68,10 +68,10 @@ generate-secret: ## Generate password secret
 	@openssl rand -hex 32
 
 create-migration: clean ## Create alembic migration
-	@docker-compose run app alembic revision -m $(comment)
+	alembic revision -m $(comment)
 
 run-migrations: clean ## Run alembic migrations
-	@docker-compose run app alembic upgrade head
+	alembic upgrade head
 
 downgrade-migration: clean ## Downgrade alembic migrations
-	@docker-compose run app alembic downgrade ${target}
+	alembic downgrade ${target}
