@@ -37,7 +37,7 @@ class ListSales(IService[Salesman, ListSalesResponse]):
                     'id': sale.id,
                     'code': sale.code,
                     'value': sale.value,
-                    'data': str(sale.date),
+                    'date': str(sale.date),
                     'cashback_value': sale.cashback.value,
                     'cashback_total': sale.cashback.total,
                     'status': sale.status,

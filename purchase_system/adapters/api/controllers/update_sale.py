@@ -1,7 +1,6 @@
 from typing import Optional
 
-from adapters.api.authentication import authenticate_service
-from adapters.api.services import update_sale_service
+from adapters.api.services import authenticate_service, update_sale_service
 from fastapi import APIRouter, Depends, status
 from fastapi_jwt_auth import AuthJWT
 from pydantic import BaseModel
@@ -20,8 +19,8 @@ class Response(Request):
     id: str
 
 
-@router.post(
-    '/sale/<sale_id:str>',
+@router.put(
+    '/sale/{sale_id}',
     status_code=status.HTTP_200_OK,
     response_model=Response,
 )
@@ -47,7 +46,7 @@ def update_sale(
             'id': result.id,
             'code': result.code,
             'value': result.value,
-            'date': result.date,
+            'date': str(result.date),
             'status': result.status,
         }
     )

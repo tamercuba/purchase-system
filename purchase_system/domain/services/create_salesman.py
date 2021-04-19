@@ -1,5 +1,4 @@
-from typing import TypedDict
-
+from typing import Callable, TypedDict, Optional, Any, Dict
 from domain.entities import Salesman
 from domain.ports.repositories import ISalesmanRepository
 from shared.exceptions import EntityNotFound, RepeatedEntry
@@ -11,6 +10,7 @@ class CreateSalesmanRequest(TypedDict):
     name: str
     email: str
     password: str
+    is_staff: Optional[bool]
 
 
 class CreateSalesmanResponse(TypedDict):
@@ -21,14 +21,19 @@ class CreateSalesmanResponse(TypedDict):
 
 
 class CreateSalesman(IService[CreateSalesmanRequest, CreateSalesmanResponse]):
-    def __init__(self, salesman_repository: ISalesmanRepository):
+    def __init__(
+        self,
+        salesman_repository: ISalesmanRepository,
+        hash_algo: Callable = None,
+    ):
         self._repo = salesman_repository
+        self._hash_algo = hash_algo
 
     def handle(self, request: CreateSalesmanRequest) -> CreateSalesmanResponse:
         self._check_cpf(request['cpf'])
         self._check_email(request['email'])
 
-        new_salesman = Salesman(**request)
+        new_salesman = Salesman(**self.get_input_parsed(request))
         self._repo.new(new_salesman)
         response: CreateSalesmanResponse = self.get_response(new_salesman)
 
@@ -55,3 +60,20 @@ class CreateSalesman(IService[CreateSalesmanRequest, CreateSalesmanResponse]):
             'name': salesman.name,
             'email': salesman.email,
         }
+
+    def _hash_password(self, password: str) -> str:
+        if self._hash_algo:
+            return self._hash_algo(password)
+
+        return password
+
+    def get_input_parsed(self, request: CreateSalesmanRequest) -> Dict[str, Any]:
+        result = {
+            **request,
+            'password': self._hash_password(request['password'])
+        }
+
+        if result.get('is_staff') is None:
+            del result['is_staff']
+
+        return result

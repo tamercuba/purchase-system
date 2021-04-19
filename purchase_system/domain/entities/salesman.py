@@ -1,5 +1,5 @@
 from domain.entities.sale import Sale, SaleStatus
-from pydantic import EmailStr, Field, SecretStr
+from pydantic import EmailStr, Field, SecretStr, validator
 from shared.entities import Entity
 
 
@@ -8,7 +8,7 @@ class Salesman(Entity):
     name: str
     email: EmailStr
     password: SecretStr
-    is_staff: bool = Field(default=False)
+    is_staff: bool = False
 
     def new_sale(self, **kwargs) -> Sale:
         data = {**kwargs, 'status': SaleStatus.APPROVED}
@@ -19,3 +19,8 @@ class Salesman(Entity):
         result = Sale(**{**data, 'salesman_cpf': self.cpf})
 
         return result
+
+    @validator('is_staff')
+    #pylint: disable=no-self-argument
+    def set_is_staff(cls, value) -> bool:
+        return bool(value)

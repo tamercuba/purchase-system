@@ -65,4 +65,13 @@ make-env: ## Creates a .env file
 	@cp ./contrib/localenv .env
 
 generate-secret: ## Generate password secret
-	openssl rand -hex 32
+	@openssl rand -hex 32
+
+create-migration: clean ## Create alembic migration
+	@docker-compose run app alembic revision -m $(comment)
+
+run-migrations: clean ## Run alembic migrations
+	@docker-compose run app alembic upgrade head
+
+downgrade-migration: clean ## Downgrade alembic migrations
+	@docker-compose run app alembic downgrade ${target}

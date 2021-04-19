@@ -29,6 +29,10 @@ class UpdateSale(IService[UpdateSaleRequest, Sale]):
         if not sale.can_be_deleted:
             raise CantBeUpdated(entity=Sale, reason='Wrong sale status')
 
-        updated_sale = Sale(id=request['sale_id'], **request['sale'])
+        updated_sale = Sale(
+            id=request['sale_id'],
+            salesman_cpf=requisitor.cpf,
+            **request['sale'],
+        )
 
         return self._sale_repo.update(updated_sale)
