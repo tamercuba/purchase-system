@@ -13,7 +13,7 @@ class UpdateSaleRequest(TypedDict):
     sale: SaleDTO
 
 
-class UpdateSale(IService[UpdateSaleRequest, Sale]):
+class UpdateSaleService(IService[UpdateSaleRequest, Sale]):
     def __init__(
         self,
         sale_repository: ISaleRepository,

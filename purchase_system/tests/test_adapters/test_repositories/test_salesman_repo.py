@@ -1,20 +1,13 @@
 import pytest
 from adapters.repositories.in_memory_repo import SalesmanRepository
-from domain.entities import Salesman
 from shared.exceptions import EntityNotFound
 
 
 class TestSalesmanRepo:
-    def setup(self):
-        self.repo = SalesmanRepository()
-        self.new_salesman = Salesman(
-            **{
-                'cpf': '123',
-                'name': 'Adriano Imperador',
-                'email': 'didico@flamengo.com',
-                'password': 'a',
-            }
-        )
+    @pytest.fixture(autouse=True)
+    def injector(self, salesman):
+        self.new_salesman = salesman
+        self.repo = SalesmanRepository(initial_values=[salesman])
 
         self.repo.new(self.new_salesman)
 

@@ -1,33 +1,24 @@
 import pytest
 from adapters.repositories.in_memory_repo import SaleRepository
 from domain.entities import Sale, Salesman, SaleStatus
-from domain.services import UpdateSale
+from domain.services import UpdateSaleService
 from domain.services.exceptions import CantBeUpdated
 from shared.exceptions import EntityNotFound
 
 
 class TestUpdateSale:
-    def setup(self):
-        self.sale_data = {
-            'code': 'a',
-            'value': 10,
-            'date': '1997-09-01',
-            'salesman_cpf': '123',
-        }
+    @pytest.fixture(autouse=True)
+    def injector(self, sale_data, salesman_data):
+        self.sale_data = sale_data
         self.sale = Sale(**self.sale_data)
         del self.sale_data['salesman_cpf']
 
-        self.salesman_data = {
-            'cpf': '123',
-            'name': 'Adriano Imperador',
-            'email': 'didico@flamengo.com',
-            'password': 'a',
-        }
+        self.salesman_data = salesman_data
         self.salesman = Salesman(**self.salesman_data)
 
         self.sale_repo = SaleRepository(initial_values=[self.sale])
 
-        self.service = UpdateSale(sale_repository=self.sale_repo)
+        self.service = UpdateSaleService(sale_repository=self.sale_repo)
 
     def test_update_wrong_status(self):
         new_sale_data = {

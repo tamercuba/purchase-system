@@ -21,7 +21,9 @@ class CreateSalesmanResponse(TypedDict):
     email: str
 
 
-class CreateSalesman(IService[CreateSalesmanRequest, CreateSalesmanResponse]):
+class CreateSalesmanService(
+    IService[CreateSalesmanRequest, CreateSalesmanResponse]
+):
     def __init__(
         self,
         salesman_repository: ISalesmanRepository,

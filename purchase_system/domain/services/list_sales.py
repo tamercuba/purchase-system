@@ -18,7 +18,7 @@ class SaleResponse(TypedDict):
 ListSalesResponse = NewType('ListSalesReponse', List[SaleResponse])
 
 
-class ListSales(IService[Salesman, ListSalesResponse]):
+class ListSalesService(IService[Salesman, ListSalesResponse]):
     def __init__(
         self,
         sale_repository: ISaleRepository,
