@@ -1,7 +1,6 @@
 from typing import Optional
 
-from adapters.api.authentication import authenticate_service
-from adapters.api.services import create_sale_service
+from adapters.api.services import authenticate_service, create_sale_service
 from fastapi import APIRouter, Depends
 from fastapi_jwt_auth import AuthJWT
 from pydantic import BaseModel

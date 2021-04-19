@@ -1,4 +1,4 @@
-from adapters.api.authentication import authenticate_service, login_service
+from adapters.api.services import authenticate_service, login_service
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi_jwt_auth import AuthJWT
 from pydantic import BaseModel

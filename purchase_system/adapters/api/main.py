@@ -1,5 +1,5 @@
-from adapters.api.settings import APP_DEBUG
 from adapters.api.router import router
+from adapters.api.settings import APP_DEBUG
 from fastapi import FastAPI
 
 

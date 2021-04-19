@@ -3,6 +3,7 @@ from typing import TypedDict
 from domain.entities import Sale, SaleDTO, Salesman
 from domain.ports.repositories import ISaleRepository
 from domain.services.exceptions import CantBeUpdated
+from pydantic import ValidationError
 from shared.service import IService
 
 
@@ -29,6 +30,13 @@ class UpdateSale(IService[UpdateSaleRequest, Sale]):
         if not sale.can_be_deleted:
             raise CantBeUpdated(entity=Sale, reason='Wrong sale status')
 
-        updated_sale = Sale(id=request['sale_id'], **request['sale'])
+        try:
+            updated_sale = Sale(
+                id=request['sale_id'],
+                salesman_cpf=requisitor.cpf,
+                **request['sale'],
+            )
 
-        return self._sale_repo.update(updated_sale)
+            return self._sale_repo.update(updated_sale)
+        except ValidationError as e:
+            raise CantBeUpdated(entity=Sale, reason=str(e))

@@ -17,10 +17,48 @@ class TestCreateSalesmanService:
         repo = SalesmanRepository(initial_values=[self.salesman])
         self.service = CreateSalesman(salesman_repository=repo)
 
-    def test_create_salesman(self):
-        new_salesman = CreateSalesmanRequest(
-            cpf='456', name='a', email='aa@gmail.com', password='a'
-        )
+    @pytest.mark.parametrize(
+        'data',
+        [
+            (
+                {
+                    'cpf': '11111',
+                    'name': 'a',
+                    'email': 'a@gmail.com',
+                    'password': 'a',
+                }
+            ),
+            (
+                {
+                    'cpf': '22222',
+                    'name': 'b',
+                    'email': 'b@gmail.com',
+                    'password': 'a',
+                    'is_staff': True,
+                }
+            ),
+            (
+                {
+                    'cpf': '33333',
+                    'name': 'c',
+                    'email': 'c@gmail.com',
+                    'password': 'a',
+                    'is_staff': False,
+                }
+            ),
+            (
+                {
+                    'cpf': '44444',
+                    'name': 'd',
+                    'email': 'd@gmail.com',
+                    'password': 'a',
+                    'is_staff': None,
+                }
+            ),
+        ],
+    )
+    def test_create_salesman(self, data):
+        new_salesman = CreateSalesmanRequest(**data)
 
         result = self.service.handle(new_salesman)
 

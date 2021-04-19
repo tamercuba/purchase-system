@@ -1,4 +1,3 @@
-from adapters.repositories.in_memory_repo.db import salesman_repository
 from domain.ports.repositories import ISalesmanRepository
 from fastapi import HTTPException, status
 from fastapi_jwt_auth import AuthJWT
@@ -27,6 +26,3 @@ class AuthenticateService:
             return user
         except EntityNotFound:
             raise credentials_exception
-
-
-authenticate_service = AuthenticateService(salesman_repository)

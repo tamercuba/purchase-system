@@ -1,0 +1,79 @@
+##### GET TOKEN URL
+
+
+POST http://localhost:8000/token HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "exemplo@gmail.com",
+    "password": "a"
+}
+
+
+##### REGISTER URL
+
+
+POST http://localhost:8000/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "exemplo@gmail.com",
+    "password": "aaaa",
+    "name": "exemplo",
+    "cpf": "123456",
+    "is_staff": true
+}
+
+
+#### Create Sale
+
+
+POST http://localhost:8000/sale HTTP/1.1
+Content-Type: application/json
+Authorization: 
+
+{
+    "code": "a",
+    "value": 2222,
+    "date": "2021-02-01"
+}
+
+
+##### List Sales
+
+
+GET http://localhost:8000/sale HTTP/1.1
+Content-Type: application/json
+Authorization: 
+
+
+##### Delete Sale
+
+
+DELETE http://localhost:8000/sale/b802c3f46d584eb795e3482ef914d274 HTTP/1.1
+Content-Type: application/json
+Authorization: 
+
+
+#### Update Sale
+
+
+PUT http://localhost:8000/sale/1ec8ca0576b8455aaeb0402ac0c2717f HTTP/1.1
+Content-Type: application/json
+Authorization: 
+
+{
+"id": "1ec8ca0576b8455aaeb0402ac0c2717f",
+"code": "c",
+"value": 5000.0,
+"date": "2021-02-01",
+"status": "Aprovado"
+}
+
+
+##### Cashback total amount
+
+
+GET http://localhost:8000/cashback/456 HTTP/1.1
+Content-Type: application/json
+Authorization: 

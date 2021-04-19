@@ -1,5 +1,4 @@
-from adapters.api.authentication import authenticate_service
-from adapters.api.services import list_sales_service
+from adapters.api.services import authenticate_service, list_sales_service
 from fastapi import APIRouter, Depends
 from fastapi_jwt_auth import AuthJWT
 

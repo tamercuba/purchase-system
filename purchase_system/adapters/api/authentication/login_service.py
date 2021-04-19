@@ -1,6 +1,5 @@
 from typing import Union
 
-from adapters.repositories.in_memory_repo.db import salesman_repository
 from adapters.api.authentication.config import User, pwd_context
 from domain.ports.repositories import ISalesmanRepository
 from fastapi_jwt_auth import AuthJWT
@@ -28,8 +27,9 @@ class LoginService:
     def verify_password(plain_password, hashed_password) -> bool:
         return pwd_context.verify(plain_password, hashed_password)
 
+    @staticmethod
+    def hash_password(password: str) -> str:
+        return pwd_context.hash(password)
+
     def create_access_token(self, user_id: str, auth: AuthJWT) -> str:
         return f'Bearer {auth.create_access_token(subject=user_id)}'
-
-
-login_service = LoginService(salesman_repository)

@@ -1,12 +1,31 @@
 version: '3'
 services:
+  postgres:
+    image: postgres:11.4
+    container_name: purchase_system_postgres
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PW}
+      - POSTGRES_DB=${DB_NAME}
+      - TZ=Etc/UTC
+    ports:
+      - 5432:${DB_PORT}/tcp
+    network_mode: bridge
+
   app:
     build: .
     image: purchasesystem_app:latest
     user: appuser
-    command: /bin/bash -c "cd purchase_system && python -m uvicorn adapters.api.main:app --reload --host ${APP_HOST} --port ${APP_PORT}"
+    command: /bin/bash -c "./scripts/run-dev.sh"
     volumes:
       - .:/home/appuser
     env_file: .env
     ports:
       - ${APP_PORT}:${APP_PORT}
+    network_mode: bridge
+    depends_on:
+      - postgres
+    links:
+      - postgres
