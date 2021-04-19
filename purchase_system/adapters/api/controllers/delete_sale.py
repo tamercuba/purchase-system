@@ -1,13 +1,8 @@
 from adapters.api.services import authenticate_service, delete_sale_service
 from fastapi import APIRouter, Depends, Response, status
 from fastapi_jwt_auth import AuthJWT
-from pydantic import BaseModel
 
 router = APIRouter()
-
-
-# class Request(BaseModel):
-#     sale_id: str
 
 
 @router.delete('/sale/{sale_id}')

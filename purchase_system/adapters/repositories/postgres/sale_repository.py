@@ -6,8 +6,6 @@ from adapters.repositories.web import GetTotalCashback
 from domain.entities import Sale
 from domain.ports.repositories import ISaleRepository
 from shared.exceptions import EntityNotFound
-from sqlalchemy import Table
-from sqlalchemy.engine import Connection
 
 
 class SaleRepository(PostgresRepository, GetTotalCashback, ISaleRepository):

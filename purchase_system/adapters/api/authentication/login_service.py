@@ -1,7 +1,6 @@
 from typing import Union
 
 from adapters.api.authentication.config import User, pwd_context
-from adapters.repositories.postgres import salesman_repository
 from domain.ports.repositories import ISalesmanRepository
 from fastapi_jwt_auth import AuthJWT
 from shared.exceptions import EntityNotFound

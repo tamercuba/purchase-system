@@ -5,7 +5,7 @@ POST http://localhost:8000/token HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "teste3@gmail.com",
+    "email": "exemplo@gmail.com",
     "password": "a"
 }
 
@@ -17,10 +17,10 @@ POST http://localhost:8000/register HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "teste10@gmail.com",
-    "password": "a",
-    "name": "teste",
-    "cpf": "31313133123",
+    "email": "exemplo@gmail.com",
+    "password": "aaaa",
+    "name": "exemplo",
+    "cpf": "123456",
     "is_staff": true
 }
 
@@ -30,11 +30,11 @@ Content-Type: application/json
 
 POST http://localhost:8000/sale HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMjY0NDE5MTJlMjM0MDM4YjFkZTllYjI0ZDljYWEzMCIsImlhdCI6MTYxODg1OTkxNywibmJmIjoxNjE4ODU5OTE3LCJqdGkiOiJmNDVlMzQ4Mi1mY2NjLTRjODMtYmYzNC1iMDg4MjkyNzU0MjMiLCJleHAiOjE2MTg4NjA4MTcsInR5cGUiOiJhY2Nlc3MiLCJmcmVzaCI6ZmFsc2V9.I2NQlnYMqycrIhzBTNflw3NnI5ehFlZddHKiFBOI6Z8
+Authorization: 
 
 {
-    "code": "b",
-    "value": 1000,
+    "code": "a",
+    "value": 2222,
     "date": "2021-02-01"
 }
 
@@ -44,7 +44,7 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMjY0NDE5M
 
 GET http://localhost:8000/sale HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMjY0NDE5MTJlMjM0MDM4YjFkZTllYjI0ZDljYWEzMCIsImlhdCI6MTYxODg1OTkxNywibmJmIjoxNjE4ODU5OTE3LCJqdGkiOiJmNDVlMzQ4Mi1mY2NjLTRjODMtYmYzNC1iMDg4MjkyNzU0MjMiLCJleHAiOjE2MTg4NjA4MTcsInR5cGUiOiJhY2Nlc3MiLCJmcmVzaCI6ZmFsc2V9.I2NQlnYMqycrIhzBTNflw3NnI5ehFlZddHKiFBOI6Z8
+Authorization: 
 
 
 ##### Delete Sale
@@ -52,29 +52,28 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMjY0NDE5M
 
 DELETE http://localhost:8000/sale/b802c3f46d584eb795e3482ef914d274 HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5M2FhODBmODM3ODA0MWU3YmQwNzdlNWFjOWZlYTQ2YyIsImlhdCI6MTYxODg1NjM5NSwibmJmIjoxNjE4ODU2Mzk1LCJqdGkiOiJmYmRlYjcxMC1kZTU3LTQ5NjgtYmM2ZS1mNGM3OTNlYjgxNTEiLCJleHAiOjE2MTg4NTcyOTUsInR5cGUiOiJhY2Nlc3MiLCJmcmVzaCI6ZmFsc2V9.L_ewhTtq7QSIyk8M3pzi0FXDNuXhbW8Dz-GCX6huUT4
+Authorization: 
 
 
 #### Update Sale
 
 
-PUT http://localhost:8000/sale/0619017f5c944eb790c1446d1600e635 HTTP/1.1
+PUT http://localhost:8000/sale/1ec8ca0576b8455aaeb0402ac0c2717f HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMjY0NDE5MTJlMjM0MDM4YjFkZTllYjI0ZDljYWEzMCIsImlhdCI6MTYxODg1OTkxNywibmJmIjoxNjE4ODU5OTE3LCJqdGkiOiJmNDVlMzQ4Mi1mY2NjLTRjODMtYmYzNC1iMDg4MjkyNzU0MjMiLCJleHAiOjE2MTg4NjA4MTcsInR5cGUiOiJhY2Nlc3MiLCJmcmVzaCI6ZmFsc2V9.I2NQlnYMqycrIhzBTNflw3NnI5ehFlZddHKiFBOI6Z8
+Authorization: 
 
-  {
-    "id": "0619017f5c944eb790c1446d1600e635",
-    "code": "c",
-    "value": 5000.0,
-    "date": "2021-02-01",
-    "cashback_value": 0.1,
-    "cashback_total": 100.0,
-    "status": "x"
-  }
+{
+"id": "1ec8ca0576b8455aaeb0402ac0c2717f",
+"code": "c",
+"value": 5000.0,
+"date": "2021-02-01",
+"status": "Aprovado"
+}
+
 
 ##### Cashback total amount
 
 
 GET http://localhost:8000/cashback/456 HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwYWFkNjk4YWZhOTI0NDg5YjM5NTYzZWNjYTE3NmFlMyIsImlhdCI6MTYxODg1OTA2NSwibmJmIjoxNjE4ODU5MDY1LCJqdGkiOiJlNGFhMDk3My0yMmNmLTRmMzktOTVjYy04Y2YzNDA0OGRlZTEiLCJleHAiOjE2MTg4NTk5NjUsInR5cGUiOiJhY2Nlc3MiLCJmcmVzaCI6ZmFsc2V9.lPzX1hidzGBlAL4P-SweBZ4nUmDVMjIf0Idk_Da8OEo
+Authorization: 

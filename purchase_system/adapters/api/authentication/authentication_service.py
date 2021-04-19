@@ -1,4 +1,3 @@
-from adapters.repositories.postgres import salesman_repository
 from domain.ports.repositories import ISalesmanRepository
 from fastapi import HTTPException, status
 from fastapi_jwt_auth import AuthJWT
