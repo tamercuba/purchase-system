@@ -109,3 +109,27 @@ class TestUpdateSale:
                     'sale': updated_sale_data,
                 }
             )
+
+    @pytest.mark.parametrize('data', [
+        ({
+            'code': 'a',
+            'value': None,
+            'date': '1997-09-01',
+            'status': SaleStatus.REPPROVED,
+        }),
+        ({
+            'code': 'a',
+            'value': 10,
+            'date': '1997-09-01',
+            'status': 'ERRADO',
+        })
+    ])
+    def test_update_invalid_payload(self, data):
+        with pytest.raises(CantBeUpdated):
+            self.service.handle(
+                {
+                    'sale_id': self.sale.id,
+                    'salesman': self.salesman,
+                    'sale': data,
+                }
+            )
