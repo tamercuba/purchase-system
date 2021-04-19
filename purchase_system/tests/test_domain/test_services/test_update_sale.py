@@ -1,7 +1,7 @@
 import pytest
 from adapters.repositories.in_memory_repo import SaleRepository
 from domain.entities import Sale, Salesman, SaleStatus
-from domain.services import UpdateSale
+from domain.services import UpdateSaleService
 from domain.services.exceptions import CantBeUpdated
 from shared.exceptions import EntityNotFound
 
@@ -18,7 +18,7 @@ class TestUpdateSale:
 
         self.sale_repo = SaleRepository(initial_values=[self.sale])
 
-        self.service = UpdateSale(sale_repository=self.sale_repo)
+        self.service = UpdateSaleService(sale_repository=self.sale_repo)
 
     def test_update_wrong_status(self):
         new_sale_data = {

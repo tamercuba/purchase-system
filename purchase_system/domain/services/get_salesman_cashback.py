@@ -15,7 +15,7 @@ class GetSalesmanCashbackResponse(TypedDict):
     cashback_total: float
 
 
-class GetSalesmanCashback(
+class GetSalesmanCashbackService(
     IService[GetSalesmanCashbackRequest, GetSalesmanCashbackResponse]
 ):
     def __init__(

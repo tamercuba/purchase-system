@@ -1,7 +1,7 @@
 import pytest
 from adapters.repositories.in_memory_repo import SaleRepository
 from domain.entities import Sale, Salesman
-from domain.services import GetSalesmanCashback
+from domain.services import GetSalesmanCashbackService
 from shared.exceptions import InvalidOperation
 
 
@@ -16,7 +16,7 @@ class TestGetSalesmanCashback:
 
         self.sale_repo = SaleRepository(initial_values=self.sales)
 
-        self.service = GetSalesmanCashback(
+        self.service = GetSalesmanCashbackService(
             sale_repository=self.sale_repo,
         )
 

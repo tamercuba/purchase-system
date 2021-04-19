@@ -1,7 +1,7 @@
 import pytest
 from adapters.repositories.in_memory_repo import SalesmanRepository
 from domain.entities import Salesman
-from domain.services import CreateSalesman, CreateSalesmanRequest
+from domain.services import CreateSalesmanRequest, CreateSalesmanService
 from shared.exceptions import RepeatedEntry
 
 
@@ -11,7 +11,7 @@ class TestCreateSalesmanService:
         self.salesman_data = salesman_data
         self.salesman = Salesman(**self.salesman_data)
         repo = SalesmanRepository(initial_values=[self.salesman])
-        self.service = CreateSalesman(salesman_repository=repo)
+        self.service = CreateSalesmanService(salesman_repository=repo)
 
     @pytest.mark.parametrize(
         'data',
