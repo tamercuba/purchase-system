@@ -1,46 +1,16 @@
+import pytest
 from adapters.repositories.in_memory_repo import SaleRepository
 from domain.entities import Sale, Salesman
 from domain.services import ListSales
 
 
 class TestListSales:
-    def setup(self):
-        self.sales_data = [
-            {
-                'code': 'a',
-                'value': 10,
-                'date': '1997-09-01',
-                'salesman_cpf': '456',
-            },
-            {
-                'code': 'b',
-                'value': 20,
-                'date': '1995-09-01',
-                'salesman_cpf': '456',
-            },
-            {
-                'code': 'c',
-                'value': 30,
-                'date': '1295-09-01',
-                'salesman_cpf': '789',
-            },
-        ]
+    @pytest.fixture(autouse=True)
+    def injector(self, multiple_sales_data, multiple_salesmans_data):
+        self.sales_data = multiple_sales_data
         self.sales = [Sale(**data) for data in self.sales_data]
 
-        self.salesmans_data = [
-            {
-                'cpf': '123',
-                'name': 'Adriano Imperador',
-                'email': 'didico@flamengo.com',
-                'password': 'a',
-            },
-            {
-                'cpf': '456',
-                'name': 'Tamer',
-                'email': 'bbb@aa.com',
-                'password': 'ac',
-            },
-        ]
+        self.salesmans_data = multiple_salesmans_data
         self.salesmans = [Salesman(**data) for data in self.salesmans_data]
 
         self.sale_repo = SaleRepository(initial_values=self.sales)

@@ -6,44 +6,12 @@ from shared.exceptions import InvalidOperation
 
 
 class TestGetSalesmanCashback:
-    def setup(self):
-        self.sales_data = [
-            {
-                'code': 'a',
-                'value': 1000,
-                'date': '1997-09-01',
-                'salesman_cpf': '456',
-            },
-            {
-                'code': 'b',
-                'value': 2000,
-                'date': '1995-09-01',
-                'salesman_cpf': '456',
-            },
-            {
-                'code': 'c',
-                'value': 3000,
-                'date': '1295-09-01',
-                'salesman_cpf': '789',
-            },
-        ]
+    @pytest.fixture(autouse=True)
+    def injector(self, multiple_sales_data, multiple_salesmans_data):
+        self.sales_data = multiple_sales_data
         self.sales = [Sale(**data) for data in self.sales_data]
 
-        self.salesmans_data = [
-            {
-                'cpf': '123',
-                'name': 'Adriano Imperador',
-                'email': 'didico@flamengo.com',
-                'password': 'a',
-                'is_staff': True,
-            },
-            {
-                'cpf': '456',
-                'name': 'Tamer',
-                'email': 'bbb@aa.com',
-                'password': 'ac',
-            },
-        ]
+        self.salesmans_data = multiple_salesmans_data
         self.salesmans = [Salesman(**data) for data in self.salesmans_data]
 
         self.sale_repo = SaleRepository(initial_values=self.sales)

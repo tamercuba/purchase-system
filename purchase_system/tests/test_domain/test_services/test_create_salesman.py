@@ -6,13 +6,9 @@ from shared.exceptions import RepeatedEntry
 
 
 class TestCreateSalesmanService:
-    def setup(self):
-        self.salesman_data = {
-            'cpf': '123',
-            'name': 'Adriano Imperador',
-            'email': 'didico@flamengo.com',
-            'password': 'a',
-        }
+    @pytest.fixture(autouse=True)
+    def injector(self, salesman_data):
+        self.salesman_data = salesman_data
         self.salesman = Salesman(**self.salesman_data)
         repo = SalesmanRepository(initial_values=[self.salesman])
         self.service = CreateSalesman(salesman_repository=repo)

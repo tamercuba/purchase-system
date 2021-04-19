@@ -7,21 +7,13 @@ from shared.exceptions import EntityNotFound
 
 
 class TestDeleteSale:
-    def setup(self):
-        self.sale_data = {
-            'code': 'a',
-            'value': 10,
-            'date': '1997-09-01',
-            'salesman_cpf': '123',
-        }
+    @pytest.fixture(autouse=True)
+    def injector(self, sale_data, salesman_data):
+        self.sale_data = sale_data
         self.sale = Sale(**self.sale_data)
 
-        self.salesman_data = {
-            'cpf': '123',
-            'name': 'Adriano Imperador',
-            'email': 'didico@flamengo.com',
-            'password': 'a',
-        }
+        self.salesman_data = salesman_data
+
         self.salesman = Salesman(**self.salesman_data)
 
         self.sale_repo = SaleRepository(initial_values=[self.sale])
