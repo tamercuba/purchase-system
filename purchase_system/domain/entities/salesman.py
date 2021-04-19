@@ -1,8 +1,10 @@
-from domain.entities.sale import Sale, SaleStatus
+from domain.entities.sale import Sale
+from domain.entities.fields import SaleStatus
 from pydantic import EmailStr, SecretStr, validator
 from shared.entities import Entity
 
 
+# pylint: disable=no-self-argument
 class Salesman(Entity):
     cpf: str
     name: str
@@ -21,6 +23,9 @@ class Salesman(Entity):
         return result
 
     @validator('is_staff')
-    # pylint: disable=no-self-argument
     def set_is_staff(cls, value) -> bool:
         return bool(value)
+
+    @validator('cpf')
+    def remove_special_chars(cls, value: str) -> str:
+        return value.replace('.', '').replace('-', '').replace('/', '')

@@ -17,11 +17,11 @@ POST http://localhost:8000/register HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "exemplo@gmail.com",
+    "email": "real@gmail.com",
     "password": "aaaa",
-    "name": "exemplo",
-    "cpf": "123456",
-    "is_staff": true
+    "name": "cpf real",
+    "cpf": "529.728.280-20",
+    "is_staff": false
 }
 
 
