@@ -2,7 +2,7 @@ version: '3'
 services:
   postgres:
     image: postgres:11.4
-    container_name: purchase_system_postgres
+    container_name: sales_register_postgres
     restart: unless-stopped
     env_file: .env
     environment:
@@ -16,7 +16,7 @@ services:
 
   app:
     build: .
-    image: purchasesystem_app:latest
+    image: salesregister_app:latest
     user: appuser
     command: /bin/bash -c "./scripts/run-dev.sh"
     volumes:

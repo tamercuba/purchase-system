@@ -1,4 +1,4 @@
-# Purchase System
+# Sales Register
 > Um simples sistema para cadastro de compras
 
 ![Python Version][python-badge] 
@@ -47,7 +47,7 @@ Chamadas de APIs externas, bancos de dados etc.
 
 Primeiro clone o projeto
 ```sh
-mkdir purchase_system && git clone git@github.com:tamercuba/purchase-system.git purchase_system
+mkdir sales_register && git clone git@github.com:tamercuba/sales-register.git sales_register
 ```
 
 Agora crie seu `.env` rodando dentro da pasta do projeto `make make-env`
