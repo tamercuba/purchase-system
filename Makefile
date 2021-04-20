@@ -1,7 +1,7 @@
 .PHONY: help
 SHELL := /bin/bash
 
-PROJECT_NAME = purchase_system
+PROJECT_NAME = sales_register
 UID=$(shell id -u)
 GID=$(shell id -g)
 
@@ -44,10 +44,10 @@ format-check:  ## Check isort and black code style
 	@black --check --config ./pyproject.toml $(PROJECT_NAME)/.
 
 build: ## Build container image
-	@docker build -t purchasesystem_app:latest -f Dockerfile.dev . --build-arg UID=$(UID) --build-arg GID=$(GID)
+	@docker build -t salesregister_app:latest -f Dockerfile.dev . --build-arg UID=$(UID) --build-arg GID=$(GID)
 
 run-dev-without-docker: clean ## Run app outside a container
-	cd purchase_system && python -m uvicorn adapters.api.main:app --reload --port ${APP_PORT}
+	cd ${PROJECT_NAME} && python -m uvicorn adapters.api.main:app --reload --port ${APP_PORT}
 
 run-dev: clean # Run app
 	@docker-compose up --remove-orphans
