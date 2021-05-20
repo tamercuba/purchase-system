@@ -54,6 +54,10 @@ Agora crie seu `.env` rodando dentro da pasta do projeto `make make-env`
 
 Para preencher a variavel `SECRET_KEY` você pode rodar `make generate-secret`
 
+Escolha também uma pasta (recomendado ser fora da pasta do projeto) e coloque o endereço dessa pasta
+na variável `LOCAL_DB_VOLUME`. Essa variável será utilizada para guardar
+o volume local do postgres e não perder os dados assim que o container for derrubado.
+
 Crie uma `virtualenv` e após ativa-la rode `make requirements-pip`
 
 Agora para subir a aplicação basta roda `make build` seguido de `make run-dev` 
