@@ -1,8 +1,8 @@
 from typing import Optional
 
+from adapters.api.authentication import User
 from adapters.api.services import authenticate_service, create_sale_service
 from fastapi import APIRouter, Depends
-from fastapi_jwt_auth import AuthJWT
 from pydantic import BaseModel
 
 router = APIRouter()
@@ -16,8 +16,7 @@ class Request(BaseModel):
 
 
 @router.post('/sale')
-def create_sale(request: Request, auth: AuthJWT = Depends()):
-    user = authenticate_service(auth)
+def create_sale(request: Request, user: User = Depends(authenticate_service)):
     result = create_sale_service.handle(
         {"salesman": user, "sale": request.dict()}
     )
