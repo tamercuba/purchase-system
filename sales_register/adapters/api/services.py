@@ -2,6 +2,7 @@ from adapters.api.authentication import AuthenticateService, LoginService
 from adapters.api.authentication.config import pwd_context
 from adapters.repositories.postgres import SaleRepository, SalesmanRepository
 from adapters.repositories.postgres.db import sales_table, salesman_table
+from adapters.repositories.postgres.db.connection import Session
 from domain.services import (
     CreateSaleService,
     CreateSalesmanService,
@@ -11,8 +12,8 @@ from domain.services import (
     UpdateSaleService,
 )
 
-sale_repository = SaleRepository(sales_table)
-salesman_repository = SalesmanRepository(salesman_table)
+sale_repository = SaleRepository(sales_table, Session)
+salesman_repository = SalesmanRepository(salesman_table, Session)
 
 login_service = LoginService(salesman_repository)
 authenticate_service = AuthenticateService(salesman_repository)

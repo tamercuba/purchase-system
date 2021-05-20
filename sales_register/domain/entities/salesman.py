@@ -1,5 +1,5 @@
-from domain.entities.sale import Sale
 from domain.entities.fields import SaleStatus
+from domain.entities.sale import Sale
 from pydantic import EmailStr, SecretStr, validator
 from shared.entities import Entity
 
