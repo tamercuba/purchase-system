@@ -9,3 +9,4 @@ DB_PW=
 DB_NAME=
 REQUEST_TOKEN=
 API_URL=
+LOCAL_DB_VOLUME=~/.docker_volumes/sales_register_postgres
