@@ -5,12 +5,18 @@ omit =
     */conftest.py
     */ports/*
     */tests/*
-    */api/*
     */main.py
+
+    # The main idea is to have only unit tests for the business logic
+    # APIs, DBs and external services logic will be tested on
+    # integration tests
     */api/*
     */postgres/*
     */web/*
     */db.py
+
+    # The implementations of mapper will be tested in integration tests
+    */shared/mapper.py
 
 [report]
 exclude_lines =
