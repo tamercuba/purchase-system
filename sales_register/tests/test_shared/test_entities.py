@@ -1,6 +1,6 @@
 import pytest
-from pydantic import ValidationError
-from shared.entities import Entity, get_new_id
+from pydantic import SecretStr, ValidationError
+from shared.entities import Entity, EntityID
 
 
 def test_create_entity_id_auto_assign(mocked_entity_class):
@@ -12,7 +12,7 @@ def test_create_entity_id_auto_assign(mocked_entity_class):
 
 
 def test_create_entity_valid_id(mocked_entity_class):
-    _id = get_new_id()
+    _id = EntityID.new()
     name = 'Raul Seixas'
     entity = mocked_entity_class(name=name, id=_id)
 
@@ -60,10 +60,22 @@ def test_compare_different_entities_with_same_id(mocked_entity_class):
     class Entity2(Entity):
         name: str
 
-    _id = get_new_id()
+    _id = EntityID.new()
 
     entity1 = mocked_entity_class(name='um', id=_id)
     entity2 = Entity2(name='dois', id=_id)
 
     assert entity1 != entity2
     assert entity1.id == entity2.id
+
+
+def test_dict_entity_with_secret():
+    class EntityWithSecret(Entity):
+        pw: SecretStr
+
+    pw = 'a'
+    entity = EntityWithSecret(pw=pw)
+
+    assert isinstance(entity.pw, SecretStr)
+    assert isinstance(entity.dict()['pw'], SecretStr)
+    assert isinstance(entity.dict_with_secrets()['pw'], str)

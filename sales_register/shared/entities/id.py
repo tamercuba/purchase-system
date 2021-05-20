@@ -18,7 +18,6 @@ class EntityID(str):
 
         return v
 
-
-def get_new_id():
-    _id = uuid4()
-    return _id.hex
+    @classmethod
+    def new(cls) -> str:
+        return uuid4().hex
