@@ -20,6 +20,8 @@ clean: ## Clean temporary files
 	@rm -f *.log
 	@echo 'Temporary files deleted'
 
+
+# Tests
 test: clean ## Run the tests
 	@py.test $(PROJECT_NAME)/ -s -vvv -p no:cacheprovider
 
@@ -29,13 +31,12 @@ test-matching: clean  ## Run only tests matching pattern. E.g.: make test-matchi
 coverage: clean  ## Run the test coverage report
 	@py.test --cov-config .coveragerc --cov $(PROJECT_NAME) $(PROJECT_NAME)
 
+
+# Linting
 lint: clean  ## Run pylint linter
 	@printf '\n --- \n >>> Running linter...<<<\n'
 	@pylint --rcfile=.pylintrc $(PROJECT_NAME)/.
 	@printf '\n FINISHED! \n --- \n'
-
-bash: ## Run bash inside container
-	@docker-compose run --rm app /bin/bash
 
 format:  ## Run isort and black auto formatting code style in the project
 	@isort -m 3 --tc . && black --config ./pyproject.toml .
@@ -43,29 +44,13 @@ format:  ## Run isort and black auto formatting code style in the project
 format-check:  ## Check isort and black code style
 	@black --check --config ./pyproject.toml $(PROJECT_NAME)/.
 
-build: ## Build container image
-	@docker build -t salesregister_app:latest -f Dockerfile.dev . --build-arg UID=$(UID) --build-arg GID=$(GID)
 
-run-dev-without-docker: clean ## Run app outside a container
-	cd ${PROJECT_NAME} && python -m uvicorn adapters.api.main:app --reload --port ${APP_PORT}
+# DB
+db-up: clean # Run db container
+	@docker compose up postgres -d
 
-run-dev: clean # Run app
-	@docker-compose up --remove-orphans
-
-run-dev-no-output: clean # Run app without outputs
-	@docker-compose up -d --remove-orphans
-
-stop: clean # Stop app
-	@docker-compose stop
-
-requirements-pip: clean ## Install the app requirements
-	@pip install --upgrade pip && pip install -r requirements/dev.txt
-
-make-env: ## Creates a .env file
-	@cp ./contrib/localenv .env
-
-generate-secret: ## Generate password secret
-	@openssl rand -hex 32
+db-down: clean # Kill db container
+	@docker compose down postgres
 
 create-migration: clean ## Create alembic migration
 	alembic revision -m $(comment)
@@ -75,3 +60,34 @@ run-migrations: clean ## Run alembic migrations
 
 downgrade-migration: clean ## Downgrade alembic migrations
 	alembic downgrade ${target}
+
+# Docker
+bash: ## Run bash inside container
+	@docker compose run --rm app /bin/bash
+
+build: ## Build container image
+	@docker build -t salesregister_app:latest -f Dockerfile.dev . --build-arg UID=$(UID) --build-arg GID=$(GID)
+
+run-dev-without-docker: clean ## Run app outside a container
+	cd ${PROJECT_NAME} && python -m uvicorn adapters.api.main:app --reload --port ${APP_PORT}
+
+run-dev: clean # Run app
+	@docker compose up --remove-orphans
+
+
+run-dev-no-output: clean # Run app without outputs
+	@docker compose up -d --remove-orphans
+
+stop: clean # Stop app
+	@docker compose stop
+
+
+# Local
+requirements-pip: clean ## Install the app requirements
+	@pip install --upgrade pip && pip install -r requirements/dev.txt
+
+make-env: ## Creates a .env file
+	@cp ./contrib/localenv .env
+
+generate-secret: ## Generate password secret
+	@openssl rand -hex 32
