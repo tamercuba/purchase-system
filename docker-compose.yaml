@@ -13,6 +13,8 @@ services:
     ports:
       - 5432:${DB_PORT}/tcp
     network_mode: bridge
+    volumes:
+      - ${LOCAL_DB_VOLUME}:/var/lib/postgresql/data
 
   app:
     build: .
