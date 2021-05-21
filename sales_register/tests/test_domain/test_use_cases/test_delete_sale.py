@@ -1,8 +1,8 @@
 import pytest
 from adapters.repositories.in_memory_repo import SaleRepository
 from domain.entities import Sale, Salesman, SaleStatus
-from domain.services import DeleteSaleService
-from domain.services.exceptions import CantBeDeleted
+from domain.use_cases import DeleteSaleUseCase
+from domain.use_cases.exceptions import CantBeDeleted
 from shared.exceptions import EntityNotFound
 
 
@@ -18,7 +18,7 @@ class TestDeleteSale:
 
         self.sale_repo = SaleRepository(initial_values=[self.sale])
 
-        self.service = DeleteSaleService(sale_repository=self.sale_repo)
+        self.use_case = DeleteSaleUseCase(sale_repository=self.sale_repo)
 
     def test_delete_wrong_status(self):
         new_sale_data = {
@@ -33,7 +33,7 @@ class TestDeleteSale:
         self.sale_repo.new(new_sale)
 
         with pytest.raises(CantBeDeleted) as e:
-            self.service.handle(
+            self.use_case.handle(
                 {'sale_id': new_sale.id, 'salesman': self.salesman}
             )
 
@@ -44,7 +44,7 @@ class TestDeleteSale:
         new_salesman = Salesman(**new_salesman_data)
 
         with pytest.raises(CantBeDeleted) as e:
-            self.service.handle(
+            self.use_case.handle(
                 {'sale_id': self.sale.id, 'salesman': new_salesman}
             )
 
@@ -58,7 +58,7 @@ class TestDeleteSale:
         }
         new_salesman = Salesman(**new_salesman_data)
 
-        self.service.handle(
+        self.use_case.handle(
             {'sale_id': self.sale.id, 'salesman': new_salesman}
         )
 
@@ -69,7 +69,7 @@ class TestDeleteSale:
     def test_delete_right_cpf(self):
         total_before = self.sale_repo.count()
 
-        self.service.handle(
+        self.use_case.handle(
             {'sale_id': self.sale.id, 'salesman': self.salesman}
         )
 
@@ -79,7 +79,7 @@ class TestDeleteSale:
 
     def test_delete_nonexistent_sale(self):
         with pytest.raises(EntityNotFound):
-            self.service.handle(
+            self.use_case.handle(
                 {
                     'sale_id': '93939393939393',
                     'salesman': self.salesman,

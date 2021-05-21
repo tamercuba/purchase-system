@@ -7,4 +7,4 @@ sleep 5;
 echo "DB not running yet..."
 done
 
-cd sales_register && python -m uvicorn adapters.api.main:app --reload --host $APP_HOST --port $APP_PORT
+cd sales_register && python -m uvicorn adapters.api:app --reload --host $APP_HOST --port $APP_PORT

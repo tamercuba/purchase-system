@@ -11,9 +11,13 @@ class Request(BaseModel):
     password: str
 
 
-@router.post('/token')
-def get_token(request: Request, Auth: AuthJWT = Depends()):
-    user = login_service(request.email, request.password)
+class Response(BaseModel):
+    token: str
+
+
+@router.post('/token', status_code=status.HTTP_200_OK, response_model=Response)
+def get_token(request: Request, Auth: AuthJWT = Depends()) -> Response:
+    user = login_service(request)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -22,4 +26,4 @@ def get_token(request: Request, Auth: AuthJWT = Depends()):
         )
     token = login_service.create_access_token(user.id, Auth)
 
-    return {"token": token}
+    return Response(token=token)

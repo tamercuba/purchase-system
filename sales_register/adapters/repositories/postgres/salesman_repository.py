@@ -2,14 +2,22 @@ from typing import Optional
 
 from adapters.repositories.postgres.generic import PostgresRepository
 from adapters.repositories.postgres.models import SalesmanMapper, SalesmanModel
+from adapters.repositories.postgres.password_manager_interface import (
+    IPasswordManager,
+)
 from domain.entities import Salesman
 from domain.ports.repositories import ISalesmanRepository
 from shared.exceptions import EntityNotFound
+from sqlalchemy.orm import sessionmaker
 
 
 class SalesmanRepository(PostgresRepository, ISalesmanRepository):
     model = SalesmanModel
     mapper = SalesmanMapper
+
+    def __init__(self, Session: sessionmaker, hash_manager: IPasswordManager):
+        super().__init__(Session)
+        self._hash_manager = hash_manager
 
     def get_by_id(self, _id: str) -> Salesman:
         query = self._select.where(self.model.id == _id)
@@ -51,4 +59,15 @@ class SalesmanRepository(PostgresRepository, ISalesmanRepository):
         return salesman
 
     def new(self, salesman: Salesman) -> Salesman:
-        return self._run_new(salesman)
+        return self._run_new(self._encrypt_salesman(salesman))
+
+    def _encrypt_salesman(self, salesman: Salesman) -> Salesman:
+        raw_pw = salesman.password.get_secret_value()
+        encrypted_salesman = Salesman(
+            **{
+                **salesman.dict(),
+                'password': self._hash_manager.hash_password(raw_pw),
+            }
+        )
+
+        return encrypted_salesman

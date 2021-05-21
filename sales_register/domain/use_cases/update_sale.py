@@ -2,9 +2,9 @@ from typing import TypedDict
 
 from domain.entities import Sale, SaleDTO, Salesman
 from domain.ports.repositories import ISaleRepository
-from domain.services.exceptions import CantBeUpdated
+from domain.use_cases.exceptions import CantBeUpdated
 from pydantic import ValidationError
-from shared.service import IService
+from shared.use_case_interface import IUseCase
 
 
 class UpdateSaleRequest(TypedDict):
@@ -13,7 +13,7 @@ class UpdateSaleRequest(TypedDict):
     sale: SaleDTO
 
 
-class UpdateSaleService(IService[UpdateSaleRequest, Sale]):
+class UpdateSaleUseCase(IUseCase[UpdateSaleRequest, Sale]):
     def __init__(
         self,
         sale_repository: ISaleRepository,

@@ -2,7 +2,7 @@ from typing import List, NewType, TypedDict
 
 from domain.entities import Sale, Salesman
 from domain.ports.repositories import ISaleRepository
-from shared.service import IService
+from shared.use_case_interface import IUseCase
 
 
 class SaleResponse(TypedDict):
@@ -18,7 +18,7 @@ class SaleResponse(TypedDict):
 ListSalesResponse = NewType('ListSalesReponse', List[SaleResponse])
 
 
-class ListSalesService(IService[Salesman, ListSalesResponse]):
+class ListSalesUseCase(IUseCase[Salesman, ListSalesResponse]):
     def __init__(
         self,
         sale_repository: ISaleRepository,

@@ -1,8 +1,8 @@
 import pytest
 from adapters.repositories.in_memory_repo import SaleRepository
 from domain.entities import Sale, Salesman, SaleStatus
-from domain.services import UpdateSaleService
-from domain.services.exceptions import CantBeUpdated
+from domain.use_cases import UpdateSaleUseCase
+from domain.use_cases.exceptions import CantBeUpdated
 from shared.exceptions import EntityNotFound
 
 
@@ -18,7 +18,7 @@ class TestUpdateSale:
 
         self.sale_repo = SaleRepository(initial_values=[self.sale])
 
-        self.service = UpdateSaleService(sale_repository=self.sale_repo)
+        self.use_case = UpdateSaleUseCase(sale_repository=self.sale_repo)
 
     def test_update_wrong_status(self):
         new_sale_data = {
@@ -33,7 +33,7 @@ class TestUpdateSale:
         self.sale_repo.new(new_sale)
 
         with pytest.raises(CantBeUpdated):
-            self.service.handle(
+            self.use_case.handle(
                 {
                     'sale_id': new_sale.id,
                     'salesman': self.salesman,
@@ -46,7 +46,7 @@ class TestUpdateSale:
         new_salesman = Salesman(**new_salesman_data)
 
         with pytest.raises(CantBeUpdated):
-            self.service.handle(
+            self.use_case.handle(
                 {
                     'sale_id': self.sale.id,
                     'salesman': new_salesman,
@@ -64,7 +64,7 @@ class TestUpdateSale:
 
         updated_sale_data = {**self.sale_data, 'code': 'B'}
 
-        result = self.service.handle(
+        result = self.use_case.handle(
             {
                 'sale_id': self.sale.id,
                 'salesman': new_salesman,
@@ -78,7 +78,7 @@ class TestUpdateSale:
     def test_update_right_cpf(self):
         updated_sale_data = {**self.sale_data, 'code': 'B'}
 
-        result = self.service.handle(
+        result = self.use_case.handle(
             {
                 'sale_id': self.sale.id,
                 'salesman': self.salesman,
@@ -93,7 +93,7 @@ class TestUpdateSale:
         updated_sale_data = {**self.sale_data, 'code': 'B'}
 
         with pytest.raises(EntityNotFound):
-            self.service.handle(
+            self.use_case.handle(
                 {
                     'sale_id': '93939393939393',
                     'salesman': self.salesman,
@@ -124,7 +124,7 @@ class TestUpdateSale:
     )
     def test_update_invalid_payload(self, data):
         with pytest.raises(CantBeUpdated):
-            self.service.handle(
+            self.use_case.handle(
                 {
                     'sale_id': self.sale.id,
                     'salesman': self.salesman,

@@ -3,7 +3,7 @@ from typing import TypedDict
 from domain.entities import Salesman
 from domain.ports.repositories import ISaleRepository
 from shared.exceptions import InvalidOperation
-from shared.service import IService
+from shared.use_case_interface import IUseCase
 
 
 class GetSalesmanCashbackRequest(TypedDict):
@@ -15,8 +15,8 @@ class GetSalesmanCashbackResponse(TypedDict):
     cashback_total: float
 
 
-class GetSalesmanCashbackService(
-    IService[GetSalesmanCashbackRequest, GetSalesmanCashbackResponse]
+class GetSalesmanCashbackUseCase(
+    IUseCase[GetSalesmanCashbackRequest, GetSalesmanCashbackResponse]
 ):
     def __init__(
         self,
