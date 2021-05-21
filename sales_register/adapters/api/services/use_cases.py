@@ -3,12 +3,12 @@ from adapters.api.services.repositories import (
     salesman_repository,
 )
 from domain.use_cases import (
-CreateSaleUseCase,
-CreateSalesmanUseCase,
-DeleteSaleUseCase,
-ListSalesUseCase,
-UpdateSaleUseCase,
-GetSalesmanCashbackUseCase,
+    CreateSalesmanUseCase,
+    CreateSaleUseCase,
+    DeleteSaleUseCase,
+    GetSalesmanCashbackUseCase,
+    ListSalesUseCase,
+    UpdateSaleUseCase,
 )
 
 create_sale_use_case = CreateSaleUseCase(sale_repository)

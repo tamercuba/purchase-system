@@ -6,12 +6,14 @@ from adapters.repositories.postgres.password_manager_interface import (
 )
 from domain.ports.repositories import ISalesmanRepository
 from fastapi_jwt_auth import AuthJWT
-from shared.exceptions import EntityNotFound
 from pydantic import BaseModel
+from shared.exceptions import EntityNotFound
+
 
 class LoginRequest(BaseModel):
     email: str
     password: str
+
 
 class LoginService:
     def __init__(
