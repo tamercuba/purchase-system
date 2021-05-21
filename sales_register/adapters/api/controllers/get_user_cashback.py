@@ -1,9 +1,9 @@
+from adapters.api.authentication.config import User
 from adapters.api.services import (
     authenticate_service,
     get_user_cashback_service,
 )
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi_jwt_auth import AuthJWT
 from pydantic import BaseModel
 from shared.exceptions import InvalidOperation
 
@@ -19,8 +19,9 @@ class Response(BaseModel):
     status_code=status.HTTP_200_OK,
     response_model=Response,
 )
-def get_cashback(user_cpf: str, auth: AuthJWT = Depends()) -> Response:
-    user = authenticate_service(auth)
+def get_cashback(
+    user_cpf: str, user: User = Depends(authenticate_service)
+) -> Response:
     try:
         result = get_user_cashback_service.handle(
             {'salesman_cpf': user_cpf, 'salesman': user}
