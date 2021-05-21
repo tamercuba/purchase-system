@@ -1,7 +1,7 @@
 from typing import Optional
 
-from adapters.api.authentication import User
-from adapters.api.services import authenticate_service, create_sale_service
+from adapters.api.services import validate_token_service, create_sale_service
+from adapters.api.services.authentication import User
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
@@ -16,7 +16,9 @@ class Request(BaseModel):
 
 
 @router.post('/sale')
-def create_sale(request: Request, user: User = Depends(authenticate_service)):
+def create_sale(
+    request: Request, user: User = Depends(validate_token_service)
+):
     result = create_sale_service.handle(
         {"salesman": user, "sale": request.dict()}
     )

@@ -1,6 +1,7 @@
 from typing import Union
 
-from adapters.api.authentication.config import User, pwd_context
+from adapters.api.services.authentication.context import pwd_context
+from adapters.api.services.authentication.user import User
 from domain.ports.repositories import ISalesmanRepository
 from fastapi_jwt_auth import AuthJWT
 from shared.exceptions import EntityNotFound

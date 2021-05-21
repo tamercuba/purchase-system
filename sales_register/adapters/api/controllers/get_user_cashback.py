@@ -1,8 +1,8 @@
-from adapters.api.authentication.config import User
 from adapters.api.services import (
-    authenticate_service,
+    validate_token_service,
     get_user_cashback_service,
 )
+from adapters.api.services.authentication import User
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 from shared.exceptions import InvalidOperation
@@ -20,7 +20,7 @@ class Response(BaseModel):
     response_model=Response,
 )
 def get_cashback(
-    user_cpf: str, user: User = Depends(authenticate_service)
+    user_cpf: str, user: User = Depends(validate_token_service)
 ) -> Response:
     try:
         result = get_user_cashback_service.handle(

@@ -1,7 +1,7 @@
 from typing import Optional
 
-from adapters.api.authentication.config import User
-from adapters.api.services import authenticate_service, update_sale_service
+from adapters.api.services import validate_token_service, update_sale_service
+from adapters.api.services.authentication import User
 from domain.services.exceptions import CantBeUpdated
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
@@ -26,7 +26,9 @@ class Response(Request):
     response_model=Response,
 )
 def update_sale(
-    sale_id: str, request: Request, user: User = Depends(authenticate_service)
+    sale_id: str,
+    request: Request,
+    user: User = Depends(validate_token_service),
 ) -> Response:
     try:
         result = update_sale_service.handle(
