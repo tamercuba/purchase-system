@@ -21,14 +21,14 @@ class Response(BaseModel):
     access_token: str
 
 
-@router.post('/register', response_model=Response)
+@router.post(
+    '/register', status_code=status.HTTP_201_CREATED, response_model=Response
+)
 def register(request: Request, auth: AuthJWT = Depends()):
     try:
         user = create_salesman_use_case.handle(request.dict())
         token = login_service.create_access_token(user['id'], auth)
-        return Response(
-            access_token=token, status_code=status.HTTP_201_CREATED
-        )
+        return Response(access_token=token)
 
     except RepeatedEntry as e:
         raise HTTPException(

@@ -1,7 +1,8 @@
 from abc import ABC
-from typing import Generic
+from typing import Generic, TypedDict, TypeVar
 
-from shared.ports import IRequest, IResponse
+IRequest = TypeVar('IRequest', bound=TypedDict)
+IResponse = TypeVar('IResponse', bound=TypedDict)
 
 
 class IUseCase(ABC, Generic[IRequest, IResponse]):
