@@ -1,4 +1,5 @@
 from decouple import config
+from sqlalchemy import create_engine, orm, pool
 from sqlalchemy.engine import URL
 
 _DB_HOST = config('POSTGRES_PORT_5432_TCP_ADDR', None) or config('DB_HOST')
@@ -14,4 +15,10 @@ DB_URI = URL(
     host=_DB_HOST,
     port=_DB_PORT,
     database=_DB_NAME,
+)
+
+engine = create_engine(DB_URI, poolclass=pool.NullPool, future=True)
+
+Session = orm.sessionmaker(
+    autocommit=False, autoflush=False, bind=engine, future=True
 )
