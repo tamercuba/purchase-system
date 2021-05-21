@@ -4,7 +4,7 @@ from typing import List, Optional
 from adapters.repositories.postgres.db import engine
 from adapters.repositories.postgres.models.base import Base
 from shared.entities import Entity
-from sqlalchemy import Table, delete, orm, select, update
+from sqlalchemy import delete, orm, select, update
 from sqlalchemy.sql.dml import Delete, Update
 from sqlalchemy.sql.selectable import Select
 
@@ -33,8 +33,7 @@ class PostgresRepository(SQLAlchemySemantic):
     def mapper(self):
         pass
 
-    def __init__(self, table: Table, Session: orm.sessionmaker):
-        self._table = table
+    def __init__(self, Session: orm.sessionmaker):
         self._Session = Session
 
     def _run_query(self, query):
