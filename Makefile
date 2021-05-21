@@ -53,13 +53,13 @@ db-down: clean # Kill db container
 	@docker compose down postgres
 
 create-migration: clean ## Create alembic migration
-	alembic revision -m $(comment)
+	@alembic revision -m $(comment)
 
 run-migrations: clean ## Run alembic migrations
-	alembic upgrade head
+	@alembic upgrade head
 
 downgrade-migration: clean ## Downgrade alembic migrations
-	alembic downgrade ${target}
+	@alembic downgrade ${target}
 
 # Docker
 bash: ## Run bash inside container
@@ -69,7 +69,7 @@ build: ## Build container image
 	@docker build -t salesregister_app:latest -f Dockerfile.dev . --build-arg UID=$(UID) --build-arg GID=$(GID)
 
 run-dev-without-docker: clean ## Run app outside a container
-	cd ${PROJECT_NAME} && python -m uvicorn adapters.api.main:app --reload --port ${APP_PORT}
+	@cd ${PROJECT_NAME} && python -m uvicorn adapters.api:app --reload --port ${APP_PORT}
 
 run-dev: clean # Run app
 	@docker compose up --remove-orphans
