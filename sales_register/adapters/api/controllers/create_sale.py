@@ -1,6 +1,6 @@
 from typing import Optional
 
-from adapters.api.services import validate_token_service, create_sale_service
+from adapters.api.services import create_sale_service, validate_token_service
 from adapters.api.services.authentication import User
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel

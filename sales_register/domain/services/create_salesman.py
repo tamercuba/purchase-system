@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, Optional, TypedDict
+from typing import Any, Dict, Optional, TypedDict
 
 from domain.entities import Salesman
 from domain.ports.repositories import ISalesmanRepository
@@ -27,10 +27,8 @@ class CreateSalesmanService(
     def __init__(
         self,
         salesman_repository: ISalesmanRepository,
-        hash_algo: Callable = None,
     ):
         self._repo = salesman_repository
-        self._hash_algo = hash_algo
 
     def handle(self, request: CreateSalesmanRequest) -> CreateSalesmanResponse:
         self._check_cpf(request['cpf'])
@@ -75,7 +73,7 @@ class CreateSalesmanService(
     ) -> Dict[str, Any]:
         result = {
             **request,
-            'password': self._hash_password(request['password']),
+            'password': request['password'],
         }
 
         if 'is_staff' in result and result.get('is_staff') is None:

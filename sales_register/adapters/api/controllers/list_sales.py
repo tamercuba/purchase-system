@@ -1,4 +1,4 @@
-from adapters.api.services import validate_token_service, list_sales_service
+from adapters.api.services import list_sales_service, validate_token_service
 from adapters.api.services.authentication import User
 from fastapi import APIRouter, Depends
 

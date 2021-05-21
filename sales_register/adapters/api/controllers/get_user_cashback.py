@@ -1,6 +1,6 @@
 from adapters.api.services import (
-    validate_token_service,
     get_user_cashback_service,
+    validate_token_service,
 )
 from adapters.api.services.authentication import User
 from fastapi import APIRouter, Depends, HTTPException, status

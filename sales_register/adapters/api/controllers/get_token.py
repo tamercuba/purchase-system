@@ -13,7 +13,7 @@ class Request(BaseModel):
 
 @router.post('/token')
 def get_token(request: Request, Auth: AuthJWT = Depends()):
-    user = login_service(request.email, request.password)
+    user = login_service(request)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

@@ -1,7 +1,7 @@
 from adapters.api.services.authentication import (
-    validate_token_service,
     login_service,
     pwd_context,
+    validate_token_service,
 )
 from adapters.api.services.domain import (
     create_sale_service,

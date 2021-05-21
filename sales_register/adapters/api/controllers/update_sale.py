@@ -1,6 +1,6 @@
 from typing import Optional
 
-from adapters.api.services import validate_token_service, update_sale_service
+from adapters.api.services import update_sale_service, validate_token_service
 from adapters.api.services.authentication import User
 from domain.services.exceptions import CantBeUpdated
 from fastapi import APIRouter, Depends, HTTPException, status
