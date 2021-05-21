@@ -2,8 +2,8 @@ from typing import TypedDict
 
 from domain.entities import Sale, Salesman
 from domain.ports.repositories import ISaleRepository
-from domain.services.exceptions import CantBeDeleted
-from shared.service import IService
+from domain.use_cases.exceptions import CantBeDeleted
+from shared.use_case_interface import IUseCase
 
 
 class DeleteSaleRequest(TypedDict):
@@ -11,7 +11,7 @@ class DeleteSaleRequest(TypedDict):
     salesman: Salesman
 
 
-class DeleteSaleService(IService[DeleteSaleRequest, None]):
+class DeleteSaleUseCase(IUseCase[DeleteSaleRequest, None]):
     def __init__(
         self,
         sale_repository: ISaleRepository,

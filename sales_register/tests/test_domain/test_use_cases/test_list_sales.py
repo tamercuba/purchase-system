@@ -1,7 +1,7 @@
 import pytest
 from adapters.repositories.in_memory_repo import SaleRepository
 from domain.entities import Sale, Salesman
-from domain.services import ListSalesService
+from domain.use_cases import ListSalesUseCase
 
 
 class TestListSales:
@@ -15,14 +15,14 @@ class TestListSales:
 
         self.sale_repo = SaleRepository(initial_values=self.sales)
 
-        self.service = ListSalesService(sale_repository=self.sale_repo)
+        self.use_case = ListSalesUseCase(sale_repository=self.sale_repo)
 
     def test_empty_sales(self):
-        result = self.service.handle(self.salesmans[0])
+        result = self.use_case.handle(self.salesmans[0])
 
         assert not result
 
     def test_list_valid_salesman(self):
-        result = self.service.handle(self.salesmans[1])
+        result = self.use_case.handle(self.salesmans[1])
 
         assert len(result) == 2

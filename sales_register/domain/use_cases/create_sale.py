@@ -2,7 +2,7 @@ from typing import TypedDict
 
 from domain.entities import Sale, SaleDTO
 from domain.ports.repositories import ISaleRepository
-from shared.service import IService
+from shared.use_case_interface import IUseCase
 
 
 class CreateSaleRequest(TypedDict):
@@ -10,7 +10,7 @@ class CreateSaleRequest(TypedDict):
     sale: SaleDTO
 
 
-class CreateSaleService(IService[CreateSaleRequest, Sale]):
+class CreateSaleUseCase(IUseCase[CreateSaleRequest, Sale]):
     def __init__(
         self,
         sale_repository: ISaleRepository,

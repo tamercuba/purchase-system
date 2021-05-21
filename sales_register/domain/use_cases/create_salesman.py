@@ -3,7 +3,7 @@ from typing import Any, Dict, Optional, TypedDict
 from domain.entities import Salesman
 from domain.ports.repositories import ISalesmanRepository
 from shared.exceptions import EntityNotFound, RepeatedEntry
-from shared.service import IService
+from shared.use_case_interface import IUseCase
 
 
 class CreateSalesmanRequest(TypedDict):
@@ -21,8 +21,8 @@ class CreateSalesmanResponse(TypedDict):
     email: str
 
 
-class CreateSalesmanService(
-    IService[CreateSalesmanRequest, CreateSalesmanResponse]
+class CreateSalesmanUseCase(
+    IUseCase[CreateSalesmanRequest, CreateSalesmanResponse]
 ):
     def __init__(
         self,

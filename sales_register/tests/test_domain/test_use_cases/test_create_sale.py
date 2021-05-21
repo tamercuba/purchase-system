@@ -1,7 +1,7 @@
 import pytest
 from adapters.repositories.in_memory_repo import SaleRepository
 from domain.entities import SaleDTO, Salesman, SaleStatus
-from domain.services import CreateSaleRequest, CreateSaleService
+from domain.use_cases import CreateSaleRequest, CreateSaleUseCase
 from pydantic import ValidationError
 
 
@@ -21,7 +21,7 @@ class TestCreateSale:
 
         self.sale_repo = SaleRepository()
 
-        self.service = CreateSaleService(
+        self.use_case = CreateSaleUseCase(
             sale_repository=self.sale_repo,
         )
 
@@ -32,7 +32,7 @@ class TestCreateSale:
             'sale': sale_data,
         }
 
-        result = self.service.handle(request)
+        result = self.use_case.handle(request)
 
         assert result.code == sale_data['code']
         assert result.status == SaleStatus.VALIDATING
@@ -44,7 +44,7 @@ class TestCreateSale:
             'sale': sale_data,
         }
 
-        result = self.service.handle(request)
+        result = self.use_case.handle(request)
 
         assert result.code == sale_data['code']
         assert self.staff.is_staff
@@ -62,4 +62,4 @@ class TestCreateSale:
         }
 
         with pytest.raises(ValidationError):
-            self.service.handle(request)
+            self.use_case.handle(request)

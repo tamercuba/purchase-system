@@ -1,17 +1,17 @@
 import pytest
 from adapters.repositories.in_memory_repo import SalesmanRepository
 from domain.entities import Salesman
-from domain.services import CreateSalesmanRequest, CreateSalesmanService
+from domain.use_cases import CreateSalesmanRequest, CreateSalesmanUseCase
 from shared.exceptions import RepeatedEntry
 
 
-class TestCreateSalesmanService:
+class TestCreateSalesman:
     @pytest.fixture(autouse=True)
     def injector(self, salesman_data):
         self.salesman_data = salesman_data
         self.salesman = Salesman(**self.salesman_data)
         repo = SalesmanRepository(initial_values=[self.salesman])
-        self.service = CreateSalesmanService(salesman_repository=repo)
+        self.use_case = CreateSalesmanUseCase(salesman_repository=repo)
 
     @pytest.mark.parametrize(
         'data',
@@ -56,7 +56,7 @@ class TestCreateSalesmanService:
     def test_create_salesman(self, data):
         new_salesman = CreateSalesmanRequest(**data)
 
-        result = self.service.handle(new_salesman)
+        result = self.use_case.handle(new_salesman)
 
         assert result['cpf'] == new_salesman['cpf']
         assert result['id']
@@ -84,8 +84,8 @@ class TestCreateSalesmanService:
     )
     def test_create_repeated_salesman(self, salesman):
         with pytest.raises(RepeatedEntry):
-            self.service.handle(salesman)
+            self.use_case.handle(salesman)
 
     def test_create_wrong_request(self):
         with pytest.raises(KeyError):
-            self.service.handle(request={'a': 1})
+            self.use_case.handle(request={'a': 1})

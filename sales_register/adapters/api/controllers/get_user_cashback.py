@@ -1,5 +1,5 @@
 from adapters.api.services import (
-    get_user_cashback_service,
+    get_user_cashback_use_case,
     validate_token_service,
 )
 from adapters.api.services.authentication import User
@@ -23,7 +23,7 @@ def get_cashback(
     user_cpf: str, user: User = Depends(validate_token_service)
 ) -> Response:
     try:
-        result = get_user_cashback_service.handle(
+        result = get_user_cashback_use_case.handle(
             {'salesman_cpf': user_cpf, 'salesman': user}
         )
 
