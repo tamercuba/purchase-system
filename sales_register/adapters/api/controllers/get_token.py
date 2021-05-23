@@ -18,7 +18,7 @@ class Response(BaseModel):
 @router.post('/token', status_code=status.HTTP_200_OK, response_model=Response)
 def get_token(request: Request, Auth: AuthJWT = Depends()) -> Response:
     user = login_service(request)
-    if not user:
+    if user is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",

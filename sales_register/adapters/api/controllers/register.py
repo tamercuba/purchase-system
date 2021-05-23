@@ -1,6 +1,8 @@
-from typing import Optional
-
-from adapters.api.services import create_salesman_use_case, login_service
+from adapters.api.services import (
+    CreateSalesmanUseCaseRequest,
+    create_salesman_use_case,
+    login_service,
+)
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi_jwt_auth import AuthJWT
 from pydantic import BaseModel
@@ -9,12 +11,8 @@ from shared.exceptions import RepeatedEntry
 router = APIRouter()
 
 
-class Request(BaseModel):
-    cpf: str
-    name: str
-    email: str
-    password: str
-    is_staff: Optional[bool]
+class Request(CreateSalesmanUseCaseRequest):
+    pass
 
 
 class Response(BaseModel):
@@ -26,8 +24,8 @@ class Response(BaseModel):
 )
 def register(request: Request, auth: AuthJWT = Depends()):
     try:
-        user = create_salesman_use_case.handle(request.dict())
-        token = login_service.create_access_token(user['id'], auth)
+        user = create_salesman_use_case.handle(request)
+        token = login_service.create_access_token(user.id, auth)
         return Response(access_token=token)
 
     except RepeatedEntry as e:

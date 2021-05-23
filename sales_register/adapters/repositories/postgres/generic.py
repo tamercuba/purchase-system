@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import List
 
-from adapters.repositories.postgres.models.base import Base
 from shared.entities import Entity
 from sqlalchemy import delete, orm, select, update
 from sqlalchemy.sql.dml import Delete, Update
@@ -35,7 +34,7 @@ class PostgresRepository(SQLAlchemySemantic):
     def __init__(self, Session: orm.sessionmaker):
         self._Session = Session
 
-    def _run_get(self, query: Select) -> Optional[Entity]:
+    def _run_get(self, query: Select) -> Entity:
         with self._Session() as session:
             result = session.execute(query).scalars().one_or_none()
             session.commit()
@@ -47,7 +46,7 @@ class PostgresRepository(SQLAlchemySemantic):
             session.execute(query)
             session.commit()
 
-    def _run_new(self, entity: Entity) -> Base:
+    def _run_new(self, entity: Entity) -> Entity:
         with self._Session() as session:
             model = self.mapper.to_model(entity)
             session.add(model)

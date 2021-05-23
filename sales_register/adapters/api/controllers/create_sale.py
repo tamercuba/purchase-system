@@ -1,7 +1,11 @@
 from datetime import date
 from typing import Optional
 
-from adapters.api.services import create_sale_use_case, validate_token_service
+from adapters.api.services import (
+    CreateSaleUseCaseRequest,
+    create_sale_use_case,
+    validate_token_service,
+)
 from adapters.api.services.authentication import User
 from fastapi import APIRouter, Depends, status
 from pydantic import BaseModel
@@ -32,7 +36,7 @@ def create_sale(
     request: Request, user: User = Depends(validate_token_service)
 ) -> Response:
     result = create_sale_use_case.handle(
-        {"salesman": user, "sale": request.dict()}
+        CreateSaleUseCaseRequest(**{"salesman": user, "sale": request.dict()})
     )
 
     return Response(**result.dict())

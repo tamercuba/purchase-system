@@ -1,4 +1,5 @@
 from adapters.api.services import (
+    GetSalesmanCashbackUseCaseRequest,
     get_user_cashback_use_case,
     validate_token_service,
 )
@@ -24,7 +25,9 @@ def get_cashback(
 ) -> Response:
     try:
         result = get_user_cashback_use_case.handle(
-            {'salesman_cpf': user_cpf, 'salesman': user}
+            GetSalesmanCashbackUseCaseRequest(
+                **{'salesman_cpf': user_cpf, 'salesman': user}
+            )
         )
 
         return Response(total=result)

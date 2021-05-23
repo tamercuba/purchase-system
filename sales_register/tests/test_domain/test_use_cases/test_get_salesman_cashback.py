@@ -1,7 +1,10 @@
 import pytest
 from adapters.repositories.in_memory_repo import SaleRepository
 from domain.entities import Sale, Salesman
-from domain.use_cases import GetSalesmanCashbackUseCase
+from domain.use_cases import (
+    GetSalesmanCashbackUseCase,
+    GetSalesmanCashbackUseCaseRequest,
+)
 from shared.exceptions import InvalidOperation
 
 
@@ -22,36 +25,44 @@ class TestGetSalesmanCashback:
 
     def test_get_right_cashback(self):
         total = self.use_case.handle(
-            {
-                'salesman': self.salesmans[-1],
-                'salesman_cpf': self.salesmans[-1].cpf,
-            }
+            GetSalesmanCashbackUseCaseRequest(
+                **{
+                    'salesman': self.salesmans[-1],
+                    'salesman_cpf': self.salesmans[-1].cpf,
+                }
+            )
         )
         assert total == 500
 
     def test_get_cashback_salesman_with_no_sale(self):
         total = self.use_case.handle(
-            {
-                'salesman': self.salesmans[0],
-                'salesman_cpf': self.salesmans[0].cpf,
-            }
+            GetSalesmanCashbackUseCaseRequest(
+                **{
+                    'salesman': self.salesmans[0],
+                    'salesman_cpf': self.salesmans[0].cpf,
+                }
+            )
         )
         assert total == 0
 
     def test_staff_getting_other_cpf_cashback(self):
         total = self.use_case.handle(
-            {
-                'salesman': self.salesmans[0],
-                'salesman_cpf': self.salesmans[-1].cpf,
-            }
+            GetSalesmanCashbackUseCaseRequest(
+                **{
+                    'salesman': self.salesmans[0],
+                    'salesman_cpf': self.salesmans[-1].cpf,
+                }
+            )
         )
         assert total == 500
 
     def test_non_staff_getting_other_cpf_cashback(self):
         with pytest.raises(InvalidOperation):
             self.use_case.handle(
-                {
-                    'salesman': self.salesmans[-1],
-                    'salesman_cpf': self.salesmans[0].cpf,
-                }
+                GetSalesmanCashbackUseCaseRequest(
+                    **{
+                        'salesman': self.salesmans[-1],
+                        'salesman_cpf': self.salesmans[0].cpf,
+                    }
+                )
             )

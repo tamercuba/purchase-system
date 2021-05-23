@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Any, Generic, List, Optional, TypeVar, get_args
+from typing import Any, Generic, List, TypeVar, get_args
 
 from shared.entities import Entity
 from shared.exceptions import (
@@ -14,7 +14,7 @@ IEntity = TypeVar('IEntity', bound=Entity)
 class GenericInMemoryRepository(ABC, Generic[IEntity]):
     def __init__(self, initial_values: List[IEntity] = None):
         initial_storage = (
-            {e.id: e for e in initial_values} if initial_values else {}
+            {str(e.id): e for e in initial_values} if initial_values else {}
         )
         self._storage = initial_storage
 
@@ -24,7 +24,7 @@ class GenericInMemoryRepository(ABC, Generic[IEntity]):
 
         return entity
 
-    def get_by_id(self, _id: str) -> Optional[IEntity]:
+    def get_by_id(self, _id: str) -> IEntity:
         try:
             result = self._storage[_id]
             return result

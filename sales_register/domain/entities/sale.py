@@ -1,13 +1,13 @@
 from datetime import date
-from typing import Optional, TypedDict
+from typing import Optional
 
 from domain.entities.fields import SaleStatus
 from domain.entities.value_objects import Cashback
-from pydantic import Field
+from pydantic import BaseModel, Field
 from shared.entities import Entity
 
 
-class SaleDTO(TypedDict):
+class SaleDTO(BaseModel):
     code: str
     value: float
     date: str
@@ -32,7 +32,7 @@ class Sale(Entity):
         self._update_status(SaleStatus.REPPROVED)
 
     def _update_status(self, value: str) -> None:
-        self.status = value
+        self.status = SaleStatus(value)
 
     @property
     def can_be_updated(self) -> bool:

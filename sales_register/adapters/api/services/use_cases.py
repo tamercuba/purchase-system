@@ -1,14 +1,20 @@
+# pylint: disable=unused-import
 from adapters.api.services.repositories import (
     sale_repository,
     salesman_repository,
 )
 from domain.use_cases import (
     CreateSalesmanUseCase,
+    CreateSalesmanUseCaseRequest,
     CreateSaleUseCase,
+    CreateSaleUseCaseRequest,
     DeleteSaleUseCase,
+    DeleteSaleUseCaseRequest,
     GetSalesmanCashbackUseCase,
+    GetSalesmanCashbackUseCaseRequest,
     ListSalesUseCase,
     UpdateSaleUseCase,
+    UpdateSaleUseCaseRequest,
 )
 
 create_sale_use_case = CreateSaleUseCase(sale_repository)

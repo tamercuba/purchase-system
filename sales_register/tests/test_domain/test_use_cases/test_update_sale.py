@@ -1,7 +1,7 @@
 import pytest
 from adapters.repositories.in_memory_repo import SaleRepository
 from domain.entities import Sale, Salesman, SaleStatus
-from domain.use_cases import UpdateSaleUseCase
+from domain.use_cases import UpdateSaleUseCase, UpdateSaleUseCaseRequest
 from domain.use_cases.exceptions import CantBeUpdated
 from shared.exceptions import EntityNotFound
 
@@ -34,11 +34,13 @@ class TestUpdateSale:
 
         with pytest.raises(CantBeUpdated):
             self.use_case.handle(
-                {
-                    'sale_id': new_sale.id,
-                    'salesman': self.salesman,
-                    'sale': new_sale_data,
-                }
+                UpdateSaleUseCaseRequest(
+                    **{
+                        'sale_id': new_sale.id,
+                        'salesman': self.salesman,
+                        'sale': new_sale_data,
+                    }
+                )
             )
 
     def test_update_wrong_cpf(self):
@@ -47,11 +49,13 @@ class TestUpdateSale:
 
         with pytest.raises(CantBeUpdated):
             self.use_case.handle(
-                {
-                    'sale_id': self.sale.id,
-                    'salesman': new_salesman,
-                    'sale': self.sale_data,
-                }
+                UpdateSaleUseCaseRequest(
+                    **{
+                        'sale_id': self.sale.id,
+                        'salesman': new_salesman,
+                        'sale': self.sale_data,
+                    }
+                )
             )
 
     def test_update_wrong_is_staff_with_wrong_cpf(self):
@@ -65,11 +69,13 @@ class TestUpdateSale:
         updated_sale_data = {**self.sale_data, 'code': 'B'}
 
         result = self.use_case.handle(
-            {
-                'sale_id': self.sale.id,
-                'salesman': new_salesman,
-                'sale': updated_sale_data,
-            }
+            UpdateSaleUseCaseRequest(
+                **{
+                    'sale_id': self.sale.id,
+                    'salesman': new_salesman,
+                    'sale': updated_sale_data,
+                }
+            )
         )
 
         assert result == self.sale
@@ -79,11 +85,13 @@ class TestUpdateSale:
         updated_sale_data = {**self.sale_data, 'code': 'B'}
 
         result = self.use_case.handle(
-            {
-                'sale_id': self.sale.id,
-                'salesman': self.salesman,
-                'sale': updated_sale_data,
-            }
+            UpdateSaleUseCaseRequest(
+                **{
+                    'sale_id': self.sale.id,
+                    'salesman': self.salesman,
+                    'sale': updated_sale_data,
+                }
+            )
         )
 
         assert result == self.sale
@@ -94,40 +102,11 @@ class TestUpdateSale:
 
         with pytest.raises(EntityNotFound):
             self.use_case.handle(
-                {
-                    'sale_id': '93939393939393',
-                    'salesman': self.salesman,
-                    'sale': updated_sale_data,
-                }
-            )
-
-    @pytest.mark.parametrize(
-        'data',
-        [
-            (
-                {
-                    'code': 'a',
-                    'value': None,
-                    'date': '1997-09-01',
-                    'status': SaleStatus.REPPROVED,
-                }
-            ),
-            (
-                {
-                    'code': 'a',
-                    'value': 10,
-                    'date': '1997-09-01',
-                    'status': 'ERRADO',
-                }
-            ),
-        ],
-    )
-    def test_update_invalid_payload(self, data):
-        with pytest.raises(CantBeUpdated):
-            self.use_case.handle(
-                {
-                    'sale_id': self.sale.id,
-                    'salesman': self.salesman,
-                    'sale': data,
-                }
+                UpdateSaleUseCaseRequest(
+                    **{
+                        'sale_id': '93939393939393',
+                        'salesman': self.salesman,
+                        'sale': updated_sale_data,
+                    }
+                )
             )

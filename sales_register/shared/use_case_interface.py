@@ -1,8 +1,10 @@
 from abc import ABC
-from typing import Generic, TypedDict, TypeVar
+from typing import Generic, TypeVar
 
-IRequest = TypeVar('IRequest', bound=TypedDict)
-IResponse = TypeVar('IResponse', bound=TypedDict)
+from pydantic import BaseModel
+
+IRequest = TypeVar('IRequest', bound=BaseModel)
+IResponse = TypeVar('IResponse', bound=BaseModel)
 
 
 class IUseCase(ABC, Generic[IRequest, IResponse]):

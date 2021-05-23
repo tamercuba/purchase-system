@@ -1,5 +1,3 @@
-from typing import Optional
-
 from adapters.repositories.postgres.generic import PostgresRepository
 from adapters.repositories.postgres.models import SalesmanMapper, SalesmanModel
 from adapters.repositories.postgres.password_manager_interface import (
@@ -22,7 +20,7 @@ class SalesmanRepository(PostgresRepository, ISalesmanRepository):
     def get_by_id(self, _id: str) -> Salesman:
         query = self._select.where(self.model.id == _id)
 
-        salesman: Salesman = self._run_get(query)
+        salesman = self._run_get(query)
 
         if not salesman:
             raise EntityNotFound(
@@ -32,7 +30,7 @@ class SalesmanRepository(PostgresRepository, ISalesmanRepository):
 
         return salesman
 
-    def get_by_cpf(self, cpf: str) -> Optional[Salesman]:
+    def get_by_cpf(self, cpf: str) -> Salesman:
         query = self._select.where(self.model.cpf == cpf)
 
         salesman: Salesman = self._run_get(query)
@@ -45,7 +43,7 @@ class SalesmanRepository(PostgresRepository, ISalesmanRepository):
 
         return salesman
 
-    def get_by_email(self, email: str) -> Optional[Salesman]:
+    def get_by_email(self, email: str) -> Salesman:
         query = self._select.where(self.model.email == email)
 
         salesman: Salesman = self._run_get(query)

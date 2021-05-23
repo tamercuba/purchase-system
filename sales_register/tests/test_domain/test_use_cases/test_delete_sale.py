@@ -1,7 +1,7 @@
 import pytest
 from adapters.repositories.in_memory_repo import SaleRepository
 from domain.entities import Sale, Salesman, SaleStatus
-from domain.use_cases import DeleteSaleUseCase
+from domain.use_cases import DeleteSaleUseCase, DeleteSaleUseCaseRequest
 from domain.use_cases.exceptions import CantBeDeleted
 from shared.exceptions import EntityNotFound
 
@@ -34,7 +34,9 @@ class TestDeleteSale:
 
         with pytest.raises(CantBeDeleted) as e:
             self.use_case.handle(
-                {'sale_id': new_sale.id, 'salesman': self.salesman}
+                DeleteSaleUseCaseRequest(
+                    **{'sale_id': new_sale.id, 'salesman': self.salesman}
+                )
             )
 
             assert 'status' in e
@@ -45,7 +47,9 @@ class TestDeleteSale:
 
         with pytest.raises(CantBeDeleted) as e:
             self.use_case.handle(
-                {'sale_id': self.sale.id, 'salesman': new_salesman}
+                DeleteSaleUseCaseRequest(
+                    **{'sale_id': self.sale.id, 'salesman': new_salesman}
+                )
             )
 
             assert 'permission' in e
@@ -59,7 +63,9 @@ class TestDeleteSale:
         new_salesman = Salesman(**new_salesman_data)
 
         self.use_case.handle(
-            {'sale_id': self.sale.id, 'salesman': new_salesman}
+            DeleteSaleUseCaseRequest(
+                **{'sale_id': self.sale.id, 'salesman': new_salesman}
+            )
         )
 
         total = self.sale_repo.count()
@@ -70,7 +76,9 @@ class TestDeleteSale:
         total_before = self.sale_repo.count()
 
         self.use_case.handle(
-            {'sale_id': self.sale.id, 'salesman': self.salesman}
+            DeleteSaleUseCaseRequest(
+                **{'sale_id': self.sale.id, 'salesman': self.salesman}
+            )
         )
 
         total_after = self.sale_repo.count()
@@ -80,8 +88,10 @@ class TestDeleteSale:
     def test_delete_nonexistent_sale(self):
         with pytest.raises(EntityNotFound):
             self.use_case.handle(
-                {
-                    'sale_id': '93939393939393',
-                    'salesman': self.salesman,
-                }
+                DeleteSaleUseCaseRequest(
+                    **{
+                        'sale_id': '93939393939393',
+                        'salesman': self.salesman,
+                    }
+                )
             )

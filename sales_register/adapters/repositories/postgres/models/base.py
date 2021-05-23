@@ -1,8 +1,8 @@
-from typing import Dict
+from typing import Any, Dict
 
 from sqlalchemy.orm import declarative_base
 
-_Base = declarative_base()
+_Base = declarative_base()  # type: Any
 
 
 class Base(_Base):
