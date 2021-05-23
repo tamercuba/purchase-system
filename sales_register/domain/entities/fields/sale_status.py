@@ -1,6 +1,3 @@
-from typing import List
-
-
 class SaleStatus(str):
     APPROVED = 'Aprovado'
     VALIDATING = 'Em validação'

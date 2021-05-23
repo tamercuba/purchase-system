@@ -8,6 +8,11 @@ from adapters.api.services.repositories import (
     salesman_repository,
 )
 from adapters.api.services.use_cases import (
+    CreateSalesmanUseCaseRequest,
+    CreateSaleUseCaseRequest,
+    DeleteSaleUseCaseRequest,
+    GetSalesmanCashbackUseCaseRequest,
+    UpdateSaleUseCaseRequest,
     create_sale_use_case,
     create_salesman_use_case,
     delete_sale_use_case,

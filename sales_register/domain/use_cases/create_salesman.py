@@ -1,12 +1,13 @@
-from typing import Any, Dict, Optional, TypedDict
+from typing import Optional
 
 from domain.entities import Salesman
 from domain.ports.repositories import ISalesmanRepository
+from pydantic import BaseModel
 from shared.exceptions import EntityNotFound, RepeatedEntry
 from shared.use_case_interface import IUseCase
 
 
-class CreateSalesmanRequest(TypedDict, total=False):
+class CreateSalesmanUseCaseRequest(BaseModel):
     cpf: str
     name: str
     email: str
@@ -14,7 +15,7 @@ class CreateSalesmanRequest(TypedDict, total=False):
     is_staff: Optional[bool]
 
 
-class CreateSalesmanResponse(TypedDict):
+class CreateSalesmanUseCaseResponse(BaseModel):
     id: str
     cpf: str
     name: str
@@ -22,7 +23,7 @@ class CreateSalesmanResponse(TypedDict):
 
 
 class CreateSalesmanUseCase(
-    IUseCase[CreateSalesmanRequest, CreateSalesmanResponse]
+    IUseCase[CreateSalesmanUseCaseRequest, CreateSalesmanUseCaseResponse]
 ):
     def __init__(
         self,
@@ -30,15 +31,28 @@ class CreateSalesmanUseCase(
     ):
         self._repo = salesman_repository
 
-    def handle(self, request: CreateSalesmanRequest) -> CreateSalesmanResponse:
-        self._check_cpf(request['cpf'])
-        self._check_email(request['email'])
+    def handle(
+        self, request: CreateSalesmanUseCaseRequest
+    ) -> CreateSalesmanUseCaseResponse:
+        self._check_cpf(request.cpf)
+        self._check_email(request.email)
 
-        new_salesman = Salesman(**self.get_input_parsed(request))
+        new_salesman = Salesman(
+            **{
+                **request.dict(exclude_none=True),
+                'is_staff': bool(request.is_staff),
+            }
+        )
         self._repo.new(new_salesman)
-        response: CreateSalesmanResponse = self.get_response(new_salesman)
 
-        return response
+        return CreateSalesmanUseCaseResponse(
+            **{
+                'id': new_salesman.id,
+                'cpf': new_salesman.cpf,
+                'name': new_salesman.name,
+                'email': new_salesman.email,
+            }
+        )
 
     def _check_cpf(self, cpf: str) -> None:
         try:
@@ -53,16 +67,3 @@ class CreateSalesmanUseCase(
             raise RepeatedEntry('Repeated email', info={'email': email})
         except EntityNotFound:
             pass
-
-    def get_response(self, salesman: Salesman) -> CreateSalesmanResponse:
-        return {
-            'id': salesman.id,
-            'cpf': salesman.cpf,
-            'name': salesman.name,
-            'email': salesman.email,
-        }
-
-    def get_input_parsed(
-        self, request: CreateSalesmanRequest
-    ) -> Dict[str, Any]:
-        return {**request, 'is_staff': bool(request.get('is_staff'))}

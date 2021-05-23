@@ -1,5 +1,5 @@
 from domain.entities.fields import SaleStatus
-from domain.entities.sale import Sale
+from domain.entities.sale import Sale, SaleDTO
 from pydantic import EmailStr, SecretStr, validator
 from shared.entities import Entity
 
@@ -12,13 +12,13 @@ class Salesman(Entity):
     password: SecretStr
     is_staff: bool = False
 
-    def new_sale(self, **kwargs) -> Sale:
-        data = {**kwargs, 'status': SaleStatus.APPROVED}
+    def new_sale(self, sale: SaleDTO) -> Sale:
+        if self.is_staff:
+            sale.status = SaleStatus.APPROVED
 
-        if not self.is_staff:
-            del data['status']
-
-        result = Sale(**{**data, 'salesman_cpf': self.cpf})
+        result = Sale(
+            **{**sale.dict(exclude_none=True), 'salesman_cpf': self.cpf}
+        )
 
         return result
 
