@@ -1,7 +1,7 @@
 import pytest
 from adapters.repositories.in_memory_repo import SalesmanRepository
 from domain.entities import Salesman
-from domain.use_cases import CreateSalesmanRequest, CreateSalesmanUseCase
+from domain.use_cases import CreateSalesmanUseCase
 from shared.exceptions import RepeatedEntry
 
 
@@ -54,11 +54,9 @@ class TestCreateSalesman:
         ],
     )
     def test_create_salesman(self, data):
-        new_salesman = CreateSalesmanRequest(**data)
+        result = self.use_case.handle(data)
 
-        result = self.use_case.handle(new_salesman)
-
-        assert result['cpf'] == new_salesman['cpf']
+        assert result['cpf'] == data['cpf']
         assert result['id']
 
     @pytest.mark.parametrize(

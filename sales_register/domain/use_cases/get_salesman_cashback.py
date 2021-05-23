@@ -11,22 +11,14 @@ class GetSalesmanCashbackRequest(TypedDict):
     salesman_cpf: str
 
 
-class GetSalesmanCashbackResponse(TypedDict):
-    cashback_total: float
-
-
-class GetSalesmanCashbackUseCase(
-    IUseCase[GetSalesmanCashbackRequest, GetSalesmanCashbackResponse]
-):
+class GetSalesmanCashbackUseCase(IUseCase[GetSalesmanCashbackRequest, float]):
     def __init__(
         self,
         sale_repository: ISaleRepository,
     ):
         self._sale_repo = sale_repository
 
-    def handle(
-        self, request: GetSalesmanCashbackRequest
-    ) -> GetSalesmanCashbackResponse:
+    def handle(self, request: GetSalesmanCashbackRequest) -> float:
         requisitor = request['salesman']
         requisited_cpf = request['salesman_cpf']
 

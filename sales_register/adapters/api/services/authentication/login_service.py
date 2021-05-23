@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Optional
 
 from adapters.api.services.authentication.user import User
 from adapters.repositories.postgres.password_manager_interface import (
@@ -22,7 +22,7 @@ class LoginService:
         self._repo = user_repo
         self._hash_manager = hash_manager
 
-    def __call__(self, request: LoginRequest) -> Union[User, bool]:
+    def __call__(self, request: LoginRequest) -> Optional[User]:
         try:
             user: User = self._repo.get_by_email(request.email)
             if self._hash_manager.validate_password(
@@ -31,9 +31,9 @@ class LoginService:
                 return user
 
         except EntityNotFound:
-            return False
+            pass
 
-        return False
+        return None
 
     def create_access_token(self, user_id: str, auth: AuthJWT) -> str:
         return f'Bearer {auth.create_access_token(subject=user_id)}'

@@ -6,7 +6,7 @@ from shared.exceptions import EntityNotFound, RepeatedEntry
 from shared.use_case_interface import IUseCase
 
 
-class CreateSalesmanRequest(TypedDict):
+class CreateSalesmanRequest(TypedDict, total=False):
     cpf: str
     name: str
     email: str
@@ -62,21 +62,7 @@ class CreateSalesmanUseCase(
             'email': salesman.email,
         }
 
-    def _hash_password(self, password: str) -> str:
-        if self._hash_algo:
-            return self._hash_algo(password)
-
-        return password
-
     def get_input_parsed(
         self, request: CreateSalesmanRequest
     ) -> Dict[str, Any]:
-        result = {
-            **request,
-            'password': request['password'],
-        }
-
-        if 'is_staff' in result and result.get('is_staff') is None:
-            del result['is_staff']
-
-        return result
+        return {**request, 'is_staff': bool(request.get('is_staff'))}

@@ -26,17 +26,22 @@ test: clean ## Run the tests
 	@py.test $(PROJECT_NAME)/ -s -vvv -p no:cacheprovider
 
 test-matching: clean  ## Run only tests matching pattern. E.g.: make test-matching test=TestClassName
-	@py.test $(PROJECT_NAME)/ -k $(test) -s -vvv -p no:cacheprovider 
+	@py.test $(PROJECT_NAME)/ -k $(test) -s -vvv -p no:cacheprovider
 
 coverage: clean  ## Run the test coverage report
 	@py.test --cov-config .coveragerc --cov $(PROJECT_NAME) $(PROJECT_NAME)
 
 
 # Linting
-lint: clean  ## Run pylint linter
-	@printf '\n --- \n >>> Running linter...<<<\n'
+_pylint:
+	@echo 'Pylint result: '
 	@pylint --rcfile=.pylintrc $(PROJECT_NAME)/.
-	@printf '\n FINISHED! \n --- \n'
+
+_mypy:
+	@echo 'Mypy result: '
+	@mypy $(PROJECT_NAME)
+
+lint: clean  _pylint _mypy  ## Run pylint linter
 
 format:  ## Run isort and black auto formatting code style in the project
 	@isort -m 3 --tc . && black --config ./pyproject.toml .

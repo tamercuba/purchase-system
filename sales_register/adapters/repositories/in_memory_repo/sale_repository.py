@@ -18,7 +18,7 @@ class SaleRepository(GenericInMemoryRepository[Sale], ISaleRepository):
             lambda sale: sale.salesman_cpf == cpf, self._storage.values()
         )
 
-        total = 0
+        total = float(0)
 
         for sale in salesman_sales:
             total += sale.cashback.total

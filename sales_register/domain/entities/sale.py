@@ -7,7 +7,7 @@ from pydantic import Field
 from shared.entities import Entity
 
 
-class SaleDTO(TypedDict):
+class SaleDTO(TypedDict, total=False):
     code: str
     value: float
     date: str
@@ -32,7 +32,7 @@ class Sale(Entity):
         self._update_status(SaleStatus.REPPROVED)
 
     def _update_status(self, value: str) -> None:
-        self.status = value
+        self.status = SaleStatus(value)
 
     @property
     def can_be_updated(self) -> bool:

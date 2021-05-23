@@ -1,5 +1,4 @@
 from abc import abstractmethod
-from typing import Optional
 
 from domain.entities import Salesman
 
@@ -10,13 +9,13 @@ class ISalesmanRepository:
         pass
 
     @abstractmethod
-    def get_by_cpf(self, cpf: str) -> Optional[Salesman]:
+    def get_by_cpf(self, cpf: str) -> Salesman:
         pass
 
     @abstractmethod
-    def get_by_id(self, _id: str) -> Optional[Salesman]:
+    def get_by_id(self, _id: str) -> Salesman:
         pass
 
     @abstractmethod
-    def get_by_email(self, email: str) -> Optional[Salesman]:
+    def get_by_email(self, email: str) -> Salesman:
         pass

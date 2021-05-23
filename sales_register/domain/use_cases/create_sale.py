@@ -1,12 +1,12 @@
 from typing import TypedDict
 
-from domain.entities import Sale, SaleDTO
+from domain.entities import Sale, SaleDTO, Salesman
 from domain.ports.repositories import ISaleRepository
 from shared.use_case_interface import IUseCase
 
 
 class CreateSaleRequest(TypedDict):
-    salesman: str
+    salesman: Salesman
     sale: SaleDTO
 
 
