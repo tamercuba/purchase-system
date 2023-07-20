@@ -70,7 +70,6 @@ class GenericInMemoryRepository(ABC, Generic[IEntity]):
             )
 
     def _get_by_attribute(self, attr_name: str, attr_value: Any) -> IEntity:
-        # breakpoint()
         if not self._entity_type.hasattr(attr_name):
             raise EntityAttributeDoesntExist(
                 entity=self._entity_type, attr=attr_name
@@ -86,5 +85,4 @@ class GenericInMemoryRepository(ABC, Generic[IEntity]):
 
     @property
     def _entity_type(self):
-        # breakpoint()
         return get_args(self.__class__.__orig_bases__[0])[0]
