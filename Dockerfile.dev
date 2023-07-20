@@ -1,20 +1,37 @@
-FROM python:3.9
+FROM python:3.11-slim
 
 ARG UID
 ARG GID
+ARG POETRY_VERSION
 
-ENV PYTHONUNBUFFERED 1
+WORKDIR /src
 
-RUN mkdir /tmp/requirements
-COPY requirements/* /tmp/requirements/
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends  \
+ git libmagic-dev build-essential curl \
+ && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-  make python3-dev docker docker-compose build-essential apt-utils netcat \
-  curl python-openssl && apt-get -y autoremove
-RUN pip install --upgrade pip && pip install -r /tmp/requirements/dev.txt
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=. \
+    POETRY_VERSION=${POETRY_VERSION}
 
-RUN groupadd -r -g "$GID" appuser; useradd -l --create-home -u "$UID" -g "$GID" appuser
-WORKDIR /home/appuser
-COPY . /home/appuser
+RUN pip install -U pip setuptools "poetry==$POETRY_VERSION"
+
+COPY *.toml *.lock ./
+RUN poetry config virtualenvs.create false
+
+RUN poetry export --dev --with-credentials --without-hashes -f \
+    requirements.txt --output requirements.txt && \
+    pip install -r requirements.tx
+
+COPY . /src
+
+EXPOSE 8000
+
+ENV PIP_EXTRA_INDEX_URL=""
+
+RUN groupadd -r appgroup && useradd -r -g appgroup appuser
+RUN chown -R appuser:appgroup /src
 
 USER appuser

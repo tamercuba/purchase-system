@@ -1,5 +1,3 @@
-from typing import Optional
-
 from domain.entities import Salesman
 from domain.ports.repositories import ISalesmanRepository
 from pydantic import BaseModel
@@ -12,7 +10,7 @@ class CreateSalesmanUseCaseRequest(BaseModel):
     name: str
     email: str
     password: str
-    is_staff: Optional[bool]
+    is_staff: bool = False
 
 
 class CreateSalesmanUseCaseResponse(BaseModel):

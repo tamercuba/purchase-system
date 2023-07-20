@@ -58,7 +58,6 @@ class TestCreateSalesman:
                         'name': 'd',
                         'email': 'd@gmail.com',
                         'password': 'a',
-                        'is_staff': None,
                     }
                 )
             ),

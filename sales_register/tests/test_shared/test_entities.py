@@ -1,5 +1,5 @@
 import pytest
-from pydantic import SecretStr, ValidationError
+from pydantic import SecretStr
 from shared.entities import Entity, EntityID
 
 
@@ -24,16 +24,20 @@ def test_create_entity_invalid_id(mocked_entity_class):
     _id = '1234'
     name = 'Tamer'
 
-    with pytest.raises(ValidationError):
+    with pytest.raises(TypeError) as e:
         mocked_entity_class(name=name, id=_id)
+
+    assert str(e.value) == 'badly formed hexadecimal UUID string'
 
 
 def test_create_entity_wrong_type_id(mocked_entity_class):
     _id = 1234
     name = 'Tamer'
 
-    with pytest.raises(ValidationError):
+    with pytest.raises(TypeError) as e:
         mocked_entity_class(name=name, id=_id)
+
+    assert str(e.value) == 'Invalid UUID4'
 
 
 def test_compare_entities(mocked_entity_class):

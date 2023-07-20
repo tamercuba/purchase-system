@@ -1,6 +1,6 @@
 from domain.entities.fields import SaleStatus
 from domain.entities.sale import Sale, SaleDTO
-from pydantic import EmailStr, SecretStr, validator
+from pydantic import EmailStr, SecretStr, field_validator
 from shared.entities import Entity
 
 
@@ -22,10 +22,10 @@ class Salesman(Entity):
 
         return result
 
-    @validator('is_staff')
+    @field_validator('is_staff')
     def set_is_staff(cls, value) -> bool:
         return bool(value)
 
-    @validator('cpf')
+    @field_validator('cpf')
     def remove_special_chars(cls, value: str) -> str:
         return value.replace('.', '').replace('-', '').replace('/', '')

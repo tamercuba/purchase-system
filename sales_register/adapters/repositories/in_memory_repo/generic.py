@@ -12,7 +12,7 @@ IEntity = TypeVar('IEntity', bound=Entity)
 
 
 class GenericInMemoryRepository(ABC, Generic[IEntity]):
-    def __init__(self, initial_values: List[IEntity] = None):
+    def __init__(self, initial_values: List[IEntity] = []):
         initial_storage = (
             {str(e.id): e for e in initial_values} if initial_values else {}
         )

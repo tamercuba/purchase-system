@@ -1,6 +1,6 @@
 from typing import Any, Dict, List
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 from shared.entities.id import EntityID
 
 
@@ -32,3 +32,7 @@ class Entity(BaseModel):
             return value
 
         return {key: get_value(value) for key, value in self.dict().items()}
+
+    model_config = ConfigDict(
+        arbitrary_types_allowed=True, validate_assignment=True
+    )

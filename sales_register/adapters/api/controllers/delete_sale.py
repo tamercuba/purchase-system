@@ -10,9 +10,7 @@ router = APIRouter()
 
 
 @router.delete('/sale/{sale_id}')
-def delete_sale(
-    sale_id: str, user: User = Depends(validate_token_service)
-) -> None:
+def delete_sale(sale_id: str, user: User = Depends(validate_token_service)):
     delete_sale_use_case.handle(
         DeleteSaleUseCaseRequest(**{'sale_id': sale_id, 'salesman': user})
     )

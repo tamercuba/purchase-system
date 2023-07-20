@@ -1,3 +1,6 @@
+export PYTHONPATH=$(shell pwd)/sales_register/
+export PYTHONDONTWRITEBYTECODE=1
+
 .PHONY: help
 SHELL := /bin/bash
 
@@ -26,25 +29,37 @@ test: clean ## Run the tests
 	@py.test $(PROJECT_NAME)/ -s -vvv -p no:cacheprovider
 
 test-matching: clean  ## Run only tests matching pattern. E.g.: make test-matching test=TestClassName
-	@py.test $(PROJECT_NAME)/ -k $(test) -s -vvv -p no:cacheprovider
+	@py.test -s -k $(k) -vvv -p no:cacheprovider
 
 coverage: clean  ## Run the test coverage report
 	@py.test --cov-config .coveragerc --cov $(PROJECT_NAME) $(PROJECT_NAME)
 
 
 # Linting
-_pylint:
-	@echo 'Pylint result: '
-	@pylint --rcfile=.pylintrc $(PROJECT_NAME)/.
+_flake8:
+	@flake8 --show-source .
+
+_isort:
+	@isort --diff --check-only --profile black .
+
+_black:
+	@black --check sales_register/
+
+_isort-fix:
+	@isort . --profile black
+
+_black_fix:
+	@black .
+
+_dead_fixtures:
+	@pytest --dead-fixtures sales_register/tests
 
 _mypy:
-	@echo 'Mypy result: '
-	@mypy $(PROJECT_NAME)
+	@mypy sales_register/
 
-lint: clean  _pylint _mypy  ## Run pylint linter
+lint: _flake8 _isort _black _mypy _dead_fixtures   ## Check code lint
 
-format:  ## Run isort and black auto formatting code style in the project
-	@isort -m 3 --tc . && black --config ./pyproject.toml .
+format-code: _black_fix _isort-fix ## Format code
 
 format-check:  ## Check isort and black code style
 	@black --check --config ./pyproject.toml $(PROJECT_NAME)/.
