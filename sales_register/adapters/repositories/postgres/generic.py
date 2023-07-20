@@ -1,7 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List
+from abc import ABC, abstractmethod, abstractproperty
+from typing import Generic, List, TypeVar, Union
 
+from pydantic import BaseModel
 from shared.entities import Entity
+from shared.mapper import IEntityMapper
 from sqlalchemy import delete, orm, select, update
 from sqlalchemy.sql.dml import Delete, Update
 from sqlalchemy.sql.selectable import Select
@@ -26,9 +28,12 @@ class SQLAlchemySemantic(ABC):
         return update(self.model)
 
 
-class PostgresRepository(SQLAlchemySemantic):
-    @property
-    def mapper(self):
+IEntity = TypeVar('IEntity', bound=Union[Entity, BaseModel])
+
+
+class PostgresRepository(SQLAlchemySemantic, Generic[IEntity]):
+    @abstractproperty
+    def mapper(self) -> IEntityMapper:
         pass
 
     def __init__(self, Session: orm.sessionmaker):

@@ -12,7 +12,7 @@ IEntity = TypeVar('IEntity', bound=Entity)
 
 
 class GenericInMemoryRepository(ABC, Generic[IEntity]):
-    def __init__(self, initial_values: List[IEntity] = None):
+    def __init__(self, initial_values: List[IEntity] = []):
         initial_storage = (
             {str(e.id): e for e in initial_values} if initial_values else {}
         )
@@ -70,6 +70,7 @@ class GenericInMemoryRepository(ABC, Generic[IEntity]):
             )
 
     def _get_by_attribute(self, attr_name: str, attr_value: Any) -> IEntity:
+        # breakpoint()
         if not self._entity_type.hasattr(attr_name):
             raise EntityAttributeDoesntExist(
                 entity=self._entity_type, attr=attr_name
@@ -85,4 +86,5 @@ class GenericInMemoryRepository(ABC, Generic[IEntity]):
 
     @property
     def _entity_type(self):
+        # breakpoint()
         return get_args(self.__class__.__orig_bases__[0])[0]

@@ -2,7 +2,7 @@ from typing import Any, Dict
 
 from sqlalchemy.orm import declarative_base
 
-_Base = declarative_base()  # type: Any
+_Base: Any = declarative_base()
 
 
 class Base(_Base):

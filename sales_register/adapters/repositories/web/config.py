@@ -1,4 +1,9 @@
-from decouple import config
+from pydantic_settings import BaseSettings
 
-REQUEST_TOKEN = config('REQUEST_TOKEN')
-API_URL = config('API_URL')
+
+class WebSettings(BaseSettings):
+    REQUEST_TOKEN: str = 'tamer'
+    API_URL: str = 'http://localhost:8080'
+
+
+settings = WebSettings()

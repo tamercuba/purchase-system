@@ -9,7 +9,7 @@ from shared.exceptions import EntityNotFound
 from sqlalchemy.orm import sessionmaker
 
 
-class SalesmanRepository(PostgresRepository, ISalesmanRepository):
+class SalesmanRepository(PostgresRepository[Salesman], ISalesmanRepository):
     model = SalesmanModel
     mapper = SalesmanMapper
 

@@ -9,7 +9,9 @@ from domain.ports.repositories import ISaleRepository
 from shared.exceptions import EntityNotFound
 
 
-class SaleRepository(PostgresRepository, GetTotalCashback, ISaleRepository):
+class SaleRepository(
+    PostgresRepository[Sale], GetTotalCashback, ISaleRepository
+):
     model = SaleModel
     mapper = SaleMapper
 

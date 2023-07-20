@@ -15,7 +15,7 @@ DB_URI = URL(
     host=_DB_HOST,
     port=_DB_PORT,
     database=_DB_NAME,
-)
+)  # type: ignore
 
 engine = create_engine(DB_URI, poolclass=pool.NullPool, future=True)
 

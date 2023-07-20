@@ -1,13 +1,13 @@
 import json
 
 import requests
-from adapters.repositories.web.config import API_URL, REQUEST_TOKEN
+from adapters.repositories.web.config import settings
 from shared.exceptions import EntityNotFound
 
 
 class GetTotalCashback:
     def total_salesman_cashback(self, cpf: str) -> float:
-        url = API_URL + cpf
+        url = settings.API_URL + cpf
         response = requests.get(url, headers=self.headers)
 
         if response.status_code != 200:
@@ -22,4 +22,4 @@ class GetTotalCashback:
 
     @property
     def headers(self):
-        return {'Authorization': REQUEST_TOKEN}
+        return {'Authorization': settings.REQUEST_TOKEN}

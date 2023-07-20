@@ -1,10 +1,17 @@
 from abc import ABC, abstractclassmethod
-from typing import ClassVar
+from typing import Generic, TypeVar, Union
+
+from pydantic import BaseModel
+
+from .entities import Entity
+
+IEntity = TypeVar('IEntity', bound=Union[Entity, BaseModel])
+IModel = TypeVar('IModel')
 
 
-class IEntityMapper(ABC):
-    MODEL: ClassVar
-    ENTITY: ClassVar
+class IEntityMapper(ABC, Generic[IModel, IEntity]):
+    MODEL: IModel
+    ENTITY: IEntity
 
     @abstractclassmethod
     def to_entity(cls, model):

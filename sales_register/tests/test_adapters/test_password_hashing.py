@@ -1,3 +1,4 @@
+import os
 from base64 import b64decode, b64encode
 
 import pytest
@@ -5,6 +6,10 @@ from adapters.password_hashing.implementation import PasswordHashManager
 
 
 class B64MockedCryptContext:
+    @pytest.fixture(scope='class')
+    def env(self):
+        os.environ['REQUEST_TOKEN'] = 'tamer'
+
     def verify(self, plain_pw: str, hashed_pw: str) -> bool:
         decoded = b64decode(hashed_pw).decode()
         return plain_pw == decoded

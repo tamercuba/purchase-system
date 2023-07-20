@@ -4,11 +4,11 @@ from domain.entities import Sale, Salesman
 from shared.mapper import IEntityMapper
 
 
-class SaleMapper(IEntityMapper):
+class SaleMapper(IEntityMapper[SaleModel, Sale]):
     MODEL = SaleModel
     ENTITY = Sale
 
 
-class SalesmanMapper(IEntityMapper):
+class SalesmanMapper(IEntityMapper[SalesmanModel, Salesman]):
     MODEL = SalesmanModel
     ENTITY = Salesman
