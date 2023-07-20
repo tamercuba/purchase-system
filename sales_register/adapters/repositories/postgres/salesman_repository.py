@@ -1,10 +1,11 @@
-from .generic import PostgresRepository
-from .models import SalesmanMapper, SalesmanModel
-from .password_manager_interface import IPasswordManager
 from domain.entities import Salesman
 from domain.ports.repositories import ISalesmanRepository
 from shared.exceptions import EntityNotFound
 from sqlalchemy.orm import sessionmaker
+
+from .generic import PostgresRepository
+from .models import SalesmanMapper, SalesmanModel
+from .password_manager_interface import IPasswordManager
 
 
 class SalesmanRepository(PostgresRepository[Salesman], ISalesmanRepository):

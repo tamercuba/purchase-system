@@ -1,8 +1,9 @@
 import json
 
 import requests
-from .settings import settings
 from shared.exceptions import EntityNotFound
+
+from .settings import settings
 
 
 class GetTotalCashback:
