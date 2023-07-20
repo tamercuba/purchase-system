@@ -1,12 +1,13 @@
 from typing import List
 
-from .generic import PostgresRepository
-from .models import SaleModel
-from .models.mappers import SaleMapper
 from adapters.repositories.web import GetTotalCashback
 from domain.entities import Sale
 from domain.ports.repositories import ISaleRepository
 from shared.exceptions import EntityNotFound
+
+from .generic import PostgresRepository
+from .models import SaleModel
+from .models.mappers import SaleMapper
 
 
 class SaleRepository(

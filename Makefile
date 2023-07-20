@@ -59,7 +59,8 @@ _mypy:
 
 lint: _flake8 _isort _black _mypy _dead_fixtures   ## Check code lint
 
-format-code: _black_fix _isort-fix ## Format code
+format-code: _black_fix _isort-fix  ## Format code
+
 
 format-check:  ## Check isort and black code style
 	@black --check --config ./pyproject.toml $(PROJECT_NAME)/.
