@@ -64,7 +64,7 @@ class PostgresRepository(SQLAlchemySemantic, Generic[IEntity]):
 
             return [self.mapper.to_entity(model) for model in result_raw]
 
-    def _run_update(self, query: Delete) -> None:
+    def _run_update(self, query: Update) -> None:
         with self._Session() as session:
             session.execute(query)
             session.commit()

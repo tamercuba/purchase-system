@@ -1,24 +1,22 @@
-from decouple import config
-from sqlalchemy import create_engine, orm, pool
 from sqlalchemy.engine import URL
+from pydantic_settings import BaseSettings
 
-_DB_HOST = config('POSTGRES_PORT_5432_TCP_ADDR', None) or config('DB_HOST')
-_DB_PORT = config('DB_PORT')
-_DB_USER = config('DB_USER')
-_DB_PW = config('DB_PW')
-_DB_NAME = config('DB_NAME')
 
-DB_URI = URL(
-    drivername='postgresql',
-    username=_DB_USER,
-    password=_DB_PW,
-    host=_DB_HOST,
-    port=_DB_PORT,
-    database=_DB_NAME,
-)  # type: ignore
+class PostgresSettings(BaseSettings):
+    DB_HOST: str = 'localhost'
+    DB_PORT: int = 5432
+    DB_USER: str = 'postgres'
+    DB_PW: str = 'postgres'
+    DB_NAME: str = 'sales_register'
 
-engine = create_engine(DB_URI, poolclass=pool.NullPool, future=True)
+    DB_URI: URL = URL(
+        drivername='postgresql',
+        username=DB_USER,
+        password=DB_PW,
+        host=DB_HOST,
+        port=DB_PORT,
+        database=DB_NAME,
+    )  # type: ignore
 
-Session = orm.sessionmaker(
-    autocommit=False, autoflush=False, bind=engine, future=True
-)
+
+postgres_settings = PostgresSettings()

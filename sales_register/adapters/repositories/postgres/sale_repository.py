@@ -1,8 +1,8 @@
 from typing import List
 
-from adapters.repositories.postgres.generic import PostgresRepository
-from adapters.repositories.postgres.models import SaleModel
-from adapters.repositories.postgres.models.mappers import SaleMapper
+from .generic import PostgresRepository
+from .models import SaleModel
+from .models.mappers import SaleMapper
 from adapters.repositories.web import GetTotalCashback
 from domain.entities import Sale
 from domain.ports.repositories import ISaleRepository

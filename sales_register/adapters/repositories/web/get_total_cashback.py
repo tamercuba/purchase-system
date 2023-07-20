@@ -1,7 +1,7 @@
 import json
 
 import requests
-from adapters.repositories.web.config import settings
+from .settings import settings
 from shared.exceptions import EntityNotFound
 
 

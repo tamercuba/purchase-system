@@ -1,6 +1,11 @@
-from decouple import config
+from pydantic_settings import BaseSettings
 
-APP_HOST = config('APP_HOST')
-APP_PORT = config('APP_PORT')
-APP_DEBUG = config('APP_DEBUG')
-SECRET_KEY = config('SECRET_KEY')
+
+class APISettings(BaseSettings):
+    APP_HOST: str = 'localhost'
+    APP_PORT: str = '8000'
+    APP_DEBUG: bool = True
+    SECRET_KEY: str = 'a'
+
+
+api_settings = APISettings()
