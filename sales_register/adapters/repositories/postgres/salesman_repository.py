@@ -62,7 +62,7 @@ class SalesmanRepository(PostgresRepository[Salesman], ISalesmanRepository):
         raw_pw = salesman.password.get_secret_value()
         encrypted_salesman = Salesman(
             **{
-                **salesman.dict(),
+                **salesman.model_dump(),
                 'password': self._hash_manager.hash_password(raw_pw),
             }
         )

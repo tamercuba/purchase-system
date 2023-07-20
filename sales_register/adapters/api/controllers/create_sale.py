@@ -36,7 +36,9 @@ def create_sale(
     request: Request, user: User = Depends(validate_token_service)
 ) -> Response:
     result = create_sale_use_case.handle(
-        CreateSaleUseCaseRequest(**{"salesman": user, "sale": request.dict()})
+        CreateSaleUseCaseRequest(
+            **{"salesman": user, "sale": request.model_dump()}
+        )
     )
 
-    return Response(**result.dict())
+    return Response(**result.model_dump())

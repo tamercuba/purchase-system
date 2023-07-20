@@ -4,16 +4,11 @@ from adapters.api.services.repositories import (
 )
 from domain.use_cases import (
     CreateSalesmanUseCase,
-    CreateSalesmanUseCaseRequest,
     CreateSaleUseCase,
-    CreateSaleUseCaseRequest,
     DeleteSaleUseCase,
-    DeleteSaleUseCaseRequest,
     GetSalesmanCashbackUseCase,
-    GetSalesmanCashbackUseCaseRequest,
     ListSalesUseCase,
     UpdateSaleUseCase,
-    UpdateSaleUseCaseRequest,
 )
 
 create_sale_use_case = CreateSaleUseCase(sale_repository)
@@ -30,9 +25,4 @@ __all__ = [
     "list_sales_use_case",
     "update_sale_use_case",
     "get_user_cashback_use_case",
-    "CreateSalesmanUseCaseRequest",
-    "CreateSaleUseCaseRequest",
-    "DeleteSaleUseCaseRequest",
-    "GetSalesmanCashbackUseCaseRequest",
-    "UpdateSaleUseCaseRequest",
 ]

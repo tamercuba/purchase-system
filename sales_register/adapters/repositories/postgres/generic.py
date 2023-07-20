@@ -1,39 +1,20 @@
-from abc import ABC, abstractmethod, abstractproperty
-from typing import Generic, List, TypeVar, Union
+from abc import ABC, abstractmethod
+from typing import Generic, TypeVar, Union
 
 from pydantic import BaseModel
 from shared.entities import Entity
-from shared.mapper import IEntityMapper
-from sqlalchemy import delete, orm, select, update
+from shared.mapper import GenericEntityMapper
+from sqlalchemy import orm
 from sqlalchemy.sql.dml import Delete, Update
 from sqlalchemy.sql.selectable import Select
-
-
-class SQLAlchemySemantic(ABC):
-    @property
-    @abstractmethod
-    def model(self):
-        pass
-
-    @property
-    def _select(self) -> Select:
-        return select(self.model)
-
-    @property
-    def _delete(self) -> Delete:
-        return delete(self.model)
-
-    @property
-    def _update(self) -> Update:
-        return update(self.model)
-
 
 IEntity = TypeVar('IEntity', bound=Union[Entity, BaseModel])
 
 
-class PostgresRepository(SQLAlchemySemantic, Generic[IEntity]):
-    @abstractproperty
-    def mapper(self) -> IEntityMapper:
+class PostgresRepository(ABC, Generic[IEntity]):
+    @property
+    @abstractmethod
+    def mapper(self) -> GenericEntityMapper:
         pass
 
     def __init__(self, Session: orm.sessionmaker):
@@ -58,7 +39,7 @@ class PostgresRepository(SQLAlchemySemantic, Generic[IEntity]):
             session.commit()
             return entity
 
-    def _run_list(self, query: Select) -> List[Entity]:
+    def _run_list(self, query: Select) -> list[Entity]:
         with self._Session() as session:
             result_raw = session.execute(query).scalars()
 

@@ -8,4 +8,4 @@ class ValueObject(BaseModel):
         if not isinstance(other, self.__class__):
             return False
 
-        return self.dict() == other.dict()
+        return self.model_dump() == other.model_dump()
