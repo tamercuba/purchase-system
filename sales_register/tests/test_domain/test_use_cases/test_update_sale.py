@@ -79,7 +79,7 @@ class TestUpdateSale:
         )
 
         assert result == self.sale
-        assert result.dict() != self.sale.dict()
+        assert result.model_dump() != self.sale.model_dump()
 
     def test_update_right_cpf(self):
         updated_sale_data = {**self.sale_data, 'code': 'B'}
@@ -95,7 +95,7 @@ class TestUpdateSale:
         )
 
         assert result == self.sale
-        assert result.dict() != self.sale.dict()
+        assert result.model_dump() != self.sale.model_dump()
 
     def test_update_nonexistent_sale(self):
         updated_sale_data = {**self.sale_data, 'code': 'B'}

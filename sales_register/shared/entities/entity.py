@@ -31,7 +31,9 @@ class Entity(BaseModel):
 
             return value
 
-        return {key: get_value(value) for key, value in self.dict().items()}
+        return {
+            key: get_value(value) for key, value in self.model_dump().items()
+        }
 
     model_config = ConfigDict(
         arbitrary_types_allowed=True, validate_assignment=True

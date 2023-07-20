@@ -81,5 +81,5 @@ def test_dict_entity_with_secret():
     entity = EntityWithSecret(pw=pw)
 
     assert isinstance(entity.pw, SecretStr)
-    assert isinstance(entity.dict()['pw'], SecretStr)
+    assert isinstance(entity.model_dump()['pw'], SecretStr)
     assert isinstance(entity.dict_with_secrets()['pw'], str)
